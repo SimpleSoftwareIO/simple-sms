@@ -31,6 +31,8 @@ First, add the Simple SMS package to your `require` in your `composer/json` file
 
 Next, run the `composer update` command.  This will install the package into your Laravel application.
 
+>Your `minimum-stability` will need to be set to `dev` in your root `composer.json` file because this software is not yet considered stable.
+
 #### Service Provider
 
 Once you have added the package to your composer file; you will need to register the service provider with Laravel.  This is done by adding `'SMS' => 'SimpleSoftwareIO\SMS\SMSServiceProvider'` in your `app/config/app.php` configuration file within the `providers` array.
