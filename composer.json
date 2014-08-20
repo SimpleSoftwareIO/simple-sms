@@ -1,0 +1,34 @@
+{
+  "name": "simplesoftwareio/simple-sms",
+  "description": "Simple SMS is a SMS sender made for Laravel.",
+  "keywords": ["sms", "laravel", "simple", "generator", "wrapper"],
+  "homepage": "http://www.simplesoftware.io",
+  "license" : "MIT",
+  "authors": [
+    {
+      "name": "Simple Software LLC",
+      "email": "support@simplesoftware.io"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "illuminate/mail": "4.2.*",
+    "illuminate/log": "4.2.*",
+    "illuminate/support": "4.2.*",
+    "illuminate/view": "4.2.*",
+    "twilio/sdk": "3.12.*"
+  },
+  "require-dev": {
+    "mockery/mockery": "0.9.*",
+    "phpunit/phpunit": "4.0.*"
+  },
+  "autoload": {
+    "classmap": [
+      "src/migrations"
+    ],
+    "psr-0": {
+      "SimpleSoftwareIO\\SMS\\": "src/"
+    }
+  },
+  "minimum-stability": "stable"
+}
