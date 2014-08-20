@@ -39,7 +39,7 @@ Once you have added the package to your composer file; you will need to register
 
 #### Aliases
 
-Finally, register the `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `app/config/app.php` configuration file within the `aliases` array.
+Finally, register the `'SimpleSoftwareIO\SMS\Facades\SMS'` in your `app/config/app.php` configuration file within the `aliases` array.
 
 #### API Settings
 
