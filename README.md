@@ -43,7 +43,7 @@ Finally, register the `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `app
 
 #### API Settings
 
-You must run the following `php artisan config:publish` command to save your configuration files to your local app.  This will copy the configuration files to your `app/config/simplesoftwareio/simple-sms` folder.
+You must run the following `php artisan config:publish simplesoftwareio/simple-sms` command to save your configuration files to your local app.  This will copy the configuration files to your `app/config/simplesoftwareio/simple-sms` folder.
 
 >Failure to run the `config:publish` command will result in your configuration files being overwritten after every `composer update` command.
 
