@@ -1,4 +1,4 @@
-<?php namespace SimpleSoftwareIO\Simple-SMS;
+<?php namespace SimpleSoftwareIO\SMS;
 
 use Illuminate\View\Factory;
 

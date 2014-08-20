@@ -1,9 +1,9 @@
-<?php namespace SimpleSoftwareIO\Simple-SMS;
+<?php namespace SimpleSoftwareIO\SMS;
 
 use Illuminate\Support\ServiceProvider;
-use SimpleSoftwareIO\Simple-SMS\Drivers\DriverInterface;
-use SimpleSoftwareIO\Simple-SMS\Drivers\EmailSMS;
-use SimpleSoftwareIO\Simple-SMS\Drivers\TwilioSMS;
+use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
+use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
+use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 
 class SMSServiceProvider extends ServiceProvider {
 
@@ -41,8 +41,8 @@ class SMSServiceProvider extends ServiceProvider {
       $sms->setLogger($app['log']);
 
       //Set the from and pretending settings
-      if ($from = $this->app['config']->get('sms::from', false)) $sms->alwaysFrom($from);
-      $sms->pretend($this->app['config']->get('sms::pretending', false));
+      if ($from = $this->app['config']->get('simple-sms::from', false)) $sms->alwaysFrom($from);
+      $sms->pretend($this->app['config']->get('simple-sms::pretending', false));
 
       return $sms;
     });
@@ -55,7 +55,7 @@ class SMSServiceProvider extends ServiceProvider {
    */
   public function registerSender()
   {
-    $driver = $this->app['config']->get('sms::driver');
+    $driver = $this->app['config']->get('simple-sms::driver');
 
     switch ($driver)
     {
@@ -63,7 +63,7 @@ class SMSServiceProvider extends ServiceProvider {
       return new EmailSMS($this->app['mailer']);
 
       case 'twilio':
-      return new TwilioSMS(new \Services_Twilio($this->app['config']->get('sms::twilio.account_sid'), $this->app['config']->get('sms::twilio.auth_token')));
+      return new TwilioSMS(new \Services_Twilio($this->app['config']->get('simple-sms::twilio.account_sid'), $this->app['config']->get('simple-sms::twilio.auth_token')));
 
       default:
       throw new \InvalidArgumentException('Invalid SMS driver.');
