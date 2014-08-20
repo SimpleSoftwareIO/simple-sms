@@ -1,9 +1,9 @@
-<?php namespace SimpleSoftwareIO\SMS;
+<?php namespace SimpleSoftwareIO\Simple-SMS;
 
 use Illuminate\Support\ServiceProvider;
-use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
-use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
-use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
+use SimpleSoftwareIO\Simple-SMS\Drivers\DriverInterface;
+use SimpleSoftwareIO\Simple-SMS\Drivers\EmailSMS;
+use SimpleSoftwareIO\Simple-SMS\Drivers\TwilioSMS;
 
 class SMSServiceProvider extends ServiceProvider {
 
@@ -21,7 +21,7 @@ class SMSServiceProvider extends ServiceProvider {
 	 */
   public function boot()
   {
-    $this->package('simplesoftwareio/sms');
+    $this->package('simplesoftwareio/simple-sms');
   }
 
   /**

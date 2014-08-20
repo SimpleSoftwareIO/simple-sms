@@ -1,6 +1,6 @@
-<?php namespace SimpleSoftwareIO\SMS\Drivers;
+<?php namespace SimpleSoftwareIO\Simple-SMS\Drivers;
 
-use SimpleSoftwareIO\SMS\Message;
+use SimpleSoftwareIO\Simple-SMS\Message;
 use Illuminate\Mail\Mailer;
 
 class EmailSMS implements DriverInterface {
@@ -8,7 +8,7 @@ class EmailSMS implements DriverInterface {
   /**
    * The Message Instance
    *
-   * @var SimpleSoftwareIO\SMS\Message
+   * @var SimpleSoftwareIO\Simple-SMS\Message
    */
   protected $message;
 
@@ -26,7 +26,7 @@ class EmailSMS implements DriverInterface {
   /**
    * Sends a SMS message
    *
-   * @parma SimpleSoftwareIO\SMS\Message @messasge The message class.
+   * @parma SimpleSoftwareIO\Simple-SMS\Message @messasge The message class.
    * @return void
    */
   public function send(Message $message)

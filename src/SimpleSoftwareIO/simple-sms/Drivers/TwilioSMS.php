@@ -1,6 +1,6 @@
-<?php namespace SimpleSoftwareIO\SMS\Drivers;
+<?php namespace SimpleSoftwareIO\Simple-SMS\Drivers;
 
-use SimpleSoftwareIO\SMS\Message;
+use SimpleSoftwareIO\Simple-SMS\Message;
 use Services_Twilio;
 
 class TwilioSMS implements DriverInterface {
@@ -26,7 +26,7 @@ class TwilioSMS implements DriverInterface {
   /**
    * Sends a SMS message
    *
-   * @parma SimpleSoftwareIO\SMS\Message @messasge The message class.
+   * @parma SimpleSoftwareIO\Simple-SMS\Message @messasge The message class.
    * @return void
    */
   public function send(Message $message)

@@ -1,6 +1,6 @@
-<?php namespace SimpleSoftwareIO\SMS;
+<?php namespace SimpleSoftwareIO\Simple-SMS;
 
-use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
+use SimpleSoftwareIO\Simple-SMS\Drivers\DriverInterface;
 use Illuminate\Container\Container;
 use Illuminate\Log\Writer;
 
@@ -9,7 +9,7 @@ class SMS {
   /**
    * The Driver Interface instance.
    *
-   * @var \SimpleSoftwareIO\SMS\DenderInterface
+   * @var \SimpleSoftwareIO\Simple-SMS\DenderInterface
    */
   protected $driver;
 
@@ -44,7 +44,7 @@ class SMS {
   /**
    * Creates the SMS instance.
    *
-   * @param SimpleSoftwareIO\SMS\Drivers\DriverInterface $driver The desired driver to send the SMS messsages.
+   * @param SimpleSoftwareIO\Simple-SMS\Drivers\DriverInterface $driver The desired driver to send the SMS messsages.
    * @return void
    */
   public function __construct(DriverInterface $driver)
@@ -82,7 +82,7 @@ class SMS {
   /**
    * Logs that a message was sent.Logs
    *
-   * @parma SimpleSoftwareIO\SMS\Message $message An instance of the message.
+   * @parma SimpleSoftwareIO\Simple-SMS\Message $message An instance of the message.
    * @return void
    */
   protected function logMessage($message)
@@ -100,7 +100,7 @@ class SMS {
   /**
    * Creates a new Message instance.
    *
-   * @return SimpleSoftwareIO\SMS\Message
+   * @return SimpleSoftwareIO\Simple-SMS\Message
    */
   protected function createMessage()
   {
