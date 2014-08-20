@@ -117,12 +117,12 @@ Coming Soon.
 Simple SMS operates in much of the same way as the Laravel Mail service provider.  If you are familiar with this then SMS should feel like home.  The most basic way to send a SMS is to use the following:
 
 	//Twilio Example
-	SMS::send('sms.welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555');
 	});
   
 	//Email Example
-	SMS::send('sms.welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555', 'att');
 	});
 
@@ -132,7 +132,7 @@ The first paramenter is the view file that you would like to use.  The second is
 
 The `send` method sends the SMS through the configured driver.
 
-	SMS::send('sms.welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555');
 	});
 
@@ -142,7 +142,7 @@ The `send` method sends the SMS through the configured driver.
 
 The `queue` method queues a message to be sent instead of sending the message instantly.  This allows for faster respond times for the consumer by offloading unessessary processing to a later time.
 
-	SMS::queue('sms.welcome', $data, function() {
+	SMS::queue('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555');
 	});
 
@@ -152,7 +152,7 @@ The `queue` method queues a message to be sent instead of sending the message in
 
 The `pretend` method will simply create a log file that states that a SMS message has been "sent."  This is useful for testing if your configuration settings are working correctly without sending actual messages.
 
-	SMS::pretend('sms.welcome', $data, function() {
+	SMS::pretend('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555');
 	});
 
@@ -193,12 +193,12 @@ We used enclosures to allow for functions such as the queue method.  Being able 
 The `to` method adds a phone number to the sending array.  Any phone number in this array will have a message sent to it. It accepts an array of numbers, or a single number as a paramenter.
 
 	//Twilio Driver
-	SMS::send('sms.welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555');
 		$sms->to('+14444444444');
 	});
 	//Email Driver
-	SMS::send('sms.welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555', 'att);
 		$sms->to('+14444444444', 'verizonwireless);
 	});
@@ -209,7 +209,7 @@ The `to` method adds a phone number to the sending array.  Any phone number in t
 
 The `from` method will set the address from which the message is being sent.
 
-	SMS::send('sms.welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function() {
 		$sms->from('+15555555555');
 	});
 
@@ -217,7 +217,7 @@ The `from` method will set the address from which the message is being sent.
 
 The `attachImage` method will add an image to the message.  This will also convert the message to a MSM because SMS does not support image attachments.
 
-	SMS::send('sms.welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function() {
 		$sms->attachImage('/path/to/image.jpg');
 	});
 
