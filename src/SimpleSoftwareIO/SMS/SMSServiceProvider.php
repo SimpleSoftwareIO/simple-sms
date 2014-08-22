@@ -2,7 +2,7 @@
 
 use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
-use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
+use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
 use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
@@ -76,6 +76,13 @@ class SMSServiceProvider extends ServiceProvider
                 return new EZTextingSMS(
                     $this->app['config']->get('simple-sms::eztexting.username'),
                     $this->app['config']->get('simple-sms::eztexting.password'),
+                    new Client
+                );
+
+            case 'callfire':
+                return new CallFireSMS(
+                    $this->app['config']->get('simple-sms::callfire.app_login'),
+                    $this->app['config']->get('simple-sms::callfire.app_password'),
                     new Client
                 );
 
