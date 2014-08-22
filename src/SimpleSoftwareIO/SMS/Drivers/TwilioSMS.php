@@ -37,7 +37,7 @@ class TwilioSMS implements DriverInterface
 
         foreach ($message->getTo() as $to) {
             $this->twilio->account->messages->create([
-                'To' => $to['number'],
+                'To' => $to,
                 'From' => $from,
                 'Body' => $composeMessage,
             ]);
