@@ -58,6 +58,8 @@ class EmailSMS implements DriverInterface
      */
     protected function buildEmail($number)
     {
+        if (!$number['carrier']) throw new \InvalidArgumentException('A carrier must be specified if using the E-Mail Driver.');
+
         return $number['number'] . '@' . $this->lookupGateway($number['carrier'], $this->message->isMMS());
     }
 
@@ -116,6 +118,9 @@ class EmailSMS implements DriverInterface
 
                 case 'tmobile':
                     return 'tmomail.net';
+
+                default:
+                    throw new \InvalidArgumentException('Carrier specified is not found.');
             }
         } else {
             switch ($carrier) {
@@ -163,6 +168,9 @@ class EmailSMS implements DriverInterface
 
                 case 'tmobile':
                     return 'tmomail.net';
+
+                default:
+                    throw new \InvalidArgumentException('Carrier specified is not found.');
             }
         }
     }
