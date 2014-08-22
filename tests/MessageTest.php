@@ -47,25 +47,25 @@ class MessageTest extends \PHPUnit_Framework_TestCase {
 
   public function testAddToWithCarrier()
   {
-	$toAddresses = $this->message->getTo();
+	$toAddresses = $this->message->getToWithCarriers();
     $this->assertTrue(empty($toAddresses));
 
     $to = [0 => ['number' => '+15555555555', 'carrier' => 'att']];
     $this->message->to('+15555555555', 'att');
 
-    $this->assertEquals($to, $this->message->getTo());
+    $this->assertEquals($to, $this->message->getToWithCarriers());
 
     $to = [
       0 => ['number' => '+15555555555', 'carrier' => 'att'],
       1 => ['number' => '+14444444444', 'carrier' => 'verizon']
     ];
     $this->message->to('+14444444444', 'verizon');
-    $this->assertEquals($to, $this->message->getTo());
+    $this->assertEquals($to, $this->message->getToWithCarriers());
   }
 
   public function testAddToWithoutCarrier()
   {
-    $to = [0 => ['number' => '+15555555555', 'carrier' => null]];
+    $to = ['+15555555555'];
     $this->message->to('+15555555555');
 
     $this->assertEquals($to, $this->message->getTo());

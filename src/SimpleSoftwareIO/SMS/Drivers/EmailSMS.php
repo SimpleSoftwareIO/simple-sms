@@ -36,7 +36,7 @@ class EmailSMS implements DriverInterface
         $me = $this;
 
         $this->mailer->send($this->message->getView(), $this->message->getData(), function ($email) use ($me) {
-            foreach ($me->message->getTo() as $number) {
+            foreach ($me->message->getToWithCarriers() as $number) {
                 $email->to($me->buildEmail($number));
             }
 

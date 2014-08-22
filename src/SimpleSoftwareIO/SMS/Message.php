@@ -116,21 +116,27 @@ class Message
     }
 
     /**
-     * Returns the To addresses
+     * Returns the To addresses without the carriers
      *
      * @return array
      */
-    public function getTo($returnCarriers = false)
+    public function getTo()
     {
-        if ($returnCarriers) {
-            return $this->to;
-        } else {
-            $numbers = array();
-            foreach ($this->to as $to) {
-                $numbers[] = $to['number'];
-            }
-            return $numbers;
+        $numbers = array();
+        foreach ($this->to as $to) {
+            $numbers[] = $to['number'];
         }
+        return $numbers;
+    }
+
+    /**
+     * Returns all numbers that a message is being sent to and includes their carriers.
+     *
+     * @return array An array with numbers and carriers
+     */
+    public function getToWithCarriers()
+    {
+        return $this->to;
     }
 
     /**
