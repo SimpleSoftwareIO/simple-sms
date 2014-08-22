@@ -49,7 +49,7 @@ class CallFireSMS implements DriverInterface
      */
     public function send(Message $message)
     {
-        $composeMessage = $message->composeMessage($message->getView(), $message->getData());
+        $composeMessage = $message->composeMessage();
 
         $numbers = implode(",", $message->getTo());
 

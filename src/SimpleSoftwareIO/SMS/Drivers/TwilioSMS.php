@@ -33,7 +33,7 @@ class TwilioSMS implements DriverInterface
     public function send(Message $message)
     {
         $from = $message->getFrom();
-        $composeMessage = $message->composeMessage($message->getView(), $message->getData());
+        $composeMessage = $message->composeMessage();
 
         foreach ($message->getTo() as $to) {
             $this->twilio->account->messages->create([

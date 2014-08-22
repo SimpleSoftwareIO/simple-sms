@@ -49,7 +49,7 @@ class EZTextingSMS implements DriverInterface
      */
     public function send(Message $message)
     {
-        $composeMessage = $message->composeMessage($message->getView(), $message->getData());
+        $composeMessage = $message->composeMessage();
 
         $data = [
             'User' => $this->username,

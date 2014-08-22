@@ -68,13 +68,11 @@ class Message
     /**
      * Constructs a message with its view file
      *
-     * @param string $view The view file
-     * @param array $data Holds the data that will be passed to the view.
      * @return \Illuminate\View\Factory
      */
-    public function composeMessage($view, $data)
+    public function composeMessage()
     {
-        return $this->views->make($view, $data)->render();
+        return $this->views->make($this->view, $this->data)->render();
     }
 
     /**
