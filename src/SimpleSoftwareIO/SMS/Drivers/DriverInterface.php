@@ -2,12 +2,13 @@
 
 use SimpleSoftwareIO\SMS\Message;
 
-interface DriverInterface {
-  /**
-   * Sends a SMS message
-   *
-   * @parma SimpleSoftwareIO\SMS\Message @messasge The message class.
-   * @return void
-   */
-  public function send(Message $message);
+interface DriverInterface
+{
+    /**
+     * Sends a SMS message
+     *
+     * @parma SimpleSoftwareIO\SMS\Message @messasge The message class.
+     * @return void
+     */
+    public function send(Message $message);
 }
