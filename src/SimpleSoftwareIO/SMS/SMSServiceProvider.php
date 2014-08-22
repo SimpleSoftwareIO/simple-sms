@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
 use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
+use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 
 class SMSServiceProvider extends ServiceProvider
@@ -84,6 +85,14 @@ class SMSServiceProvider extends ServiceProvider
                     $this->app['config']->get('simple-sms::callfire.app_login'),
                     $this->app['config']->get('simple-sms::callfire.app_password'),
                     new Client
+                );
+
+            case 'mozeo':
+                return new MozeoSMS(
+                    $this->app['config']->get('simple-sms::mozeo.companyKey'),
+                    $this->app['config']->get('simple-sms::mozeo.username'),
+                    $this->app['config']->get('simple-sms::mozeo.password'),
+                    new Client()
                 );
 
             default:
