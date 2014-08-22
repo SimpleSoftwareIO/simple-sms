@@ -45,7 +45,7 @@ class SMSServiceProvider extends ServiceProvider
 
             //Set the from and pretending settings
             if ($from = $this->app['config']->get('simple-sms::from', false)) $sms->alwaysFrom($from);
-            $sms->pretend($this->app['config']->get('simple-sms::pretending', false));
+            $sms->pretend($this->app['config']->get('simple-sms::pretend', false));
 
             return $sms;
         });

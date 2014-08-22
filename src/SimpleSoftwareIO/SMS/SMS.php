@@ -85,13 +85,9 @@ class SMS
      */
     protected function logMessage($message)
     {
-        foreach ($message->getTo() as $number) {
-            $numbers[] = $number['number'];
-        }
+        $numbers = implode(" , ", $message->getTo());
 
-        $numbers = implode(",", $numbers);
-
-        $this->logger->info("Pretending to send SMS message to: {$numbers}");
+        $this->logger->info("Pretending to send SMS message to: $numbers");
     }
 
     /**
