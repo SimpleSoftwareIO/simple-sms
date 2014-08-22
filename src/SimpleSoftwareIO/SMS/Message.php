@@ -73,7 +73,7 @@ class Message {
    */
   public function composeMessage($view, $data)
   {
-    return $this->views->make($view, $data);
+    return $this->views->make($view, $data)->render();
   }
 
   /**
@@ -119,9 +119,21 @@ class Message {
    *
    * @return array
    */
-  public function getTo()
+  public function getTo($returnCarriers = false)
   {
-    return $this->to;
+      if($returnCarriers)
+      {
+          return $this->to;
+      }
+      else
+      {
+          $numbers = array();
+          foreach($this->to as $to)
+          {
+              $numbers[] = $to['number'];
+          }
+          return $numbers;
+      }
   }
 
   /**
