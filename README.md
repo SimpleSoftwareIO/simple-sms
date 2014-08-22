@@ -13,6 +13,8 @@ Simple SMS
 - [Usage](#usage)
 - [Message Enclsoure](#message-enclosure)
 
+##This is non-stable release of Simple-SMS that is currently under development.  Expect bugs and things not to work.  The API is currently unstable and is expected to change.
+
 <a id="introduction"></a>
 ## Introduction
 
