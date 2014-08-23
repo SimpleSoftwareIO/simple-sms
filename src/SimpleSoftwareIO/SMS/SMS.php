@@ -116,21 +116,32 @@ class SMS
     }
 
     /**
-     * Sets if a message should be pretend sent or not.
+     * Fake sending a SMS
      *
-     * @parma boolean $pretend
-     * @return void
+     * @param $view The desired view
+     * @param $data The data to fill the view
+     * @param $callback The message callback
      */
-    public function pretend($pretend = false)
+    public function pretend($view, $data, $callback)
+    {
+        $this->setPretending(true);
+        $this->send($view, $data, $callback);
+    }
+
+    /**
+     * Sets if SMS should be fake send a SMS
+     *
+     * @param bool $pretend
+     */
+    public function setPretending($pretend = false)
     {
         $this->pretending = $pretend;
     }
 
     /**
-     * Sets the contrainer.
+     * Sets the IoC contrainer
      *
-     * @parma Illuminate\Container\Container $container The IoC container.
-     * @return void
+     * @param Container $container
      */
     public function setContainer(Container $container)
     {

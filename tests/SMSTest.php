@@ -21,7 +21,7 @@ class SMSTest extends \PHPUnit_Framework_TestCase {
 
   public function testPretendIsSet()
   {
-    $this->sms->pretend(true);
+    $this->sms->setPretending(true);
 
     $this->assertTrue($this->sms->isPretending());
   }
