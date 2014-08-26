@@ -13,12 +13,12 @@ Simple SMS
 - [Usage](#usage)
 - [Message Enclsoure](#message-enclosure)
 
-##This is non-stable release of Simple-SMS that is currently under development.  Expect bugs and things not to work.  The API is currently unstable and is expected to change.
+##This non-stable release of Simple-SMS is currently under development.  Expect bugs.  The API is currently unstable and is anticipated to change.
 
 <a id="introduction"></a>
 ## Introduction
 
-Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that is able to send SMS/MMS messages to mobile phones. It currently supports a free way to accomplish this using E-Mail gateways as well as paid methods through service providers such as [Twililo](http://www.twilio.com/sms/pricing).
+Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capablility to send SMS/MMS messages to mobile phones. It currently supports a free way to accomplish this, by using E-Mail gateways, as well as paid methods, through service providers such as [Twililo](http://www.twilio.com/sms).
 
 <a id="configuration"></a>
 ## Configuration
@@ -33,11 +33,11 @@ First, add the Simple SMS package to your `require` in your `composer/json` file
 
 Next, run the `composer update` command.  This will install the package into your Laravel application.
 
->Your `minimum-stability` will need to be set to `dev` in your root `composer.json` file because this software is not yet considered stable.
+>Heads up! Your `minimum-stability` will need to be set to `dev` in your root `composer.json` file because this software is not yet considered stable.
 
 #### Service Provider
 
-Once you have added the package to your composer file; you will need to register the service provider with Laravel.  This is done by adding `'SimpleSoftwareIO\SMS\SMSServiceProvider'` in your `app/config/app.php` configuration file within the `providers` array.
+Once you have added the package to your composer file, you will need to register the service provider with Laravel.  This is done by adding `'SimpleSoftwareIO\SMS\SMSServiceProvider'` in your `app/config/app.php` configuration file within the `providers` array.
 
 #### Aliases
 
@@ -45,13 +45,17 @@ Finally, register the `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `app
 
 #### API Settings
 
-You must run the following `php artisan config:publish simplesoftwareio/simple-sms` command to save your configuration files to your local app.  This will copy the configuration files to your `app/config/simplesoftwareio/simple-sms` folder.
+You must run the following command to save your configuration files to your local app:
+
+	php artisan config:publish simplesoftwareio/simple-sms
+
+This will copy the configuration files to your `app/config/simplesoftwareio/simple-sms` folder.
 
 >Failure to run the `config:publish` command will result in your configuration files being overwritten after every `composer update` command.
 
 ###### E-mail Driver
 
-The e-mail driver sends all messages through the configured e-mail driver for Laravel.  This driver uses the wireless carriers e-mail gateways to send SMS messages to mobile phones.
+The e-mail driver sends all messages through the configured e-mail driver for Laravel.  This driver uses the wireless carrier's e-mail gateways to send SMS messages to mobile phones.
 
 The only setting for this driver is the `from` setting.  Simply enter an email address that you would like to send messages from.
 
@@ -60,7 +64,7 @@ The only setting for this driver is the `from` setting.  Simply enter an email a
 		'from' => 'example@example.com',
 	];
 
->If messages are not being sent; ensure that you are able to send E-Mail through Laravel first.
+>If messages are not being sent, ensure that you are able to send E-Mail through Laravel first.
 
 The biggest benefit to using the e-mail driver is that it is completely free to use.
 
@@ -83,7 +87,7 @@ The following are currently supported by using the e-mail gateway driver.
 | USA | Virgin Mobile | virginmobile | Yes | Yes | No |
 | USA | T-Mobile | tmobile | Yes | Yes | No |
 
->We will be adding more carriers from around the world once we find testers.
+>We will be adding more carriers from around the world after we find testers.
 
 >Careful!  Not all wireless carriors support e-mail gateways around the world.
 
@@ -93,7 +97,7 @@ The following are currently supported by using the e-mail gateway driver.
 
 ###### Twilio Driver
 
-This driver sends messages through the [Twilio](https://www.twilio.com/sms) messaging service.  It is very reliable and is capable of sending messages to mobile phones worldwide.  Simply supply your Account SID and Auth Token to begin sending messages.
+This driver sends messages through the [Twilio](https://www.twilio.com/sms) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.  Simply supply your Account SID and Auth Token to begin sending messages.
 
 	return [
 		'driver' => 'twilio',
@@ -106,7 +110,7 @@ This driver sends messages through the [Twilio](https://www.twilio.com/sms) mess
 
 >The Twilio driver cost money to use.
 
-<a id="ideas"></a>
+<a id="simple-ideas"></a>
 ## Simple Ideas
 
 Coming Soon.
@@ -128,7 +132,7 @@ Simple SMS operates in much of the same way as the Laravel Mail service provider
 		$sms->to('+15555555555', 'att');
 	});
 
-The first paramenter is the view file that you would like to use.  The second is the data that you wish to pass to the view.  The finally parameter is a callback that will sets all of the options on the `message` closure.
+The first paramenter is the view file that you would like to use.  The second is the data that you wish to pass to the view.  The final parameter is a callback that will set all of the options on the `message` closure.
 
 #### Send
 
@@ -142,17 +146,17 @@ The `send` method sends the SMS through the configured driver.
 
 ###### Coming in Alpha2
 
-The `queue` method queues a message to be sent instead of sending the message instantly.  This allows for faster respond times for the consumer by offloading unessessary processing to a later time.
+The `queue` method queues a message to be sent later instead of sending the message instantly.  This allows for faster respond times for the consumer by offloading unessessary processing to a later time.
 
 	SMS::queue('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555');
 	});
 
->The `queue` method will fallback to the `send` method if a queue service is configured within `Laravel.`
+>The `queue` method will fallback to the `send` method if a queue service is not configured within `Laravel.`
 
 #### Pretend
 
-The `pretend` method will simply create a log file that states that a SMS message has been "sent."  This is useful for testing if your configuration settings are working correctly without sending actual messages.
+The `pretend` method will simply create a log file that states that a SMS message has been "sent."  This is useful to test to see if your configuration settings are working correctly without sending actual messages.
 
 	SMS::pretend('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555');
@@ -183,12 +187,12 @@ Retrieves a list of messages.
 
 Gets a SMS by its ID.
 
-<a id="message-enclosure"></a>
+<a id="enclosures"></a>
 ## Message Enclosure
 
 #### Why Enclosures?
 
-We used enclosures to allow for functions such as the queue method.  Being able to easily save the message enclousure allowed for a much greater flexiabilty in the longer term in return for a slightly more difficult to use package.
+We use enclosures to allow for functions such as the queue methods.  Being able to easily save the message enclousure allows for a much greater flexibilty in the longer term, in return for a slightly more difficult to use package.
 
 #### To
 
@@ -205,7 +209,7 @@ The `to` method adds a phone number to the sending array.  Any phone number in t
 		$sms->to('+14444444444', 'verizonwireless);
 	});
 
->The carrier is required for the email driver so that the correct email gateway can be lookedup.  See the table above for a list of accepted carriers.
+>The carrier is required for the email driver so that the correct email gateway can be used.  See the table above for a list of accepted carriers.
 
 #### From
 
@@ -217,7 +221,7 @@ The `from` method will set the address from which the message is being sent.
 
 #### attachImage
 
-The `attachImage` method will add an image to the message.  This will also convert the message to a MSM because SMS does not support image attachments.
+The `attachImage` method will add an image to the message.  This will also convert the message to a MMS because SMS does not support image attachments.
 
 	SMS::send('simple-sms::welcome', $data, function() {
 		$sms->attachImage('/path/to/image.jpg');
