@@ -4,6 +4,7 @@ Simple SMS
 ##Change Log
 
 ####Alpha 2
+* `SMS::queue` now works.
 * Added [EZTexting Driver](https://www.eztexting.com/)
 * Added [CallFire Driver](https://www.callfire.com/)
 * Added [Mozeo Driver](https://www.mozeo.com/)

@@ -2,7 +2,10 @@
 
 use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
 use Illuminate\Container\Container;
+use Illuminate\Queue\QueueManager;
 use Illuminate\Log\Writer;
+use Illuminate\Support\SerializableClosure;
+use Closure;
 
 class SMS
 {
@@ -41,6 +44,13 @@ class SMS
      * @var string
      */
     protected $from;
+
+    /**
+     * Holds the queue instance.
+     *
+     * @var Illuminate\Queue\QueueManager
+     */
+    protected $queue;
 
     /**
      * Creates the SMS instance.
@@ -173,11 +183,119 @@ class SMS
     }
 
     /**
-     * Coming Soon
+     * Queues a SMS message.
+     *
+     * @param string $view The desired view.
+     * @param array $data An array of data to fill the view.
+     * @param  \Closure|string $callback The callback to run on the Message class.
+     * @param null|string $queue The desired queue to push the message to.
+     * @return void
      */
-    public function queue()
+    public function queue($view, $data, $callback, $queue = null)
     {
+        $callback = $this->buildQueueCallable($callback);
 
+        $this->queue->push('sms@handleQueuedMessage', compact('view', 'data', 'callback'), $queue);
+    }
+
+    /**
+     * Queues a SMS message to a given queue.
+     *
+     * @param null|string $queue The desired queue to push the message to.
+     * @param string $view The desired view.
+     * @param array $data An array of data to fill the view.
+     * @param  \Closure|string $callback The callback to run on the Message class.
+     * @return void
+     */
+    public function queueOn($queue, $view, array $data, $callback)
+    {
+        $this->queue($view, $data, $callback, $queue);
+    }
+
+    /**
+     * Queues a message to be sent a later time.
+     *
+     * @param int $delay The desired delay in seconds
+     * @param string $view The desired view.
+     * @param array $data An array of data to fill the view.
+     * @param  \Closure|string $callback The callback to run on the Message class.
+     * @param null|string $queue The desired queue to push the message to.
+     * @return void
+     */
+    public function later($delay, $view, array $data, $callback, $queue = null)
+    {
+        $callback = $this->buildQueueCallable($callback);
+
+        $this->queue->later($delay, 'mailer@handleQueuedMessage', compact('view', 'data', 'callback'), $queue);
+    }
+
+    /**
+     * Queues a message to be sent a later time on a given queue.
+     *
+     * @param null|string $queue The desired queue to push the message to.
+     *  @param int $delay The desired delay in seconds
+     * @param string $view The desired view.
+     * @param array $data An array of data to fill the view.
+     * @param  \Closure|string $callback The callback to run on the Message class.
+     * @return void
+     */
+    public function laterOn($queue, $delay, $view, array $data, $callback)
+    {
+        $this->later($delay, $view, $data, $callback, $queue);
+    }
+
+    /**
+     * Builds the callable for a queue.
+     *
+     * @param \Clousure|string $callback The callback to be serialized
+     * @return string
+     */
+    protected function buildQueueCallable($callback)
+    {
+        if ( ! $callback instanceof Closure) return $callback;
+
+        return serialize(new SerializableClosure($callback));
+    }
+
+    /**
+     * Handles a queue message.
+     *
+     * @param \Illuminate\Queue\Jobs\Job $job
+     * @param array $data
+     * @return void
+     */
+    public function handleQueuedMessage($job, $data)
+    {
+        $this->send($data['view'], $data['data'], $this->getQueuedCallable($data));
+
+        $job->delete();
+    }
+
+    /**
+     * Gets the callable for a queued message.
+     *
+     * @param array $data
+     * @return mixed
+     */
+    protected function getQueuedCallable(array $data)
+    {
+        if (str_contains($data['callback'], 'SerializableClosure'))
+        {
+            return with(unserialize($data['callback']))->getClosure();
+        }
+
+        return $data['callback'];
+    }
+
+    /**
+     * Set the queue manager instance.
+     *
+     * @param  \Illuminate\Queue\QueueManager  $queue
+     * @return $this
+     */
+    public function setQueue(QueueManager $queue)
+    {
+        $this->queue = $queue;
     }
 
     /**

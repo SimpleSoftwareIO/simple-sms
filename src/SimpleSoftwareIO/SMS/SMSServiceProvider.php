@@ -43,6 +43,7 @@ class SMSServiceProvider extends ServiceProvider
 
             $sms->setContainer($app);
             $sms->setLogger($app['log']);
+            $sms->setQueue($app['queue']);
 
             //Set the from and pretending settings
             if ($from = $this->app['config']->get('simple-sms::from', false)) $sms->alwaysFrom($from);
