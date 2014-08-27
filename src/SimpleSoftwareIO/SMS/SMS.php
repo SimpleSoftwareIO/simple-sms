@@ -1,5 +1,16 @@
 <?php namespace SimpleSoftwareIO\SMS;
 
+/**
+ * Simple-SMS
+ * A simple SMS message sendingn for Laravel.
+ *
+ * Part of this file is based on the Illuminate\Mail system.
+ *
+ * @link http://www.simplesoftware.io
+ * @author SimpleSoftware support@simplesoftware.io
+ *
+ */
+
 use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
 use Illuminate\Container\Container;
 use Illuminate\Queue\QueueManager;

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Simple-SMS
+ * A simple SMS message sendingn for Laravel.
+ *
+ * @link http://www.simplesoftware.io
+ * @author SimpleSoftware support@simplesoftware.io
+ *
+ */
+
 /*
     |--------------------------------------------------------------------------
     | Simple SMS

@@ -1,5 +1,14 @@
 <?php namespace SimpleSoftwareIO\SMS\Drivers;
 
+/**
+ * Simple-SMS
+ * A simple SMS message sendingn for Laravel.
+ *
+ * @link http://www.simplesoftware.io
+ * @author SimpleSoftware support@simplesoftware.io
+ *
+ */
+
 use SimpleSoftwareIO\SMS\Message;
 use Services_Twilio;
 
