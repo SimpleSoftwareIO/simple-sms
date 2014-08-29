@@ -9,7 +9,7 @@
  *
  */
 
-use SimpleSoftwareIO\SMS\Message;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 use Services_Twilio;
 
 class TwilioSMS implements DriverInterface
@@ -36,10 +36,10 @@ class TwilioSMS implements DriverInterface
     /**
      * Sends a SMS message
      *
-     * @parma SimpleSoftwareIO\SMS\Message @messasge The message class.
+     * @parma SimpleSoftwareIO\SMS\OutgoingMessage @messasge The message class.
      * @return void
      */
-    public function send(Message $message)
+    public function send(OutgoingMessage $message)
     {
         $from = $message->getFrom();
         $composeMessage = $message->composeMessage();

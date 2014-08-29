@@ -9,7 +9,7 @@
  *
  */
 
-use SimpleSoftwareIO\SMS\Message;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 use GuzzleHttp\Client;
 
 class CallFireSMS implements DriverInterface
@@ -56,7 +56,7 @@ class CallFireSMS implements DriverInterface
      * @param Message $message The SMS message instance.
      * @return void
      */
-    public function send(Message $message)
+    public function send(OutgoingMessage $message)
     {
         $composeMessage = $message->composeMessage();
 

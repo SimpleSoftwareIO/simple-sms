@@ -11,7 +11,7 @@
 
 use Illuminate\View\Factory;
 
-class Message
+class OutgoingMessage
 {
 
     /**

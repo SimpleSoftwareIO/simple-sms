@@ -9,7 +9,7 @@
  *
  */
 
-use SimpleSoftwareIO\SMS\Message;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 use GuzzleHttp\Client;
 
 class MozeoSMS implements DriverInterface
@@ -65,7 +65,7 @@ class MozeoSMS implements DriverInterface
      * @param Message $message The SMS message instance.
      * @return void
      */
-    public function send(Message $message)
+    public function send(OutgoingMessage $message)
     {
         $composeMessage = $message->composeMessage();
 

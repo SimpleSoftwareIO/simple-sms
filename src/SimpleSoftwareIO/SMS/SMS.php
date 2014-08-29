@@ -83,7 +83,7 @@ class SMS
      */
     public function send($view, $data, $callback)
     {
-        $data['message'] = $message = $this->createMessage();
+        $data['message'] = $message = $this->createOutgoingMessage();
 
         //We need to set the properties so that we can later pass this onto the Illuminate Mailer class if the e-mail gateway is used.
         $message->view($view);
@@ -116,9 +116,9 @@ class SMS
      *
      * @return SimpleSoftwareIO\SMS\Message
      */
-    protected function createMessage()
+    protected function createOutgoingMessage()
     {
-        $message = new Message($this->container['view']);
+        $message = new OutgoingMessage($this->container['view']);
 
         //If a from address is set, pass it along to the messasge class.
         if (isset($this->from)) $message->from($this->from);

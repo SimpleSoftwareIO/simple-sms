@@ -9,7 +9,7 @@
  *
  */
 
-use SimpleSoftwareIO\SMS\Message;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 use Illuminate\Mail\Mailer;
 
 class EmailSMS implements DriverInterface
@@ -20,7 +20,7 @@ class EmailSMS implements DriverInterface
      *
      * @var SimpleSoftwareIO\SMS\Message
      */
-    protected $message;
+    protected $outgoingMessage;
 
     /**
      * Creates the EmailSMS Instance.
@@ -41,21 +41,21 @@ class EmailSMS implements DriverInterface
      */
     public function send(Message $message)
     {
-        $this->message = $message;
+        $this->outgoingMessage = $message;
         $me = $this;
 
-        $this->mailer->send($this->message->getView(), $this->message->getData(), function ($email) use ($me) {
-            foreach ($me->message->getToWithCarriers() as $number) {
+        $this->mailer->send($this->outgoingMessage->getView(), $this->outgoingMessage->getData(), function ($email) use ($me) {
+            foreach ($me->outgoingMessage->getToWithCarriers() as $number) {
                 $email->to($me->buildEmail($number));
             }
 
-            if ($me->message->getAttachImages()) {
-                foreach ($me->message->getAttachImages() as $image) {
+            if ($me->outgoingMessage->getAttachImages()) {
+                foreach ($me->outgoingMessage->getAttachImages() as $image) {
                     $email->attach($image);
                 }
             }
 
-            $email->from($me->message->getFrom());
+            $email->from($me->outgoingMessage->getFrom());
         });
     }
 
@@ -69,7 +69,7 @@ class EmailSMS implements DriverInterface
     {
         if (!$number['carrier']) throw new \InvalidArgumentException('A carrier must be specified if using the E-Mail Driver.');
 
-        return $number['number'] . '@' . $this->lookupGateway($number['carrier'], $this->message->isMMS());
+        return $number['number'] . '@' . $this->lookupGateway($number['carrier'], $this->outgoingMessage->isMMS());
     }
 
     /**
