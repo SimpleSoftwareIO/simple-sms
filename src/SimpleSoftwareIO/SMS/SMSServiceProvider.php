@@ -81,7 +81,10 @@ class SMSServiceProvider extends ServiceProvider
                     new \Services_Twilio(
                         $this->app['config']->get('simple-sms::twilio.account_sid'),
                         $this->app['config']->get('simple-sms::twilio.auth_token')
-                    )
+                    ),
+                    $this->app['config']->get('simple-sms::twilio.auth_token'),
+                    $this->app['request']->url(),
+                    $this->app['config']->get('simple-sms::twilio.verify')
                 );
 
             case 'eztexting':

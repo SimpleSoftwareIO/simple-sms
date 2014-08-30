@@ -23,9 +23,33 @@ class TwilioSMS implements DriverInterface
      */
     protected $twilio;
 
-    public function __construct(Services_Twilio $twilio)
+    /**
+     * Holds the Twilio auth token.
+     *
+     * @var string
+     */
+    protected $authToken;
+
+    /**
+     * Holds the request URL to verify a Twilio push.
+     *
+     * @var string
+     */
+    protected $url;
+
+    /**
+     * Determines if requests should be checked to be authentic.
+     *
+     * @var boolean
+     */
+    protected $verify;
+
+    public function __construct(Services_Twilio $twilio, $authToken, $url, $verify = false)
     {
         $this->twilio = $twilio;
+        $this->authToken = $authToken;
+        $this->url = $url;
+        $this->verify = $verify;
     }
 
     /**
@@ -118,12 +142,40 @@ class TwilioSMS implements DriverInterface
      */
     public function receive($raw)
     {
+        if ($this->verify) $this->validateRequest();
+
         $incomingMessage = $this->createIncomingMessage();
         $incomingMessage->setRaw($raw->get());
         $incomingMessage->setMessage($raw->get('Body'));
         $incomingMessage->setFrom($raw->get('From'));
         $incomingMessage->setId($raw->get('MessageSid'));
         $incomingMessage->setTo($raw->get('To'));
+
         return $incomingMessage;
+    }
+
+    /**
+     * Checks if a message is authentic from Twilio.
+     *
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    protected function validateRequest()
+    {
+        //Twilio requires that all POST data be sorted alpha to validate.
+        $data = $_POST;
+        ksort($data);
+
+        // append the data array to the url string, with no delimiters
+        $url = $this->url;
+        foreach ($data as $key => $value) {
+            $url = $url . $key . $value;
+        }
+
+        //Encode the request string
+        $hmac = hash_hmac("sha1", $url, $this->authToken, true);
+
+        //Verify it against the given Twilio key
+        if (base64_encode($hmac) != $_SERVER["HTTP_X_TWILIO_SIGNATURE"]) throw new \InvalidArgumentException('This request was not able to verify it came from Twilio.');
     }
 }

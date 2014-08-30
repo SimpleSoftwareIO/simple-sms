@@ -28,6 +28,8 @@
     | Twilio Additional Settings
     |   Account SID:  The Account SID associated with your Twilio account.
     |   Auth Token:   The Auth Token associated with your Twilio account.
+    |   Verify:       Ensures extra security by checking if requests
+    |                 are really coming from Twilio.
     |
 */
 
@@ -36,7 +38,8 @@ return [
     'from' => 'Your Number or Email',
     'twilio' => [
         'account_sid' => 'Your SID',
-        'auth_token' => 'Your Token'
+        'auth_token' => 'Your Token',
+        'verify' => true,
     ],
     'eztexting' => [
         'username' => 'Your EZTexting Username',
