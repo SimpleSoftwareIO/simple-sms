@@ -4,6 +4,7 @@ Simple SMS
 ##Change Log
 
 ####Alpha 2
+* Push SMS messages now work with Twilio.
 * `SMS::queue` now works.
 * Added [EZTexting Driver](https://www.eztexting.com/)
 * Added [CallFire Driver](https://www.callfire.com/)
