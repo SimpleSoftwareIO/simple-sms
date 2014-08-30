@@ -9,9 +9,12 @@ Simple SMS
 
 - [Introduction](#introduction)
 - [Configuration](#configuration)
+    -[Email Driver](#emailDriver)
+    -[Twilio Driver](#twilioDriver)
 - [Simple Ideas](#simple-ideas)
 - [Usage](#usage)
-- [Message Enclsoure](#message-enclosure)
+- [Outgoing Message Enclsoure](#message-enclosure)
+- [Incoming Message](#incoming-message)
 
 ##This non-stable release of Simple-SMS is currently under development.  Expect bugs.  The API is currently unstable and is anticipated to change.
 
@@ -53,6 +56,7 @@ This will copy the configuration files to your `app/config/simplesoftwareio/simp
 
 >Failure to run the `config:publish` command will result in your configuration files being overwritten after every `composer update` command.
 
+<a id="emailDriver"></a>
 ###### E-mail Driver
 
 The e-mail driver sends all messages through the configured e-mail driver for Laravel.  This driver uses the wireless carrier's e-mail gateways to send SMS messages to mobile phones.
@@ -95,7 +99,8 @@ The following are currently supported by using the e-mail gateway driver.
 
 >An untested gateway means we have not been able to confirm if the gateway works with the mobile provider.  Please provide feedback if you are on one of these carriers.
 
-###### Twilio Driver
+<a id="twilioDriver"></a>
+######  Twilio Driver
 
 This driver sends messages through the [Twilio](https://www.twilio.com/sms) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.  Simply supply your Account SID and Auth Token to begin sending messages.
 
@@ -104,11 +109,32 @@ This driver sends messages through the [Twilio](https://www.twilio.com/sms) mess
 		'from' => '+15555555555',
 		'twilio' => [
 			'account_sid' => 'Your SID',
-			'auth_token' => 'Your Token'
+			'auth_token' => 'Your Token',
+			'verify' => true,
 		]
 	];
 
 >The Twilio driver cost money to use.
+
+**`from`**
+
+The `from` setting must be a number that you own on Twilio and be in `E.164` format.
+
+**`account_sid`**
+
+Supply your `account_sid` found at [Twilio.](https://www.twilio.com/user/account)
+
+**`auth_token`**
+
+Supply your `auth_token` found at [Twilio.](https://www.twilio.com/user/account)
+
+**`verify**
+
+This setting can be `true` or `false.`  When this setting is enabled, it will validate all requests for a SMS push message.  It is recommended to have this enabled for security reasons.
+
+**Push Messages**
+
+The Twilio driver supports pushed messages to your web application.  First, you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
 
 <a id="simple-ideas"></a>
 ## Simple Ideas
@@ -171,24 +197,75 @@ You may also set the `pretend` configuration option to true to have all SMS mess
 
 #### Receive
 
-###### Coming in Alpha2
+Simple SMS supports push SMS messages.
 
-Simple SMS will supple Push Messages.
+    Route::post('sms/receive', function()
+    {
+        SMS::receive();
+    }
+
+The receive method will return a IncomingMessage instance.  You may request any data off of this instance like:
+
+    Route::post('sms/receive', function()
+    {
+        $incoming = SMS::receive();
+        //Get the sender's number.
+        $incoming->from();
+        //Get the message sent.
+        $incoming->message();
+        //Get the to unique ID of the message
+        $incoming->id();
+        //Get the phone number the message was sent to
+        $incoming->to();
+        //Get the raw message
+        $incoming->raw();
+    }
+
+The `raw` method returns all of the data that a driver supports.  This can be useful to get information that only certain service providers provide.
+
+    Route::post('sms/receive', function()
+    {
+        $incoming = SMS::receive();
+        //Twilio message status
+        echo $incoming->raw()['status'];
+    }
+
+The above would return the status of the message.
+
+>Data used from the `raw` method will not work on other service providers.  Each provider has different values that are sent out with each request.
 
 #### Check Messages
 
-###### Coming in Alpha2
+This method will retrieve an array of messages from the service provider.  Each message return will be an IncomingMessage object.
 
-Retrieves a list of messages.
+    $messages = SMS::checkMessages();
+    foreach ($messages as $message)
+    {
+        //Will display the message of each retrieve message
+        echo $message->message();
+    }
+
+The `checkMessages` method supports has an `options` variable to pass some settings onto the service provider.  All drivers have a `start` and `end` option to determine where to start and end retrieving of messages.
+
+    //Will get the first 25 messages at the service provider.
+    $messages = SMS::checkMessages(['start' => 0, 'end' => 25]);
+
+Some service providers also support filtering of messages.
+
+    //Twilio example to filter from numbers and date.
+    $messages = SMS::checkMessages(['From'] => '+15555555555', 'DateSent' => '2009-07-06');
+
+More information about each service provider can be found at their API docs.
+*[Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
 
 #### Get Message
 
-###### Coming in Alpha2
+You are able to retrieve a message by it's ID with a simply call.  This will return an IncomingMessage object.
 
-Gets a SMS by its ID.
+    SMS::getMessage('aMessageId');
 
 <a id="enclosures"></a>
-## Message Enclosure
+## Outgoing Message Enclosure
 
 #### Why Enclosures?
 
@@ -228,3 +305,45 @@ The `attachImage` method will add an image to the message.  This will also conve
 	});
 
 >Twilio does not currently support attached images.
+
+<a id="incoming-message"></a>
+## Incoming Message
+
+All incoming messages generate a Incoming Message object.  This makes it easy to retrieve information from them in a uniformed way across multiple service providers.
+
+#### Raw
+
+The `raw` method returns the raw data provided by a service provider.
+
+        $incoming = SMS::getMessage('messageId');
+        echo $incoming->raw()['status'];
+
+>Each service provider has different information in which they supply in their requests.  See their documentations API for information on what you can get from a `raw` request.
+
+#### From
+
+This method returns the phone number in which a message came from.
+
+        $incoming = SMS::getMessage('messageId');
+        echo $incoming->from();
+
+#### To
+
+The `to` method returns the phone number that a message was sent to.
+
+        $incoming = SMS::getMessage('messageId');
+        echo $incoming->to();
+
+#### Id
+
+This method returns the unique id of a message.
+
+        $incoming = SMS::getMessage('messageId');
+        echo $incoming->id();
+
+#### Message
+
+And the best for last;  this method returns the actual message of a SMS.
+
+        $incoming = SMS::getMessage('messageId');
+        echo $incoming->message();
