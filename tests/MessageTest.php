@@ -1,6 +1,6 @@
 <?php
 use Mockery as m;
-use SimpleSoftwareIO\SMS\Message;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class MessageTest extends \PHPUnit_Framework_TestCase {
 
@@ -11,7 +11,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase {
 
   public function setUp()
   {
-    $this->message = new Message(m::mock('\Illuminate\View\Factory'));
+    $this->message = new OutgoingMessage(m::mock('\Illuminate\View\Factory'));
   }
 
   public function testMSMIsSetOnAttachImage()
