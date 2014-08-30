@@ -170,8 +170,6 @@ The `send` method sends the SMS through the configured driver.
 
 #### Queue
 
-###### Coming in Alpha2
-
 The `queue` method queues a message to be sent later instead of sending the message instantly.  This allows for faster respond times for the consumer by offloading unessessary processing to a later time.
 
 	SMS::queue('simple-sms::welcome', $data, function() {
