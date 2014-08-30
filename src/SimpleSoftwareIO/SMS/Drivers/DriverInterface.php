@@ -9,6 +9,7 @@
  *
  */
 
+use SimpleSoftwareIO\SMS\IncomingMessage;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 interface DriverInterface
@@ -20,4 +21,10 @@ interface DriverInterface
      * @return void
      */
     public function send(OutgoingMessage $message);
+
+    public function checkMessages(Array $options = array());
+
+    public function getMessage($messageId);
+
+    public function receive($raw);
 }

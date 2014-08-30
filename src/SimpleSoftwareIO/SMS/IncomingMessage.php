@@ -8,6 +8,10 @@ class IncomingMessage{
 
     protected $message;
 
+    protected $id;
+
+    protected $to;
+
     public function setRaw($raw)
     {
         $this->raw = $raw;
@@ -23,18 +27,38 @@ class IncomingMessage{
         $this->from = $from;
     }
 
-    public function getRaw()
+    public function raw()
     {
         return $this->raw;
     }
 
-    public function getMessage()
+    public function message()
     {
         return $this->message;
     }
 
-    public function getFrom()
+    public function from()
     {
         return $this->from;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function id()
+    {
+        return $this->id;
+    }
+
+    public function setTo($to)
+    {
+        $this->to = $to;
+    }
+
+    public function to()
+    {
+        return $this->to;
     }
 }

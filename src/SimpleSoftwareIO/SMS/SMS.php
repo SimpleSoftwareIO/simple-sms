@@ -2,7 +2,7 @@
 
 /**
  * Simple-SMS
- * A simple SMS message sendingn for Laravel.
+ * A simple SMS message sending for Laravel.
  *
  * Part of this file is based on the Illuminate\Mail system.
  *
@@ -66,8 +66,7 @@ class SMS
     /**
      * Creates the SMS instance.
      *
-     * @param SimpleSoftwareIO\SMS\Drivers\DriverInterface $driver The desired driver to send the SMS messsages.
-     * @return void
+     * @param DriverInterface $driver
      */
     public function __construct(DriverInterface $driver)
     {
@@ -99,10 +98,9 @@ class SMS
     }
 
     /**
-     * Logs that a message was sent.Logs
+     * Logs that a message was sent.
      *
-     * @parma SimpleSoftwareIO\SMS\Message $message An instance of the message.
-     * @return void
+     * @param $message
      */
     protected function logMessage($message)
     {
@@ -172,8 +170,7 @@ class SMS
     /**
      * Sets the number that message should always be sent from.
      *
-     * @parma string $number The desired number to send a message from.
-     * @return void
+     * @param $number
      */
     public function alwaysFrom($number)
     {
@@ -310,26 +307,36 @@ class SMS
     }
 
     /**
-     * Coming Soon
+     * Receieves a SMS via a push request.
+     *
+     * @return IncomingMessage
      */
     public function receive()
     {
-
+        //Passes all of the request onto the driver.
+        $raw = $this->container['Input'];
+        return $this->driver->receive($raw);
     }
 
     /**
-     * Coming Soon
+     * Queries the provider for a list of messages.
+     *
+     * @param array $options The options to pass onto a provider.  See each provider for a list of options.
+     * @return array Returns an array of IncomingMessage objects.
      */
-    public function checkMessages()
+    public function checkMessages(Array $options = array())
     {
-
+        return $this->driver->checkMessages($options);
     }
 
     /**
-     * Coming Soon
+     * Gets a message by it's ID.
+     *
+     * @param $messageId The requested messageId.
+     * @return IncomingMessage
      */
     public function getMessage($messageId)
     {
-
+        return $this->driver->getMessage($messageId);
     }
 }

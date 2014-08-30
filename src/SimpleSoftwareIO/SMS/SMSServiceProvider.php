@@ -2,7 +2,7 @@
 
 /**
  * Simple-SMS
- * A simple SMS message sendingn for Laravel.
+ * A simple SMS message sending for Laravel.
  *
  * @link http://www.simplesoftware.io
  * @author SimpleSoftware support@simplesoftware.io
@@ -65,7 +65,8 @@ class SMSServiceProvider extends ServiceProvider
     /**
      * Register the correct driver based on the config file.
      *
-     * @return SimpleSoftwareIO\SMS\Drivers\DriverInterface
+     * @return CallFireSMS|EmailSMS|EZTextingSMS|MozeoSMS|TwilioSMS
+     * @throws \InvalidArgumentException
      */
     public function registerSender()
     {
