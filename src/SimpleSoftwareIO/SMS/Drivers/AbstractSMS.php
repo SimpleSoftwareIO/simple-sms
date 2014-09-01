@@ -137,7 +137,7 @@ abstract class AbstractSMS {
                 'body' => $this->getBody()
             ]);
 
-        if ($response->getStatusCode() != 201) throw new \Exception('Unable to request from API.');
+        if ($response->getStatusCode() != 201 && $response->getStatusCode() != 200) throw new \Exception('Unable to request from API.');
 
         return $response;
     }
@@ -154,7 +154,7 @@ abstract class AbstractSMS {
 
         $response = $this->client->get($url, ['auth' => $this->getAuth()]);
 
-        if ($response->getStatusCode() != 200) throw new \Exception('Unable to request from API.');
+        if ($response->getStatusCode() != 201 && $response->getStatusCode() != 200) throw new \Exception('Unable to request from API.');
 
         return $response;
     }
