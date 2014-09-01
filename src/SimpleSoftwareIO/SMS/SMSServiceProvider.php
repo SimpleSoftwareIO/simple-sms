@@ -77,15 +77,7 @@ class SMSServiceProvider extends ServiceProvider
                 return new EmailSMS($this->app['mailer']);
 
             case 'twilio':
-                return new TwilioSMS(
-                    new \Services_Twilio(
-                        $this->app['config']->get('simple-sms::twilio.account_sid'),
-                        $this->app['config']->get('simple-sms::twilio.auth_token')
-                    ),
-                    $this->app['config']->get('simple-sms::twilio.auth_token'),
-                    $this->app['request']->url(),
-                    $this->app['config']->get('simple-sms::twilio.verify')
-                );
+                return $this->buildTwilio();
 
             case 'eztexting':
                 return $this->buildEZTexting();
@@ -99,6 +91,19 @@ class SMSServiceProvider extends ServiceProvider
             default:
                 throw new \InvalidArgumentException('Invalid SMS driver.');
         }
+    }
+
+    protected function buildTwilio()
+    {
+        return new TwilioSMS(
+            new \Services_Twilio(
+                $this->app['config']->get('simple-sms::twilio.account_sid'),
+                $this->app['config']->get('simple-sms::twilio.auth_token')
+            ),
+            $this->app['config']->get('simple-sms::twilio.auth_token'),
+            $this->app['request']->url(),
+            $this->app['config']->get('simple-sms::twilio.verify')
+        );
     }
 
     protected function buildEZTexting()
