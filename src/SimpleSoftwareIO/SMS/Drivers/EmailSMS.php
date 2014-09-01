@@ -183,4 +183,19 @@ class EmailSMS implements DriverInterface
             }
         }
     }
+
+    public function checkMessages(Array $options = array())
+    {
+        throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');
+    }
+
+    public function getMessage($messageId)
+    {
+        throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');
+    }
+
+    public function receive($raw)
+    {
+        throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');
+    }
 }
