@@ -12,8 +12,14 @@
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 use GuzzleHttp\Client;
 
-class CallFireSMS implements DriverInterface
+class CallFireSMS extends AbstractSMS implements DriverInterface
 {
+    /**
+     * The API's URL.
+     *
+     * @var string
+     */
+    protected $apiBase = 'https://www.callfire.com/api/1.1/rest';
 
     /**
      * The Guzzle HTTP Client
@@ -23,43 +29,26 @@ class CallFireSMS implements DriverInterface
     protected $client;
 
     /**
-     * The CallFire API Login.
-     *
-     * @var string
-     */
-    protected $app_login;
-
-    /**
-     * The CalLFire API password.
-     *
-     * @var string
-     */
-    protected $app_password;
-
-    /**
      * Create the CallFire instance.
      *
-     * @param $app_login The API login
-     * @param $app_password The API password
      * @param Client $client The Guzzle Client
      */
-    public function __construct($app_login, $app_password, Client $client)
+    public function __construct(Client $client)
     {
-        $this->app_login = $app_login;
-        $this->app_password = $app_password;
         $this->client = $client;
     }
 
     /**
      * Sends a SMS message.
      *
-     * @param Message $message The SMS message instance.
+     * @param OutgoingMessage $message The SMS message instance.
      * @return void
      */
     public function send(OutgoingMessage $message)
     {
         $composeMessage = $message->composeMessage();
 
+        //Convert to callfire format.
         $numbers = implode(",", $message->getTo());
 
         $data = [
@@ -67,16 +56,60 @@ class CallFireSMS implements DriverInterface
             'Message' => $composeMessage
         ];
 
-        $request = $this->client->post($this->getAddress(), ['auth' => [$this->username, $this->password], 'body' => $data]);
+        $this->buildCall('/text');
+        $this->buildBody($data);
+
+        $this->postRequest();
     }
 
     /**
-     * Returns the address of the API.
+     * Creates many IncomingMessage objects and sets all of the properties.
      *
-     * @return string
+     * @param $rawMessage
+     * @return mixed
      */
-    protected function getAddress()
+    protected function processReceive($rawMessage)
     {
-        return 'https://www.callfire.com/api/1.1/rest/text';
+        $incomingMessage = $this->createIncomingMessage();
+        $incomingMessage->setRaw($rawMessage);
+        $incomingMessage->setFrom((string)$rawMessage->FromNumber);
+        $incomingMessage->setMessage((string)$rawMessage->TextRecord->Message);
+        $incomingMessage->setId((string)$rawMessage['id']);
+        $incomingMessage->setTo((string)$rawMessage->ToNumber);
+
+        return $incomingMessage;
+    }
+
+    /**
+     * Checks the server for messages and returns their results.
+     *
+     * @param array $options
+     * @return array
+     */
+    public function checkMessages(Array $options = array())
+    {
+        $this->buildCall('/text');
+
+        $rawMessages = $this->getRequest()->xml();
+
+        return $this->makeMessages($rawMessages->Text);
+    }
+
+    /**
+     * Gets a single message by it's ID.
+     *
+     * @param $messageId
+     * @return IncomingMessage
+     */
+    public function getMessage($messageId)
+    {
+        $this->buildCall('/text/' . $messageId);
+
+        return $this->makeMessage($this->getRequest()->xml()->Text);
+    }
+
+    public function receive($raw)
+    {
+        // TODO: Implement receive() method.  Awaiting CallFire Keyword
     }
 }

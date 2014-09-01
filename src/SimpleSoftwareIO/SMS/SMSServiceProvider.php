@@ -91,11 +91,7 @@ class SMSServiceProvider extends ServiceProvider
                 return $this->buildEZTexting();
 
             case 'callfire':
-                return new CallFireSMS(
-                    $this->app['config']->get('simple-sms::callfire.app_login'),
-                    $this->app['config']->get('simple-sms::callfire.app_password'),
-                    new Client
-                );
+                return $this->buildCallFire();
 
             case 'mozeo':
                 return new MozeoSMS(
@@ -110,7 +106,7 @@ class SMSServiceProvider extends ServiceProvider
         }
     }
 
-    public function buildEZTexting()
+    protected function buildEZTexting()
     {
         $provider = new EZTextingSMS(new Client);
 
@@ -120,6 +116,16 @@ class SMSServiceProvider extends ServiceProvider
         ];
 
         $provider->buildBody($data);
+
+        return $provider;
+    }
+
+    protected function buildCallFire()
+    {
+        $provider = new CallFireSMS(new Client);
+
+        $provider->setUser($this->app['config']->get('simple-sms::callfire.app_login'));
+        $provider->setPassword($this->app['config']->get('simple-sms::callfire.app_password'));
 
         return $provider;
     }
