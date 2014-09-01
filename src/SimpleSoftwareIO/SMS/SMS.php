@@ -24,7 +24,7 @@ class SMS
     /**
      * The Driver Interface instance.
      *
-     * @var \SimpleSoftwareIO\SMS\DenderInterface
+     * @var \SimpleSoftwareIO\SMS\DriverInterface
      */
     protected $driver;
 
