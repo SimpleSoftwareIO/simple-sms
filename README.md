@@ -294,10 +294,10 @@ The `checkMessages` method supports has an `options` variable to pass some setti
 
 More information about each service provider can be found at their API docs.
 
-*[Call Fire](https://www.callfire.com/api-documentation/rest/version/1.1#!/text/QueryTexts_get_1)
-*[EZTexting](https://www.eztexting.com/developers/sms-api-documentation/rest)
-*[Mozeo](https://www.mozeo.com/mozeo/customer/Mozeo_API_OutboundSMS.pdf)
-*[Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
+* [Call Fire](https://www.callfire.com/api-documentation/rest/version/1.1#!/text/QueryTexts_get_1)
+* [EZTexting](https://www.eztexting.com/developers/sms-api-documentation/rest)
+* [Mozeo](https://www.mozeo.com/mozeo/customer/Mozeo_API_OutboundSMS.pdf)
+* [Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
 
 #### Get Message
 
