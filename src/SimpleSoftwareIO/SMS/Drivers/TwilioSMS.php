@@ -72,12 +72,12 @@ class TwilioSMS extends AbstractSMS implements DriverInterface {
     /**
      * Processing the raw information from a request and inputs it into the IncomingMessage object.
      *
-     * @param IncomingMessage $incomingMessage
      * @param $raw
      * @return void
      */
-    protected function processReceive(IncomingMessage $incomingMessage, $raw)
+    protected function processReceive($raw)
     {
+        $incomingMessage = $this->createIncomingMessage();
         $incomingMessage->setRaw($raw);
         $incomingMessage->setMessage($raw->body);
         $incomingMessage->setFrom($raw->from);
