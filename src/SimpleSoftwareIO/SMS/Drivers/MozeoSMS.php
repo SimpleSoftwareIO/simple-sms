@@ -28,7 +28,7 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
      *
      * @var string
      */
-    protected $apiBase = 'https://www.mozeo.com/mozeo/customer/sendtxt-dev.php';
+    protected $apiBase = 'https://www.mozeo.com/mozeo/customer/sendtxt.php';
 
     /**
      * Constructs the MozeoSMS Instance.
