@@ -116,6 +116,12 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
         return $incomingMessage;
     }
 
+    /**
+     * Receives an incoming message via REST call.
+     *
+     * @param $raw
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
+     */
     public function receive($raw)
     {
         //Due to the way EZTexting handles Keyword Submits vs Replys
