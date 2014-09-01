@@ -4,7 +4,9 @@ Simple SMS
 ##Change Log
 
 ####Alpha 2
-* CallFire/EZTexting now support checking for messages.
+* Expanded documentation.
+* EZTexting now supports checking for messages.
+* CallFire now supports checking for messages.
 * Added error detection on API calls.
 * Push SMS Messages now work with EZTexting.
 * Push SMS messages now work with Twilio.
