@@ -4,6 +4,9 @@ Simple SMS
 ##Change Log
 
 ####Alpha 2
+* CallFire/EZTexting now support checking for messages.
+* Added error detection on API calls.
+* Push SMS Messages now work with EZTexting.
 * Push SMS messages now work with Twilio.
 * `SMS::queue` now works.
 * Added [EZTexting Driver](https://www.eztexting.com/)
