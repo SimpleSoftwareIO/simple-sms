@@ -158,7 +158,7 @@ class SMS
     }
 
     /**
-     * Sets the IoC contrainer
+     * Sets the IoC container
      *
      * @param Container $container
      */
@@ -307,7 +307,7 @@ class SMS
     }
 
     /**
-     * Receieves a SMS via a push request.
+     * Receives a SMS via a push request.
      *
      * @return IncomingMessage
      */
