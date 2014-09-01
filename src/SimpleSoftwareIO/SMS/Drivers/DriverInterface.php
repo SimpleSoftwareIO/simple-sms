@@ -22,9 +22,27 @@ interface DriverInterface
      */
     public function send(OutgoingMessage $message);
 
+    /**
+     * Checks the server for messages and returns their results.
+     *
+     * @param array $options
+     * @return array
+     */
     public function checkMessages(Array $options = array());
 
+    /**
+     * Gets a single message by it's ID.
+     *
+     * @param $messageId
+     * @return IncomingMessage
+     */
     public function getMessage($messageId);
 
+    /**
+     * Receives an incoming message via REST call.
+     *
+     * @param $raw
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
+     */
     public function receive($raw);
 }
