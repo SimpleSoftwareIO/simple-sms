@@ -9,12 +9,10 @@
  *
  */
 
-use SimpleSoftwareIO\SMS\IncomingMessage;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 use Services_Twilio;
 
-class TwilioSMS implements DriverInterface
-{
+class TwilioSMS extends AbstractSMS implements DriverInterface {
 
     /**
      * The Twilio SDK
@@ -122,16 +120,6 @@ class TwilioSMS implements DriverInterface
         $incomingMessage = $this->createIncomingMessage();
         $this->processReceive($incomingMessage, $rawMessage);
         return $incomingMessage;
-    }
-
-    /**
-     * Creates a new IncomingMessage isntance.
-     *
-     * @return IncomingMessage
-     */
-    protected function createIncomingMessage()
-    {
-        return new IncomingMessage();
     }
 
     /**

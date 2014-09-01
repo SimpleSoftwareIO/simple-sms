@@ -86,7 +86,7 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
      * Gets a single message by it's ID.
      *
      * @param $messageId
-     * @return mixed
+     * @return IncomingMessage
      */
     public function getMessage($messageId)
     {
