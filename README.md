@@ -7,21 +7,24 @@
 Simple SMS
 ==========
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-    -[Email Driver](#emailDriver)
-    -[Twilio Driver](#twilioDriver)
-- [Simple Ideas](#simple-ideas)
-- [Usage](#usage)
-- [Outgoing Message Enclsoure](#message-enclosure)
-- [Incoming Message](#incoming-message)
+* [Introduction](#introduction)
+* [Configuration](#configuration)
+    * [Call Fire Driver](#call-fire-driver)
+    * [EZTexting Driver](#eztexting-driver)
+    * [Email Driver](#email-driver)
+    * [Mozeo Driver](#mozeo-driver)
+    * [Twilio Driver](#twilio-driver)
+* [Driver Support](#driver-support)
+* [Usage](#usage)
+* [Outgoing Message Enclosure](#message-enclosure)
+* [Incoming Message](#incoming-message)
 
 ##This non-stable release of Simple-SMS is currently under development.  Expect bugs.  The API is currently unstable and is anticipated to change.
 
 <a id="introduction"></a>
 ## Introduction
 
-Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capablility to send SMS/MMS messages to mobile phones. It currently supports a free way to accomplish this, by using E-Mail gateways, as well as paid methods, through service providers such as [Twililo](http://www.twilio.com/sms).
+Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 4 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](eztexting.com) [Mozeo,](http://www.mozeo.com/) and [Twilio.](www.twilio.com)
 
 <a id="configuration"></a>
 ## Configuration
@@ -44,7 +47,7 @@ Once you have added the package to your composer file, you will need to register
 
 #### Aliases
 
-Finally, register the `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `app/config/app.php` configuration file within the `aliases` array.
+Finally, register the Facade `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `app/config/app.php` configuration file within the `aliases` array.
 
 #### API Settings
 
@@ -56,10 +59,48 @@ This will copy the configuration files to your `app/config/simplesoftwareio/simp
 
 >Failure to run the `config:publish` command will result in your configuration files being overwritten after every `composer update` command.
 
-<a id="emailDriver"></a>
+<a id="call-fire-driver"></a>
+###### Call Fire Driver
+
+This driver sends and receives all messages through the [Call Fire](https://www.callfire.com/) service.  It is a very quick and reliable service provider that includes many features such as drip campaigns and voice services.
+
+Fill in the `config` file with the correct settings to use this driver.  You can find these settings under your CallFire account and then selecting [API Access.](https://www.callfire.com/ui/manage/access)
+
+	return [
+		'driver' => 'callfire',
+		'from' => 'Not Use For Call Fire',
+        'callfire' => [
+            'app_login' => 'Your App Login',
+            'app_password' => 'Your App Password'
+        ],
+	];
+
+>Note: All messages from CallFire come from the same short number (67076)
+
+<a id="eztexting-driver"></a>
+###### EZTexting
+
+This driver sends all messages through the [EZTexting](https://www.eztexting.com) service.  EZTexting has many different options that have proven to be reliable and fast.
+
+Fill in the `config` file with the correct settings to enable EZTexting.
+
+	return [
+		'driver' => 'eztexting',
+		'from' => 'Not Use For EZTexting',
+        'eztexting' => [
+            'username' => 'Your Username',
+            'password' => 'Your Password'
+        ],
+    ];
+
+To enable `receive()` for this service, you must visit the [EZTexting settings page.](https://app.eztexting.com/keywords/index/format/apist)  Enable the `Forwarding API` and `Keyword API` for the messages that you would like forwarded to your web application.
+
+>Note: All messages from EZTexting come from the same short number (313131)
+
+<a id="email-driver"></a>
 ###### E-mail Driver
 
-The e-mail driver sends all messages through the configured e-mail driver for Laravel.  This driver uses the wireless carrier's e-mail gateways to send SMS messages to mobile phones.
+The E-Mail driver sends all messages through the configured e-mail driver for Laravel.  This driver uses the wireless carrier's e-mail gateways to send SMS messages to mobile phones. The biggest benefit to using the e-mail driver is that it is completely free to use.
 
 The only setting for this driver is the `from` setting.  Simply enter an email address that you would like to send messages from.
 
@@ -69,8 +110,6 @@ The only setting for this driver is the `from` setting.  Simply enter an email a
 	];
 
 >If messages are not being sent, ensure that you are able to send E-Mail through Laravel first.
-
-The biggest benefit to using the e-mail driver is that it is completely free to use.
 
 The following are currently supported by using the e-mail gateway driver.
 
@@ -91,55 +130,63 @@ The following are currently supported by using the e-mail gateway driver.
 | USA | Virgin Mobile | virginmobile | Yes | Yes | No |
 | USA | T-Mobile | tmobile | Yes | Yes | No |
 
->We will be adding more carriers from around the world after we find testers.
+>You must know the wireless provider for the mobile phone to use this driver.
 
->Careful!  Not all wireless carriors support e-mail gateways around the world.
+>Careful!  Not all wireless carriers support e-mail gateways around the world.
 
->Some carriers slightly modifiy messages by adding the `from` and `to` address to the SMS message.
+>Some carriers slightly modify messages by adding the `from` and `to` address to the SMS message.
 
 >An untested gateway means we have not been able to confirm if the gateway works with the mobile provider.  Please provide feedback if you are on one of these carriers.
 
-<a id="twilioDriver"></a>
+<a id="mozeo-driver"></a>
+###### Mozeo Driver
+
+This driver sends all messages through the [Mozeo](https://www.mozeo.com/) service.  These settings can be found on your [API Settings](https://www.mozeo.com/mozeo/customer/platformdetails.php) page.
+
+	return [
+		'driver' => 'mozeo',
+		'from' => 'Not Used With Mozeo',
+        'mozeo' => [
+            'companyKey' => 'Your Company Key',
+            'username' => 'Your Username',
+            'password' => 'Your Password'
+        ]
+    ];
+
+>Note: All messages from Mozeo come from the same short number (24587)
+
+<a id="twilio-driver"></a>
 ######  Twilio Driver
 
-This driver sends messages through the [Twilio](https://www.twilio.com/sms) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.  Simply supply your Account SID and Auth Token to begin sending messages.
+This driver sends messages through the [Twilio](https://www.twilio.com/sms) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.
 
 	return [
 		'driver' => 'twilio',
-		'from' => '+15555555555',
+		'from' => '+15555555555', //Your Twilio Number in E.164 Format.
 		'twilio' => [
 			'account_sid' => 'Your SID',
 			'auth_token' => 'Your Token',
-			'verify' => true,
+			'verify' => true,  //Used to check if messages are really coming from Twilio.
 		]
 	];
 
->The Twilio driver cost money to use.
+It is strongly recommended to have the `verify` option enabled.  This setting performs an addational security check to ensure messages are coming from Twilio and not being spoofed.
 
-**`from`**
+To enable `receive()` messages you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
 
-The `from` setting must be a number that you own on Twilio and be in `E.164` format.
+<a id="driver-support"></a>
+##Driver Support
 
-**`account_sid`**
+Not all drivers support every method due to the differences in each individual API.  The following table outlines what is supported for each driver.
 
-Supply your `account_sid` found at [Twilio.](https://www.twilio.com/user/account)
+| Driver | Send | Queue | Pretend | CheckMessages | GetMessage | Receive |
+| --- | --- | --- | --- | --- | --- | --- |
+| Call Fire | Yes | Yes | Yes | Yes | Yes | Pending |
+| EZTexting | Yes | Yes | Yes | Yes | Yes | Yes |
+| E-Mail | Yes | Yes | Yes | No | No | No |
+| Mozeo | Yes | Yes | Yes | No | No | Pending |
+| Twilio | Yes | Yes | Yes | Yes | Yes | Yes |
 
-**`auth_token`**
-
-Supply your `auth_token` found at [Twilio.](https://www.twilio.com/user/account)
-
-**`verify**
-
-This setting can be `true` or `false.`  When this setting is enabled, it will validate all requests for a SMS push message.  It is recommended to have this enabled for security reasons.
-
-**Push Messages**
-
-The Twilio driver supports pushed messages to your web application.  First, you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
-
-<a id="simple-ideas"></a>
-## Simple Ideas
-
-Coming Soon.
 
 <a id="usage"></a>
 ## Usage
@@ -148,17 +195,17 @@ Coming Soon.
 
 Simple SMS operates in much of the same way as the Laravel Mail service provider.  If you are familiar with this then SMS should feel like home.  The most basic way to send a SMS is to use the following:
 
-	//Twilio Example
+	//Service Providers Example
 	SMS::send('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555');
 	});
   
-	//Email Example
+	//Email Driver Example
 	SMS::send('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555', 'att');
 	});
 
-The first paramenter is the view file that you would like to use.  The second is the data that you wish to pass to the view.  The final parameter is a callback that will set all of the options on the `message` closure.
+The first parameter is the view file that you would like to use.  The second is the data that you wish to pass to the view.  The final parameter is a callback that will set all of the options on the `message` closure.
 
 #### Send
 
@@ -170,7 +217,7 @@ The `send` method sends the SMS through the configured driver.
 
 #### Queue
 
-The `queue` method queues a message to be sent later instead of sending the message instantly.  This allows for faster respond times for the consumer by offloading unessessary processing to a later time.
+The `queue` method queues a message to be sent later instead of sending the message instantly.  This allows for faster respond times for the consumer by offloading uncustomary processing time. Like `Laravel's Mail` system, queue also has `queueOn,` `later,` and `laterOn` methods.
 
 	SMS::queue('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555');
@@ -195,14 +242,14 @@ You may also set the `pretend` configuration option to true to have all SMS mess
 
 #### Receive
 
-Simple SMS supports push SMS messages.
+Simple SMS supports push SMS messages.  You must first configure this with your service provider by following the configuration settings above.
 
     Route::post('sms/receive', function()
     {
         SMS::receive();
     }
 
-The receive method will return a IncomingMessage instance.  You may request any data off of this instance like:
+The receive method will return a `IncomingMessage` instance.  You may request any data off of this instance like:
 
     Route::post('sms/receive', function()
     {
@@ -228,60 +275,58 @@ The `raw` method returns all of the data that a driver supports.  This can be us
         echo $incoming->raw()['status'];
     }
 
-The above would return the status of the message.
+The above would return the status of the message on the Twilio driver.
 
 >Data used from the `raw` method will not work on other service providers.  Each provider has different values that are sent out with each request.
 
 #### Check Messages
 
-This method will retrieve an array of messages from the service provider.  Each message return will be an IncomingMessage object.
+This method will retrieve an array of messages from the service provider.  Each message within the array will be an `IncomingMessage` object.
 
     $messages = SMS::checkMessages();
     foreach ($messages as $message)
     {
-        //Will display the message of each retrieve message
+        //Will display the message of each retrieve message.
         echo $message->message();
     }
 
-The `checkMessages` method supports has an `options` variable to pass some settings onto the service provider.  All drivers have a `start` and `end` option to determine where to start and end retrieving of messages.
-
-    //Will get the first 25 messages at the service provider.
-    $messages = SMS::checkMessages(['start' => 0, 'end' => 25]);
-
-Some service providers also support filtering of messages.
-
-    //Twilio example to filter from numbers and date.
-    $messages = SMS::checkMessages(['From'] => '+15555555555', 'DateSent' => '2009-07-06');
+The `checkMessages` method supports has an `options` variable to pass some settings onto each service provider. See each service providers API to see which `options` may be passed.
 
 More information about each service provider can be found at their API docs.
+
+*[Call Fire](https://www.callfire.com/api-documentation/rest/version/1.1#!/text/QueryTexts_get_1)
+*[EZTexting](https://www.eztexting.com/developers/sms-api-documentation/rest)
+*[Mozeo](https://www.mozeo.com/mozeo/customer/Mozeo_API_OutboundSMS.pdf)
 *[Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
 
 #### Get Message
 
 You are able to retrieve a message by it's ID with a simply call.  This will return an IncomingMessage object.
 
-    SMS::getMessage('aMessageId');
+    $message = SMS::getMessage('aMessageId');
+    //Prints who the message came from.
+    echo $message->from();
 
-<a id="enclosures"></a>
+<a id="message-enclosure"></a>
 ## Outgoing Message Enclosure
 
 #### Why Enclosures?
 
-We use enclosures to allow for functions such as the queue methods.  Being able to easily save the message enclousure allows for a much greater flexibilty in the longer term, in return for a slightly more difficult to use package.
+We use enclosures to allow for functions such as the queue methods.  Being able to easily save the message enclosures allows for much greater flexibility.
 
 #### To
 
-The `to` method adds a phone number to the sending array.  Any phone number in this array will have a message sent to it. It accepts an array of numbers, or a single number as a paramenter.
+The `to` method adds a phone number that will have a message sent to it.
 
-	//Twilio Driver
+	//Service Providers Example
 	SMS::send('simple-sms::welcome', $data, function() {
 		$sms->to('+15555555555');
 		$sms->to('+14444444444');
 	});
 	//Email Driver
 	SMS::send('simple-sms::welcome', $data, function() {
-		$sms->to('+15555555555', 'att);
-		$sms->to('+14444444444', 'verizonwireless);
+		$sms->to('15555555555', 'att);
+		$sms->to('14444444444', 'verizonwireless);
 	});
 
 >The carrier is required for the email driver so that the correct email gateway can be used.  See the table above for a list of accepted carriers.
@@ -302,19 +347,19 @@ The `attachImage` method will add an image to the message.  This will also conve
 		$sms->attachImage('/path/to/image.jpg');
 	});
 
->Twilio does not currently support attached images.
+>Currently only supported with the E-Mail Driver.
 
 <a id="incoming-message"></a>
 ## Incoming Message
 
-All incoming messages generate a Incoming Message object.  This makes it easy to retrieve information from them in a uniformed way across multiple service providers.
+All incoming messages generate a `IncomingMessage` object.  This makes it easy to retrieve information from them in a uniformed way across multiple service providers.
 
 #### Raw
 
 The `raw` method returns the raw data provided by a service provider.
 
-        $incoming = SMS::getMessage('messageId');
-        echo $incoming->raw()['status'];
+    $incoming = SMS::getMessage('messageId');
+    echo $incoming->raw()['status'];
 
 >Each service provider has different information in which they supply in their requests.  See their documentations API for information on what you can get from a `raw` request.
 
@@ -322,26 +367,26 @@ The `raw` method returns the raw data provided by a service provider.
 
 This method returns the phone number in which a message came from.
 
-        $incoming = SMS::getMessage('messageId');
-        echo $incoming->from();
+    $incoming = SMS::getMessage('messageId');
+    echo $incoming->from();
 
 #### To
 
 The `to` method returns the phone number that a message was sent to.
 
-        $incoming = SMS::getMessage('messageId');
-        echo $incoming->to();
+    $incoming = SMS::getMessage('messageId');
+    echo $incoming->to();
 
 #### Id
 
 This method returns the unique id of a message.
 
-        $incoming = SMS::getMessage('messageId');
-        echo $incoming->id();
+    $incoming = SMS::getMessage('messageId');
+    echo $incoming->id();
 
 #### Message
 
 And the best for last;  this method returns the actual message of a SMS.
 
-        $incoming = SMS::getMessage('messageId');
-        echo $incoming->message();
+    $incoming = SMS::getMessage('messageId');
+    echo $incoming->message();
