@@ -88,11 +88,7 @@ class SMSServiceProvider extends ServiceProvider
                 );
 
             case 'eztexting':
-                return new EZTextingSMS(
-                    $this->app['config']->get('simple-sms::eztexting.username'),
-                    $this->app['config']->get('simple-sms::eztexting.password'),
-                    new Client
-                );
+                return $this->buildEZTexting();
 
             case 'callfire':
                 return new CallFireSMS(
@@ -114,6 +110,19 @@ class SMSServiceProvider extends ServiceProvider
         }
     }
 
+    public function buildEZTexting()
+    {
+        $provider = new EZTextingSMS(new Client);
+
+        $data = [
+            'User' => $this->app['config']->get('simple-sms::eztexting.username'),
+            'Password' => $this->app['config']->get('simple-sms::eztexting.password')
+        ];
+
+        $provider->buildBody($data);
+
+        return $provider;
+    }
 
     /**
      * Get the services provided by the provider.

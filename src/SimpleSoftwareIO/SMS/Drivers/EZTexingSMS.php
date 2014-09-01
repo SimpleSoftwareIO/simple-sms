@@ -12,7 +12,7 @@
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 use GuzzleHttp\Client;
 
-class EZTextingSMS implements DriverInterface
+class EZTextingSMS extends AbstractSMS implements DriverInterface
 {
 
     /**
@@ -23,60 +23,112 @@ class EZTextingSMS implements DriverInterface
     protected $client;
 
     /**
-     * The EZTexting Username
+     * The API's URL.
      *
      * @var string
      */
-    protected $username;
+    protected $apiBase = 'https://app.eztexting.com';
 
     /**
-     * The EZTexting Password
+     * The ending of the URL that all requests must have.
      *
-     * @var string
+     * @var array
      */
-    protected $password;
+    protected $apiEnding = ['format' => 'json'];
 
     /**
-     * Creates the EZTexting instance.
+     * Constructs a new instance.
      *
-     * @param $username The username for the API
-     * @param $password The password for the API
-     * @param Client $client The Guzzle HTTP Client
+     * @param Client $client
      */
-    public function __construct($username, $password, Client $client)
+    public function __construct(Client $client)
     {
-        $this->username = $username;
-        $this->password = $password;
         $this->client = $client;
     }
 
     /**
      * Sends a SMS message.
      *
-     * @param Message $message The SMS message instance.
+     * @param OutgoingMessage $message
      * @return void
      */
     public function send(OutgoingMessage $message)
     {
-        $composeMessage = $message->composeMessage();
+        $composedMessage = $message->composeMessage();
 
         $data = [
-            'User' => $this->username,
-            'Password' => $this->password,
             'PhoneNumbers' => $message->getTo(),
-            'Message' => $composeMessage
+            'Message' => $composedMessage
         ];
 
-        $request = $this->client->post($this->getAddress(), ['body' => $data]);
+        $this->buildCall('/sending/messages');
+        $this->buildBody($data);
+
+        $this->postRequest();
     }
 
     /**
-     * Returns the address of the API.
+     * Checks the server for messages and returns their results.
      *
-     * @return string
+     * @param array $options
+     * @return array
      */
-    protected function getAddress()
+    public function checkMessages(Array $options = array())
     {
-        return 'https://app.eztexting.com/sending/messages?format=json';
+        $this->buildCall('/incoming-messages');
+        $this->buildBody($options);
+
+        $rawMessages = $this->getRequest()->json();
+        return $this->makeMessages($rawMessages['Response']['Entries']);
+    }
+
+    /**
+     * Gets a single message by it's ID.
+     *
+     * @param $messageId
+     * @return mixed
+     */
+    public function getMessage($messageId)
+    {
+        $this->buildCall('/incoming-messages');
+        $this->buildCall('/' . $messageId);
+
+        $rawMessage = $this->getRequest()->json();
+
+        return $this->makeMessage($rawMessage['Response']['Entry']);
+    }
+
+    /**
+     * Returns an IncomingMessage object with it's properties filled out.
+     *
+     * @param $rawMessage
+     * @return mixed|\SimpleSoftwareIO\SMS\IncomingMessage
+     */
+    protected function processReceive($rawMessage)
+    {
+        $incomingMessage = $this->createIncomingMessage();
+        $incomingMessage->setRaw($rawMessage);
+        $incomingMessage->setFrom($rawMessage['PhoneNumber']);
+        $incomingMessage->setMessage($rawMessage['Message']);
+        $incomingMessage->setId($rawMessage['ID']);
+        $incomingMessage->setTo('313131');
+
+        return $incomingMessage;
+    }
+
+    public function receive($raw)
+    {
+        //Due to the way EZTexting handles Keyword Submits vs Replys
+        //We must check both values.
+        $from = $raw->get('PhoneNumber') ? $raw->get('PhoneNumber') : $raw->get('from');
+        $message = $raw->get('Message') ? $raw->get('Message') : $raw->get('message');
+
+        $incomingMessage = $this->createIncomingMessage();
+        $incomingMessage->setRaw($raw->get());
+        $incomingMessage->setFrom($from);
+        $incomingMessage->setMessage($message);
+        $incomingMessage->setTo('313131');
+
+        return $incomingMessage;
     }
 }
