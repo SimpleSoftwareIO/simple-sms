@@ -66,8 +66,7 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
     /**
      * Creates many IncomingMessage objects and sets all of the properties.
      *
-     * @param $rawMessage
-     * @return mixed
+     * @throws \RuntimeException
      */
     protected function processReceive($rawMessage)
     {
@@ -77,8 +76,7 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
     /**
      * Checks the server for messages and returns their results.
      *
-     * @param array $options
-     * @return array
+     * @throws \RuntimeException
      */
     public function checkMessages(Array $options = array())
     {
@@ -88,8 +86,7 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
     /**
      * Gets a single message by it's ID.
      *
-     * @param $messageId
-     * @return IncomingMessage
+     * @throws \RuntimeException
      */
     public function getMessage($messageId)
     {
