@@ -167,6 +167,7 @@ abstract class AbstractSMS {
      */
     protected function makeMessages($rawMessages)
     {
+        $incomingMessages = [];
         foreach ($rawMessages as $rawMessage)
         {
             $incomingMessages[] = $this->processReceive($rawMessage);
