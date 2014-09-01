@@ -1,6 +1,6 @@
 <?php namespace SimpleSoftwareIO\SMS;
 
-class IncomingMessage{
+class IncomingMessage {
 
     protected $raw;
 
