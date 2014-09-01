@@ -94,12 +94,7 @@ class SMSServiceProvider extends ServiceProvider
                 return $this->buildCallFire();
 
             case 'mozeo':
-                return new MozeoSMS(
-                    $this->app['config']->get('simple-sms::mozeo.companyKey'),
-                    $this->app['config']->get('simple-sms::mozeo.username'),
-                    $this->app['config']->get('simple-sms::mozeo.password'),
-                    new Client()
-                );
+                return $this->buildMozeo();
 
             default:
                 throw new \InvalidArgumentException('Invalid SMS driver.');
@@ -126,6 +121,21 @@ class SMSServiceProvider extends ServiceProvider
 
         $provider->setUser($this->app['config']->get('simple-sms::callfire.app_login'));
         $provider->setPassword($this->app['config']->get('simple-sms::callfire.app_password'));
+
+        return $provider;
+    }
+
+    protected function buildMozeo()
+    {
+        $provider = new MozeoSMS(new Client);
+
+        $auth = [
+            'companykey' => $this->app['config']->get('simple-sms::mozeo.companyKey'),
+            'username' => $this->app['config']->get('simple-sms::mozeo.username'),
+            'password' => $this->app['config']->get('simple-sms::mozeo.password'),
+        ];
+
+        $provider->buildBody($auth);
 
         return $provider;
     }

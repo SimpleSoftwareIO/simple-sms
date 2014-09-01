@@ -9,10 +9,11 @@
  *
  */
 
+use SimpleSoftwareIO\SMS\IncomingMessage;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 use GuzzleHttp\Client;
 
-class MozeoSMS implements DriverInterface
+class MozeoSMS extends AbstractSMS implements DriverInterface
 {
 
     /**
@@ -23,46 +24,26 @@ class MozeoSMS implements DriverInterface
     protected $client;
 
     /**
-     * The Mozeo API username.
+     * The API's URL.
      *
      * @var string
      */
-    protected $username;
-
-    /**
-     * The Mozeo API password.
-     *
-     * @var string
-     */
-    protected $password;
-
-    /**
-     * The Mozeo Company Key
-     *
-     * @var string
-     */
-    protected $companyKey;
+    protected $apiBase = 'https://www.mozeo.com/mozeo/customer/sendtxt-dev.php';
 
     /**
      * Constructs the MozeoSMS Instance.
      *
-     * @param $companyKey Holds the company key
-     * @param $username Holds the API username
-     * @param $password Holds the API password
      * @param Client $client The guzzle client
      */
-    public function __construct($companyKey, $username, $password, Client $client)
+    public function __construct(Client $client)
     {
-        $this->companyKey = $companyKey;
-        $this->username = $username;
-        $this->password = $password;
         $this->client = $client;
     }
 
     /**
      * Sends a SMS message.
      *
-     * @param Message $message The SMS message instance.
+     * @param OutgoingMessage $message The SMS message instance.
      * @return void
      */
     public function send(OutgoingMessage $message)
@@ -72,24 +53,57 @@ class MozeoSMS implements DriverInterface
         foreach($message->getTo() as $to)
         {
             $data = [
-                'companykey' => $this->companyKey,
-                'username' => $this->username,
-                'password' => $this->password,
                 'to' => $to,
                 'messagebody' => $composeMessage
             ];
 
-            $request = $this->client->post($this->getAddress(), ['body' => $data]);
+            $this->buildBody($data);
+
+            $this->postRequest();
         }
     }
 
     /**
-     * Returns the address of the API.
+     * Creates many IncomingMessage objects and sets all of the properties.
      *
-     * @return string
+     * @param $rawMessage
+     * @return mixed
      */
-    protected function getAddress()
+    protected function processReceive($rawMessage)
     {
-        return 'https://www.mozeo.com/mozeo/customer/sendtxt-dev.php';
+        throw new \RuntimeException('Mozeo does not support Inbound API Calls.');
+    }
+
+    /**
+     * Checks the server for messages and returns their results.
+     *
+     * @param array $options
+     * @return array
+     */
+    public function checkMessages(Array $options = array())
+    {
+        throw new \RuntimeException('Mozeo does not support Inbound API Calls.');
+    }
+
+    /**
+     * Gets a single message by it's ID.
+     *
+     * @param $messageId
+     * @return IncomingMessage
+     */
+    public function getMessage($messageId)
+    {
+        throw new \RuntimeException('Mozeo does not support Inbound API Calls.');
+    }
+
+    /**
+     * Receives an incoming message via REST call.
+     *
+     * @param $raw
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
+     */
+    public function receive($raw)
+    {
+        // TODO: Implement receive() method.  Waiting for Mozeo to Enable REST.
     }
 }
