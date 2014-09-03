@@ -3,6 +3,9 @@ Simple SMS
 
 ##Change Log
 
+####Alpha 3
+* General comment and code clean up.
+
 ####Alpha 2
 * Expanded documentation.
 * EZTexting now supports checking for messages.

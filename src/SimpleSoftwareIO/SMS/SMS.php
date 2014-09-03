@@ -2,7 +2,7 @@
 
 /**
  * Simple-SMS
- * A simple SMS message sending for Laravel.
+ * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
  *
  * Part of this file is based on the Illuminate\Mail system.
  *

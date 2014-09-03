@@ -1,1 +1,1 @@
-This is a test message sent with Simple-SMS. {{$phone}}
+This is a test message sent with Simple-SMS.

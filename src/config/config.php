@@ -2,7 +2,7 @@
 
 /**
  * Simple-SMS
- * A simple SMS message sendingn for Laravel.
+ * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
  *
  * @link http://www.simplesoftware.io
  * @author SimpleSoftware support@simplesoftware.io
@@ -31,6 +31,20 @@
     |   Verify:       Ensures extra security by checking if requests
     |                 are really coming from Twilio.
     |
+    |--------------------------------------------------------------------------
+    | EZTexting Additional Settings
+    |   Username:  Your login username.
+    |   Password:  Your login password.
+    |--------------------------------------------------------------------------
+    | CallFire
+    |   App Login:     Your login settings. (https://www.callfire.com/ui/manage/access)
+    |   App Password:  Your login password. (https://www.callfire.com/ui/manage/access)
+    |--------------------------------------------------------------------------
+    | Mozeo
+    | Company Key:  Your company key. (https://www.mozeo.com/mozeo/customer/platformdetails.php)
+    | Username:     Your username.  (https://www.mozeo.com/mozeo/customer/platformdetails.php)
+    | Password:     Your password.  (https://www.mozeo.com/mozeo/customer/platformdetails.php)
+
 */
 
 return [

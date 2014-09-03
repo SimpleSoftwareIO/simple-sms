@@ -10,8 +10,8 @@ Simple SMS
 * [Introduction](#introduction)
 * [Configuration](#configuration)
     * [Call Fire Driver](#call-fire-driver)
-    * [EZTexting Driver](#eztexting-driver)
-    * [Email Driver](#email-driver)
+    * [EZTexting Driver](#ez-texting-driver)
+    * [Email Driver](#e-mail-driver)
     * [Mozeo Driver](#mozeo-driver)
     * [Twilio Driver](#twilio-driver)
 * [Driver Support](#driver-support)
@@ -24,7 +24,7 @@ Simple SMS
 <a id="introduction"></a>
 ## Introduction
 
-Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 4 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](eztexting.com) [Mozeo,](http://www.mozeo.com/) and [Twilio.](www.twilio.com)
+Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 4 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [Mozeo,](https://www.mozeo.com/) and [Twilio.](https://www.twilio.com)
 
 <a id="configuration"></a>
 ## Configuration
@@ -77,7 +77,7 @@ Fill in the `config` file with the correct settings to use this driver.  You can
 
 >Note: All messages from CallFire come from the same short number (67076)
 
-<a id="eztexting-driver"></a>
+<a id="ez-texting-driver"></a>
 ###### EZTexting
 
 This driver sends all messages through the [EZTexting](https://www.eztexting.com) service.  EZTexting has many different options that have proven to be reliable and fast.
@@ -97,7 +97,7 @@ To enable `receive()` for this service, you must visit the [EZTexting settings p
 
 >Note: All messages from EZTexting come from the same short number (313131)
 
-<a id="email-driver"></a>
+<a id="e-mail-driver"></a>
 ###### E-mail Driver
 
 The E-Mail driver sends all messages through the configured e-mail driver for Laravel.  This driver uses the wireless carrier's e-mail gateways to send SMS messages to mobile phones. The biggest benefit to using the e-mail driver is that it is completely free to use.
