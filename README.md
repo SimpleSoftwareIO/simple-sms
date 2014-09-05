@@ -16,7 +16,7 @@ Simple SMS
     * [Twilio Driver](#twilio-driver)
 * [Driver Support](#driver-support)
 * [Usage](#usage)
-* [Outgoing Message Enclosure](#message-enclosure)
+* [Outgoing Message Enclosure](#outgoing-enclosure)
 * [Incoming Message](#incoming-message)
 
 ##This non-stable release of Simple-SMS is currently under development.  Expect bugs.  The API is currently unstable and is anticipated to change.
@@ -307,7 +307,7 @@ You are able to retrieve a message by it's ID with a simply call.  This will ret
     //Prints who the message came from.
     echo $message->from();
 
-<a id="message-enclosure"></a>
+<a id="outgoing-enclosure"></a>
 ## Outgoing Message Enclosure
 
 #### Why Enclosures?
