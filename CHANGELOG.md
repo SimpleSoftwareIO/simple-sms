@@ -5,7 +5,7 @@ Simple SMS
 
 ####Beta 1
 * Dropping receive support for CallFire due to not being able to get a keyword to test.
-* Dropping support for Mozeo due to not being able to get an API link forwarding set up automatically.
+* Dropping support for Mozeo receive due to not being able to get an API link forwarding set up automatically.
 
 ####Alpha 3
 * General comment and code clean up.
