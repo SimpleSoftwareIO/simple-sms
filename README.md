@@ -181,10 +181,10 @@ Not all drivers support every method due to the differences in each individual A
 
 | Driver | Send | Queue | Pretend | CheckMessages | GetMessage | Receive |
 | --- | --- | --- | --- | --- | --- | --- |
-| Call Fire | Yes | Yes | Yes | Yes | Yes | Pending |
+| Call Fire | Yes | Yes | Yes | Yes | Yes | No |
 | EZTexting | Yes | Yes | Yes | Yes | Yes | Yes |
 | E-Mail | Yes | Yes | Yes | No | No | No |
-| Mozeo | Yes | Yes | Yes | No | No | Pending |
+| Mozeo | Yes | Yes | Yes | No | No | No |
 | Twilio | Yes | Yes | Yes | Yes | Yes | Yes |
 
 
