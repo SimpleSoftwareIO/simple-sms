@@ -170,7 +170,7 @@ This driver sends messages through the [Twilio](https://www.twilio.com/sms) mess
 		]
 	];
 
-It is strongly recommended to have the `verify` option enabled.  This setting performs an addational security check to ensure messages are coming from Twilio and not being spoofed.
+It is strongly recommended to have the `verify` option enabled.  This setting performs an additional security check to ensure messages are coming from Twilio and not being spoofed.
 
 To enable `receive()` messages you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
 
