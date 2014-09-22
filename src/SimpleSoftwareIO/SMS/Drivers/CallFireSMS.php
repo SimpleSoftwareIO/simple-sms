@@ -108,8 +108,15 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
         return $this->makeMessage($this->getRequest()->xml()->Text);
     }
 
+    /**
+     * Receives an incoming message via REST call.
+     *
+     * @param $raw
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage|void
+     * @throws \RuntimeException
+     */
     public function receive($raw)
     {
-        // TODO: Implement receive() method.  Awaiting CallFire Keyword
+        throw new \RuntimeException('CallFire push messages is not supported.');
     }
 }

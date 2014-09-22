@@ -152,7 +152,7 @@ class SMSServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array('sms', 'emailsms', 'twiliosms');
+        return array('sms', 'emailsms', 'twiliosms', 'mozeosms', 'eztextingsms', 'callfiresms');
     }
 
 }

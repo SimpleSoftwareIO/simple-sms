@@ -39,7 +39,7 @@ class EmailSMS implements DriverInterface
      * @parma SimpleSoftwareIO\SMS\Message @messasge The message class.
      * @return void
      */
-    public function send(Message $message)
+    public function send(OutgoingMessage $message)
     {
         $this->outgoingMessage = $message;
         $me = $this;

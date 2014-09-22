@@ -97,10 +97,11 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
      * Receives an incoming message via REST call.
      *
      * @param $raw
-     * @return \SimpleSoftwareIO\SMS\IncomingMessage
+     * @return IncomingMessage|void
+     * @throws \RuntimeException
      */
     public function receive($raw)
     {
-        // TODO: Implement receive() method.  Waiting for Mozeo to Enable REST.
+        throw new \RuntimeException('Mozeo does not support Inbound API Calls.');
     }
 }
