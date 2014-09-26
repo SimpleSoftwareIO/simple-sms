@@ -19,8 +19,6 @@ Simple SMS
 * [Outgoing Message Enclosure](#outgoing-enclosure)
 * [Incoming Message](#incoming-message)
 
-##This non-stable release of Simple-SMS is currently under development.  Expect bugs.  The API is currently unstable and is anticipated to change.
-
 <a id="introduction"></a>
 ## Introduction
 
@@ -386,7 +384,7 @@ This method returns the unique id of a message.
 
 #### Message
 
-And the best for last;  this method returns the actual message of a SMS.
+And the best for last; this method returns the actual message of a SMS.
 
     $incoming = SMS::getMessage('messageId');
     echo $incoming->message();
