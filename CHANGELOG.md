@@ -3,6 +3,10 @@ Simple SMS
 
 ##Change Log
 
+####1.0.0
+* Removed unstable development warnings.
+* Basic doc cleanup.
+
 ####Beta 1
 * Dropping receive support for CallFire due to not being able to get a keyword to test.
 * Dropping support for Mozeo receive due to not being able to get an API link forwarding set up automatically.
