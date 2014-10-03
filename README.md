@@ -341,11 +341,16 @@ The `from` method will set the address from which the message is being sent.
 
 The `attachImage` method will add an image to the message.  This will also convert the message to a MMS because SMS does not support image attachments.
 
+    //Email Driver
 	SMS::send('simple-sms::welcome', $data, function() {
-		$sms->attachImage('/path/to/image.jpg');
+		$sms->attachImage('/local/path/to/image.jpg');
+	});
+	//Twilio Driver
+	SMS::send('simple-sms::welcome', $data, function() {
+		$sms->attachImage('/url/to/image.jpg');
 	});
 
->Currently only supported with the E-Mail Driver.
+>Currently only supported with the E-Mail and Twilio Driver.
 
 <a id="incoming-message"></a>
 ## Incoming Message
