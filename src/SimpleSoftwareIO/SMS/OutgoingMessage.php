@@ -191,8 +191,7 @@ class OutgoingMessage
     /**
      * Attaches an image to a message.
      *
-     * @parma string $imageURL The location on the image.
-     * @return void
+     * @param $image Path to image.
      */
     public function attachImage($image)
     {
