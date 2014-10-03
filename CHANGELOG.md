@@ -3,6 +3,10 @@ Simple SMS
 
 ##Change Log
 
+####1.1.0
+* Added MMS support for Twilio.
+* Corrected some typos in the readme.
+
 ####1.0.0
 * Removed unstable development warnings.
 * Basic doc cleanup.
