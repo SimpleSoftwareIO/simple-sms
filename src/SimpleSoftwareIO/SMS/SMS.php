@@ -90,9 +90,12 @@ class SMS
 
         call_user_func($callback, $message);
 
-        if (!$this->pretending) {
+        if (!$this->pretending)
+        {
             $this->driver->send($message);
-        } elseif (isset($this->logger)) {
+        }
+        elseif (isset($this->logger))
+        {
             $this->logMessage($message);
         }
     }
