@@ -64,10 +64,9 @@ class OutgoingMessage
     protected $attachImages = array();
 
     /**
-     * Create a Message instance.
+     * Create a OutgoingMessage Instance.
      *
-     * @param  \Illuminate\View\Factory $views
-     * @return void
+     * @param Factory $views
      */
     public function __construct(Factory $views)
     {
@@ -130,7 +129,8 @@ class OutgoingMessage
     public function getTo()
     {
         $numbers = array();
-        foreach ($this->to as $to) {
+        foreach ($this->to as $to)
+        {
             $numbers[] = $to['number'];
         }
         return $numbers;
@@ -197,9 +197,12 @@ class OutgoingMessage
     {
         $this->mms = true;
 
-        if (is_array($image)) {
+        if (is_array($image))
+        {
             $this->attachImages = array_merge($this->attachImages, $image);
-        } else {
+        }
+        else
+        {
             $this->attachImages[] = $image;
         }
     }
