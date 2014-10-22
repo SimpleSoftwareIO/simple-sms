@@ -165,7 +165,8 @@ class TwilioSMS extends AbstractSMS implements DriverInterface {
 
         // append the data array to the url string, with no delimiters
         $url = $this->url;
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value)
+        {
             $url = $url . $key . $value;
         }
 
