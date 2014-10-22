@@ -42,6 +42,14 @@ class TwilioSMS extends AbstractSMS implements DriverInterface {
      */
     protected $verify;
 
+    /**
+     * Constructs the TwilioSMS object.
+     *
+     * @param Services_Twilio $twilio
+     * @param $authToken
+     * @param $url
+     * @param bool $verify
+     */
     public function __construct(Services_Twilio $twilio, $authToken, $url, $verify = false)
     {
         $this->twilio = $twilio;
