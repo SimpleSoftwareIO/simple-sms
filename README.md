@@ -7,6 +7,8 @@
 Simple SMS
 ==========
 
+This version of Simple SMS has not been officially tested to work with Laravel 5. We are working on building the next release with full Laravel 5 support and expect to release in the next few days. We appologize for any inconvenience.
+
 * [Introduction](#introduction)
 * [Configuration](#configuration)
     * [Call Fire Driver](#call-fire-driver)
