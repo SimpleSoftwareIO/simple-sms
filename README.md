@@ -7,8 +7,6 @@
 Simple SMS
 ==========
 
-## This version of Simple SMS has not been officially tested to work with Laravel 5. We are working on building the next release with full Laravel 5 support and expect to release in the next few days. We appologize for any inconvenience.
-
 * [Introduction](#introduction)
 * [Configuration](#configuration)
     * [Call Fire Driver](#call-fire-driver)
@@ -126,7 +124,7 @@ The following are currently supported by using the e-mail gateway driver.
 | USA | Unicel | unicel | Yes | Yes | No |
 | USA | Verizon Wireless | verizonwireless | Yes | Yes | No |
 | USA | Virgin Mobile | virginmobile | Yes | Yes | No |
-| USA | T-Mobile | tmobile | Yes | Yes | No |
+| USA | T-Mobile | tmobile | Yes | Yes | Yes |
 
 >You must know the wireless provider for the mobile phone to use this driver.
 
@@ -194,12 +192,12 @@ Not all drivers support every method due to the differences in each individual A
 Simple SMS operates in much of the same way as the Laravel Mail service provider.  If you are familiar with this then SMS should feel like home.  The most basic way to send a SMS is to use the following:
 
 	//Service Providers Example
-	SMS::send('simple-sms::welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function($sms) {
 		$sms->to('+15555555555');
 	});
   
 	//Email Driver Example
-	SMS::send('simple-sms::welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function($sms) {
 		$sms->to('+15555555555', 'att');
 	});
 
@@ -209,7 +207,7 @@ The first parameter is the view file that you would like to use.  The second is 
 
 The `send` method sends the SMS through the configured driver.
 
-	SMS::send('simple-sms::welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function($sms) {
 		$sms->to('+15555555555');
 	});
 
@@ -217,7 +215,7 @@ The `send` method sends the SMS through the configured driver.
 
 The `queue` method queues a message to be sent later instead of sending the message instantly.  This allows for faster respond times for the consumer by offloading uncustomary processing time. Like `Laravel's Mail` system, queue also has `queueOn,` `later,` and `laterOn` methods.
 
-	SMS::queue('simple-sms::welcome', $data, function() {
+	SMS::queue('simple-sms::welcome', $data, function($sms) {
 		$sms->to('+15555555555');
 	});
 
@@ -227,7 +225,7 @@ The `queue` method queues a message to be sent later instead of sending the mess
 
 The `pretend` method will simply create a log file that states that a SMS message has been "sent."  This is useful to test to see if your configuration settings are working correctly without sending actual messages.
 
-	SMS::pretend('simple-sms::welcome', $data, function() {
+	SMS::pretend('simple-sms::welcome', $data, function($sms) {
 		$sms->to('+15555555555');
 	});
 
@@ -317,12 +315,12 @@ We use enclosures to allow for functions such as the queue methods.  Being able 
 The `to` method adds a phone number that will have a message sent to it.
 
 	//Service Providers Example
-	SMS::send('simple-sms::welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function($sms) {
 		$sms->to('+15555555555');
 		$sms->to('+14444444444');
 	});
 	//Email Driver
-	SMS::send('simple-sms::welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function($sms) {
 		$sms->to('15555555555', 'att);
 		$sms->to('14444444444', 'verizonwireless);
 	});
@@ -333,7 +331,7 @@ The `to` method adds a phone number that will have a message sent to it.
 
 The `from` method will set the address from which the message is being sent.
 
-	SMS::send('simple-sms::welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function($sms) {
 		$sms->from('+15555555555');
 	});
 
@@ -342,11 +340,11 @@ The `from` method will set the address from which the message is being sent.
 The `attachImage` method will add an image to the message.  This will also convert the message to a MMS because SMS does not support image attachments.
 
     //Email Driver
-	SMS::send('simple-sms::welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function($sms) {
 		$sms->attachImage('/local/path/to/image.jpg');
 	});
 	//Twilio Driver
-	SMS::send('simple-sms::welcome', $data, function() {
+	SMS::send('simple-sms::welcome', $data, function($sms) {
 		$sms->attachImage('/url/to/image.jpg');
 	});
 
