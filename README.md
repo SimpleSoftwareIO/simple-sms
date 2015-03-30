@@ -7,24 +7,24 @@ Simple SMS
 [![License](https://poser.pugx.org/simplesoftwareio/simple-sms/license.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 [![Total Downloads](https://poser.pugx.org/simplesoftwareio/simple-sms/downloads.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 
-* [Introduction](#introduction)
-* [Configuration](#configuration)
-    * [Call Fire Driver](#call-fire-driver)
-    * [EZTexting Driver](#ez-texting-driver)
-    * [Email Driver](#e-mail-driver)
-    * [Mozeo Driver](#mozeo-driver)
-    * [Twilio Driver](#twilio-driver)
-* [Driver Support](#driver-support)
-* [Usage](#usage)
-* [Outgoing Message Enclosure](#outgoing-enclosure)
-* [Incoming Message](#incoming-message)
+* [Introduction](#docs-introduction)
+* [Configuration](#docs-configuration)
+    * [Call Fire Driver](#docs-call-fire-driver)
+    * [EZTexting Driver](#docs-ez-texting-driver)
+    * [Email Driver](#docs-e-mail-driver)
+    * [Mozeo Driver](#docs-mozeo-driver)
+    * [Twilio Driver](#docs-twilio-driver)
+* [Driver Support](#docs-driver-support)
+* [Usage](#docs-usage)
+* [Outgoing Message Enclosure](#docs-outgoing-enclosure)
+* [Incoming Message](#docs-incoming-message)
 
-<a id="introduction"></a>
+<a id="docs-introduction"></a>
 ## Introduction
 
 Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 4 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [Mozeo,](https://www.mozeo.com/) and [Twilio.](https://www.twilio.com)
 
-<a id="configuration"></a>
+<a id="docs-configuration"></a>
 ## Configuration
 
 #### Composer
@@ -55,7 +55,7 @@ This will copy the configuration files to your `app/config/simplesoftwareio/simp
 
 >Failure to run the `config:publish` command will result in your configuration files being overwritten after every `composer update` command.
 
-<a id="call-fire-driver"></a>
+<a id="docs-call-fire-driver"></a>
 ###### Call Fire Driver
 
 This driver sends and receives all messages through the [Call Fire](https://www.callfire.com/) service.  It is a very quick and reliable service provider that includes many features such as drip campaigns and voice services.
@@ -73,7 +73,7 @@ Fill in the `config` file with the correct settings to use this driver.  You can
 
 >Note: All messages from CallFire come from the same short number (67076)
 
-<a id="ez-texting-driver"></a>
+<a id="docs-ez-texting-driver"></a>
 ###### EZTexting
 
 This driver sends all messages through the [EZTexting](https://www.eztexting.com) service.  EZTexting has many different options that have proven to be reliable and fast.
@@ -93,7 +93,7 @@ To enable `receive()` for this service, you must visit the [EZTexting settings p
 
 >Note: All messages from EZTexting come from the same short number (313131)
 
-<a id="e-mail-driver"></a>
+<a id="docs-e-mail-driver"></a>
 ###### E-mail Driver
 
 The E-Mail driver sends all messages through the configured e-mail driver for Laravel.  This driver uses the wireless carrier's e-mail gateways to send SMS messages to mobile phones. The biggest benefit to using the e-mail driver is that it is completely free to use.
@@ -134,7 +134,7 @@ The following are currently supported by using the e-mail gateway driver.
 
 >An untested gateway means we have not been able to confirm if the gateway works with the mobile provider.  Please provide feedback if you are on one of these carriers.
 
-<a id="mozeo-driver"></a>
+<a id="docs-mozeo-driver"></a>
 ###### Mozeo Driver
 
 This driver sends all messages through the [Mozeo](https://www.mozeo.com/) service.  These settings can be found on your [API Settings](https://www.mozeo.com/mozeo/customer/platformdetails.php) page.
@@ -151,7 +151,7 @@ This driver sends all messages through the [Mozeo](https://www.mozeo.com/) servi
 
 >Note: All messages from Mozeo come from the same short number (24587)
 
-<a id="twilio-driver"></a>
+<a id="docs-twilio-driver"></a>
 ######  Twilio Driver
 
 This driver sends messages through the [Twilio](https://www.twilio.com/sms) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.
@@ -170,7 +170,7 @@ It is strongly recommended to have the `verify` option enabled.  This setting pe
 
 To enable `receive()` messages you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
 
-<a id="driver-support"></a>
+<a id="docs-driver-support"></a>
 ##Driver Support
 
 Not all drivers support every method due to the differences in each individual API.  The following table outlines what is supported for each driver.
@@ -184,7 +184,7 @@ Not all drivers support every method due to the differences in each individual A
 | Twilio | Yes | Yes | Yes | Yes | Yes | Yes |
 
 
-<a id="usage"></a>
+<a id="docs-usage"></a>
 ## Usage
 
 #### Basic Usage
@@ -303,7 +303,7 @@ You are able to retrieve a message by it's ID with a simply call.  This will ret
     //Prints who the message came from.
     echo $message->from();
 
-<a id="outgoing-enclosure"></a>
+<a id="docs-outgoing-enclosure"></a>
 ## Outgoing Message Enclosure
 
 #### Why Enclosures?
@@ -350,7 +350,7 @@ The `attachImage` method will add an image to the message.  This will also conve
 
 >Currently only supported with the E-Mail and Twilio Driver.
 
-<a id="incoming-message"></a>
+<a id="docs-incoming-message"></a>
 ## Incoming Message
 
 All incoming messages generate a `IncomingMessage` object.  This makes it easy to retrieve information from them in a uniformed way across multiple service providers.
