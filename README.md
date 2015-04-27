@@ -5,7 +5,7 @@ Simple SMS
 [![Latest Stable Version](https://poser.pugx.org/simplesoftwareio/simple-sms/v/stable.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 [![Latest Unstable Version](https://poser.pugx.org/simplesoftwareio/simple-sms/v/unstable.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 [![License](https://poser.pugx.org/simplesoftwareio/simple-sms/license.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
-[![Total Downloads](https://poser.pugx.org/simplesoftwareio/simple-qrcode/downloads)](https://packagist.org/packages/simplesoftwareio/simple-qrcode)
+[![Total Downloads](https://poser.pugx.org/simplesoftwareio/simple-sms/downloads)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 
 * [Introduction](#docs-introduction)
 * [Configuration](#docs-configuration)
