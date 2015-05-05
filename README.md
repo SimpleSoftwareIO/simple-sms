@@ -39,11 +39,27 @@ Next, run the `composer update` command.  This will install the package into you
 
 #### Service Provider
 
-Once you have added the package to your composer file, you will need to register the service provider with Laravel.  This is done by adding `'SimpleSoftwareIO\SMS\SMSServiceProvider'` in your `app/config/app.php` configuration file within the `providers` array.
+Once you have added the package to your composer file, you will need to register the service provider with Laravel.  
+
+###### Laravel 4
+
+Add `'SimpleSoftwareIO\SMS\SMSServiceProvider'` in your `app/config/app.php` configuration file within the `providers` array.
+
+###### Laravel 5
+
+Add `'SimpleSoftwareIO\SMS\SMSServiceProvider'` in your `config/app.php` configuration file within the `providers` array.
 
 #### Aliases
 
-Finally, register the Facade `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `app/config/app.php` configuration file within the `aliases` array.
+Finally, register the Facade.
+ 
+###### Laravel 4
+
+Add `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `app/config/app.php` configuration file within the `aliases` array.
+
+###### Laravel 5
+
+Add `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `config/app.php` configuration file within the `aliases` array.
 
 #### API Settings
 
