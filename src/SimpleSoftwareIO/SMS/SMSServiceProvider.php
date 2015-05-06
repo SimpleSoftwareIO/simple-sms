@@ -57,8 +57,8 @@ class SMSServiceProvider extends ServiceProvider
             $sms->setQueue($app['queue']);
 
             //Set the from and pretending settings
-            if ($from = $this->app['config']->get('simple-sms::from', false)) $sms->alwaysFrom($from);
-            $sms->setPretending($this->app['config']->get('simple-sms::pretend', false));
+            if ($from = config('sms.from', false)) $sms->alwaysFrom($from);
+            $sms->setPretending(config('sms.pretend', false));
 
             return $sms;
         });
