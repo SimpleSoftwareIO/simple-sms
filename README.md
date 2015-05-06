@@ -7,6 +7,8 @@ Simple SMS
 [![License](https://poser.pugx.org/simplesoftwareio/simple-sms/license.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 [![Total Downloads](https://poser.pugx.org/simplesoftwareio/simple-sms/downloads)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 
+## Laravel 5 support is currently in beta.  Please use the dev-master branch to access this support.
+
 * [Introduction](#docs-introduction)
 * [Configuration](#docs-configuration)
     * [Call Fire Driver](#docs-call-fire-driver)
@@ -40,8 +42,10 @@ First, add the Simple SMS package to your `require` in your `composer/json` file
 ###### Laravel 5
 
 	"require": {
-		"simplesoftwareio/simple-sms": "2.0.*"
+		"simplesoftwareio/simple-sms": "dev-master"
 	}
+	
+>Laravel 5 support is currently in beta.  Please use with caution!
 
 Next, run the `composer update` command.  This will install the package into your Laravel application.
 
