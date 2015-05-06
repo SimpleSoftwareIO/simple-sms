@@ -3,6 +3,9 @@ Simple SMS
 
 ##Change Log
 
+####2.0.0-Beta1
+* Adds support for Laravel 5
+
 ####1.1.0
 * Added MMS support for Twilio.
 * Corrected some typos in the readme.
