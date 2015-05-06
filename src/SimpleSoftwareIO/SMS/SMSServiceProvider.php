@@ -34,7 +34,9 @@ class SMSServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->package('simplesoftwareio/simple-sms');
+        $this->publishes([
+            __DIR__.'/../../config/sms.php' => config_path('sms.php'),
+        ]);
     }
 
     /**
@@ -70,7 +72,7 @@ class SMSServiceProvider extends ServiceProvider
      */
     public function registerSender()
     {
-        $driver = $this->app['config']->get('simple-sms::driver');
+        $driver = config('sms.driver');
 
         switch ($driver) {
             case 'email':
@@ -97,12 +99,12 @@ class SMSServiceProvider extends ServiceProvider
     {
         return new TwilioSMS(
             new \Services_Twilio(
-                $this->app['config']->get('simple-sms::twilio.account_sid'),
-                $this->app['config']->get('simple-sms::twilio.auth_token')
+                config('sms.twilio.account_sid'),
+                config('sms.twilio.auth_token')
             ),
-            $this->app['config']->get('simple-sms::twilio.auth_token'),
+            config('sms.twilio.auth_token'),
             $this->app['request']->url(),
-            $this->app['config']->get('simple-sms::twilio.verify')
+            config('sms.twilio.verify')
         );
     }
 
@@ -111,8 +113,8 @@ class SMSServiceProvider extends ServiceProvider
         $provider = new EZTextingSMS(new Client);
 
         $data = [
-            'User' => $this->app['config']->get('simple-sms::eztexting.username'),
-            'Password' => $this->app['config']->get('simple-sms::eztexting.password')
+            'User' => config('sms.eztexting.username'),
+            'Password' => config('sms.eztexting.password')
         ];
 
         $provider->buildBody($data);
@@ -124,8 +126,8 @@ class SMSServiceProvider extends ServiceProvider
     {
         $provider = new CallFireSMS(new Client);
 
-        $provider->setUser($this->app['config']->get('simple-sms::callfire.app_login'));
-        $provider->setPassword($this->app['config']->get('simple-sms::callfire.app_password'));
+        $provider->setUser(config('sms.callfire.app_login'));
+        $provider->setPassword(config('sms.callfire.app_password'));
 
         return $provider;
     }
@@ -135,9 +137,9 @@ class SMSServiceProvider extends ServiceProvider
         $provider = new MozeoSMS(new Client);
 
         $auth = [
-            'companykey' => $this->app['config']->get('simple-sms::mozeo.companyKey'),
-            'username' => $this->app['config']->get('simple-sms::mozeo.username'),
-            'password' => $this->app['config']->get('simple-sms::mozeo.password'),
+            'companykey' => config('sms.mozeo.companyKey'),
+            'username' => config('sms.mozeo.username'),
+            'password' => config('sms.mozeo.password'),
         ];
 
         $provider->buildBody($auth);

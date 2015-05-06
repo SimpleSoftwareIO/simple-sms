@@ -31,8 +31,16 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
 
 First, add the Simple SMS package to your `require` in your `composer/json` file:
 
+###### Laravel 4
+
 	"require": {
 		"simplesoftwareio/simple-sms": "1.1.*"
+	}
+	
+###### Laravel 5
+
+	"require": {
+		"simplesoftwareio/simple-sms": "2.0.*"
 	}
 
 Next, run the `composer update` command.  This will install the package into your Laravel application.
@@ -65,11 +73,21 @@ Add `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `config/app.php` confi
 
 You must run the following command to save your configuration files to your local app:
 
+###### Laravel 4
+
 	php artisan config:publish simplesoftwareio/simple-sms
 
 This will copy the configuration files to your `app/config/simplesoftwareio/simple-sms` folder.
 
 >Failure to run the `config:publish` command will result in your configuration files being overwritten after every `composer update` command.
+
+###### Laravel 5
+
+    php artisan vendor:publish
+    
+This will copy the configuration files to your `config` folder.
+
+>Failure to run the `vendor:publish` command will result in your configuration files being overwritten after every `composer update` command.
 
 <a id="docs-call-fire-driver"></a>
 ###### Call Fire Driver
