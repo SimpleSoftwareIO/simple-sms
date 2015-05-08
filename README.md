@@ -93,6 +93,8 @@ This will copy the configuration files to your `config` folder.
 
 >Failure to run the `vendor:publish` command will result in your configuration files being overwritten after every `composer update` command.
 
+#### Driver Configuration
+
 <a id="docs-call-fire-driver"></a>
 ###### Call Fire Driver
 
