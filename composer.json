@@ -17,12 +17,12 @@
         "illuminate/queue": ">=5.0.0",
         "illuminate/support": ">=5.0.0",
         "illuminate/view": ">=5.0.0",
-        "twilio/sdk": "3.12.*",
-        "guzzlehttp/guzzle": "4.2.*"
+        "twilio/sdk": "4.2.*",
+        "guzzlehttp/guzzle": "6.0.*"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "4.0.*"
+        "phpunit/phpunit": "4.7.*"
     },
     "autoload": {
         "psr-0": {
