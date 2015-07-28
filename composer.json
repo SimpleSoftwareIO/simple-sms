@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.0",
         "illuminate/mail": ">=5.0.0",
         "illuminate/log": ">=5.0.0",
         "illuminate/queue": ">=5.0.0",
