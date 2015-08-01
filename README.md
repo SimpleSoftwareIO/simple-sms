@@ -23,6 +23,7 @@ Simple SMS
 * [Incoming Message](#docs-incoming-message)
 
 <a id="docs-introduction"></a>
+## Introduction
 Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 4 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [Mozeo,](https://www.mozeo.com/) and [Twilio.](https://www.twilio.com)
 
 <a id="docs-requirements"></a>
@@ -33,9 +34,6 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
 
 #### Laravel 5
 * PHP: >= 5.5
-
-<a id="docs-configuration"></a>
-## Configuration
 
 <a id="docs-configuration"></a>
 ## Configuration
