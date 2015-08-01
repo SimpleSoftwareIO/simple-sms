@@ -18,8 +18,10 @@
     |           send SMS messages based on the carriers e-mail to SMS gateways.
     |           The Email driver will send messages out based on your Laravel
     |           mail settings.
-    |   Twilio: Twilio is an SMS service that sends messages at a affordable
-    |           and reliable rate.
+    |   Twilio: https://www.twilio.com/
+    |   EzTexting: https://www.eztexting.com/
+    |   CallFire: https://www.callfire.com/
+    |   Mozeo: https://www.mozeo.com/
     |--------------------------------------------------------------------------
     | From
     |   Email:  The from address must be a valid email address.
