@@ -10,6 +10,7 @@ Simple SMS
 ## Laravel 5 support is currently in beta.  Please use the dev-master branch to access this support.
 
 * [Introduction](#docs-introduction)
+* [Requirements](#docs-requirements)
 * [Configuration](#docs-configuration)
     * [Call Fire Driver](#docs-call-fire-driver)
     * [EZTexting Driver](#docs-ez-texting-driver)
@@ -21,10 +22,19 @@ Simple SMS
 * [Outgoing Message Enclosure](#docs-outgoing-enclosure)
 * [Incoming Message](#docs-incoming-message)
 
-<a id="docs-introduction"></a>
-## Introduction
+<a id="docs-requirements"></a>
+## Requirements
+
+#### Laravel 4
+* PHP: >= 5.4
+
+#### Laravel 5
+* PHP: >= 5.5
 
 Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 4 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [Mozeo,](https://www.mozeo.com/) and [Twilio.](https://www.twilio.com)
+
+<a id="docs-configuration"></a>
+## Configuration
 
 <a id="docs-configuration"></a>
 ## Configuration
