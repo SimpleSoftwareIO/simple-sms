@@ -61,6 +61,8 @@ Add `'SimpleSoftwareIO\SMS\SMSServiceProvider'` in your `app/config/app.php` con
 
 Add `'SimpleSoftwareIO\SMS\SMSServiceProvider'` in your `config/app.php` configuration file within the `providers` array.
 
+__Important:__ For Laravel 5.1 LTS you have to register the Service Provider with `::class`.
+
 #### Aliases
 
 Finally, register the Facade.
@@ -72,6 +74,8 @@ Add `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `app/config/app.php` c
 ###### Laravel 5
 
 Add `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `config/app.php` configuration file within the `aliases` array.
+
+__Important:__ For Laravel 5.1 LTS you have to register the Service Provider with `::class`.
 
 #### API Settings
 
