@@ -258,11 +258,25 @@ The first parameter is the view file that you would like to use.  The second is 
 
 #### Send
 
-The `send` method sends the SMS through the configured driver.
+The `send` method sends the SMS through the configured driver using a Laravel view file.
 
+	SMS::send($view, Array $data, function($sms) {
+		$sms->to('+15555555555');
+	}
 	SMS::send('simple-sms::welcome', $data, function($sms) {
 		$sms->to('+15555555555');
 	});
+	
+It is possible to send a simple message without creating views by passing a string instead of a view.
+
+	SMS::send($message, [], function($sms) {
+		$sms->to('+15555555555');
+	}
+	SMS::send('This is my message', [], function($sms) {
+		$sms->to('+15555555555');
+	});
+	
+>The simple message format is only supported on Laravel 5.
 
 #### Queue
 
