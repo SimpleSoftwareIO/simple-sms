@@ -4,6 +4,7 @@ Simple SMS
 ##Change Log
 
 ####2.0.0
+* Full Laravel 5.X support.
 * Updated to Guzzle 6.
 * Dropped support for PHP 5.4
 * Added the ability to send SMS messages without a view.
