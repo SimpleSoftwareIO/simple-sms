@@ -16,8 +16,8 @@ use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 
-class DriverManager extends Manager {
-
+class DriverManager extends Manager
+{
     /**
      * Create an instance of the twillo driver
      *

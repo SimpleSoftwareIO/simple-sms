@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Facade;
 
 class SMS extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *
@@ -23,5 +22,4 @@ class SMS extends Facade
     {
         return 'sms';
     }
-
 }

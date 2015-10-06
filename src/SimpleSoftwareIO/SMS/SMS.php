@@ -20,7 +20,6 @@ use Closure;
 
 class SMS
 {
-
     /**
      * The Driver Interface instance.
      *
@@ -90,12 +89,9 @@ class SMS
 
         call_user_func($callback, $message);
 
-        if (!$this->pretending)
-        {
+        if (!$this->pretending) {
             $this->driver->send($message);
-        }
-        elseif (isset($this->logger))
-        {
+        } elseif (isset($this->logger)) {
             $this->logMessage($message);
         }
     }
@@ -122,7 +118,9 @@ class SMS
         $message = new OutgoingMessage($this->container['view']);
 
         //If a from address is set, pass it along to the messasge class.
-        if (isset($this->from)) $message->from($this->from);
+        if (isset($this->from)) {
+            $message->from($this->from);
+        }
 
         return $message;
     }
@@ -263,7 +261,9 @@ class SMS
      */
     protected function buildQueueCallable($callback)
     {
-        if ( ! $callback instanceof Closure) return $callback;
+        if (! $callback instanceof Closure) {
+            return $callback;
+        }
 
         return serialize(new SerializableClosure($callback));
     }
@@ -290,8 +290,7 @@ class SMS
      */
     protected function getQueuedCallable(array $data)
     {
-        if (str_contains($data['callback'], 'SerializableClosure'))
-        {
+        if (str_contains($data['callback'], 'SerializableClosure')) {
             return with(unserialize($data['callback']))->getClosure();
         }
 
