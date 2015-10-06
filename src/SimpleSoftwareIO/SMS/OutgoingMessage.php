@@ -79,10 +79,8 @@ class OutgoingMessage
      */
     public function composeMessage()
     {
-        /**
-         * Attempts to make a view.
-         * If a view can not be created; it is assumed that simple message is passed through.
-         */
+         // Attempts to make a view.
+         // If a view can not be created; it is assumed that simple message is passed through.
         try {
             return $this->views->make($this->view, $this->data)->render();
         } catch (\InvalidArgumentException $e) {
