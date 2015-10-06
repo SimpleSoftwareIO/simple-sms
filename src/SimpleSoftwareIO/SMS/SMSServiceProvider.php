@@ -9,13 +9,7 @@
  *
  */
 
-use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
-use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
-use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
-use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
-use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
-use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 
 class SMSServiceProvider extends ServiceProvider
 {
@@ -46,19 +40,19 @@ class SMSServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('sms', function ($app) {
+        $this->app->singleton('sms', function ($app) {
 
-            $sender = $this->registerSender();
+            $this->registerSender();
 
-            $sms = new SMS($sender);
+            $sms = new SMS($app['sms.sender']);
 
-            $sms->setContainer($app);
-            $sms->setLogger($app['log']);
-            $sms->setQueue($app['queue']);
+            $this->setSMSDependencies($sms, $app);
 
             //Set the from and pretending settings
-            if ($from = config('sms.from', false)) $sms->alwaysFrom($from);
-            $sms->setPretending(config('sms.pretend', false));
+            if ($app['config']->has('sms.from')) {
+                $sms->alwaysFrom($app['config']['sms']['form']);
+            }
+            $sms->setPretending($app['config']->get('sms.pretend', false));
 
             return $sms;
         });
@@ -67,84 +61,27 @@ class SMSServiceProvider extends ServiceProvider
     /**
      * Register the correct driver based on the config file.
      *
-     * @return CallFireSMS|EmailSMS|EZTextingSMS|MozeoSMS|TwilioSMS
-     * @throws \InvalidArgumentException
+     * @return void
      */
     public function registerSender()
     {
-        $driver = config('sms.driver');
-
-        switch ($driver) {
-            case 'email':
-                return new EmailSMS($this->app['mailer']);
-
-            case 'twilio':
-                return $this->buildTwilio();
-
-            case 'eztexting':
-                return $this->buildEZTexting();
-
-            case 'callfire':
-                return $this->buildCallFire();
-
-            case 'mozeo':
-                return $this->buildMozeo();
-
-            default:
-                throw new \InvalidArgumentException('Invalid SMS driver.');
-        }
+        $this->app['sms.sender'] = $this->app->share(function ($app) {
+            return (new DriverManager($app))->driver();
+        });
     }
 
-    protected function buildTwilio()
+    /**
+     * Set a few dependencies on the sms instance.
+     *
+     * @param SMS $sms
+     * @param  $app
+     * @return void
+     */
+    private function setSMSDependencies($sms, $app)
     {
-        return new TwilioSMS(
-            new \Services_Twilio(
-                config('sms.twilio.account_sid'),
-                config('sms.twilio.auth_token')
-            ),
-            config('sms.twilio.auth_token'),
-            $this->app['request']->url(),
-            config('sms.twilio.verify')
-        );
-    }
-
-    protected function buildEZTexting()
-    {
-        $provider = new EZTextingSMS(new Client);
-
-        $data = [
-            'User' => config('sms.eztexting.username'),
-            'Password' => config('sms.eztexting.password')
-        ];
-
-        $provider->buildBody($data);
-
-        return $provider;
-    }
-
-    protected function buildCallFire()
-    {
-        $provider = new CallFireSMS(new Client);
-
-        $provider->setUser(config('sms.callfire.app_login'));
-        $provider->setPassword(config('sms.callfire.app_password'));
-
-        return $provider;
-    }
-
-    protected function buildMozeo()
-    {
-        $provider = new MozeoSMS(new Client);
-
-        $auth = [
-            'companykey' => config('sms.mozeo.companyKey'),
-            'username' => config('sms.mozeo.username'),
-            'password' => config('sms.mozeo.password'),
-        ];
-
-        $provider->buildBody($auth);
-
-        return $provider;
+        $sms->setContainer($app);
+        $sms->setLogger($app['log']);
+        $sms->setQueue($app['queue']);
     }
 
     /**
@@ -154,7 +91,6 @@ class SMSServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array('sms', 'emailsms', 'twiliosms', 'mozeosms', 'eztextingsms', 'callfiresms');
+        return array('sms', 'sms.sender');
     }
-
 }
