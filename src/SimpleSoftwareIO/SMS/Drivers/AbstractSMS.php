@@ -62,7 +62,16 @@ abstract class AbstractSMS {
 
         foreach ($segments as $key => $value)
         {
-            $url = $url . "$key=$value&";
+            if (is_array($value))
+            {
+                foreach ($value as $v) {
+                    $url = $url . "$key=$v&";
+                }
+            }
+            else
+            {
+                $url = $url . "$key=$value&";
+            }
         }
 
         //Remove the final &

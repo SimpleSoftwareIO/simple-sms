@@ -15,6 +15,7 @@ Simple SMS
     * [Email Driver](#docs-e-mail-driver)
     * [Mozeo Driver](#docs-mozeo-driver)
     * [Twilio Driver](#docs-twilio-driver)
+    * [Nexmo Driver](#docs-nexmo-driver)
 * [Driver Support](#docs-driver-support)
 * [Usage](#docs-usage)
 * [Outgoing Message Enclosure](#docs-outgoing-enclosure)
@@ -22,7 +23,7 @@ Simple SMS
 
 <a id="docs-introduction"></a>
 ## Introduction
-Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 4 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [Mozeo,](https://www.mozeo.com/) and [Twilio.](https://www.twilio.com)
+Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 4 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [Mozeo,](https://www.mozeo.com/) [Twilio](https://www.twilio.com) and [Nexmo.](https://www.nexmo.com/)
 
 <a id="docs-requirements"></a>
 ## Requirements
@@ -221,6 +222,22 @@ It is strongly recommended to have the `verify` option enabled.  This setting pe
 
 To enable `receive()` messages you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
 
+<a id="docs-nexmo-driver"></a>
+######  Nexmo Driver
+
+This driver sends messages through the [Nexmo](https://www.nexmo.com/product/messaging/) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.
+
+	return [
+		'driver' => 'nexmo',
+		'from' => 'Company Name',
+		'nexmo' => [
+			'key'       => 'Your Nexmo API Key',
+			'secret'    => 'Your Nexmo API Secret'
+		]
+	];
+
+To enable `receive()` messages you must set up the [request URL.](https://docs.nexmo.com/index.php/sms-api/handle-inbound-message)
+
 <a id="docs-driver-support"></a>
 ##Driver Support
 
@@ -233,6 +250,7 @@ Not all drivers support every method due to the differences in each individual A
 | E-Mail | Yes | Yes | Yes | No | No | No |
 | Mozeo | Yes | Yes | Yes | No | No | No |
 | Twilio | Yes | Yes | Yes | Yes | Yes | Yes |
+| Nexmo | Yes | Yes | Yes | Yes | Yes | Yes |
 
 
 <a id="docs-usage"></a>
@@ -359,6 +377,7 @@ More information about each service provider can be found at their API docs.
 * [EZTexting](https://www.eztexting.com/developers/sms-api-documentation/rest)
 * [Mozeo](https://www.mozeo.com/mozeo/customer/Mozeo_API_OutboundSMS.pdf)
 * [Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
+* [Nexmo](https://docs.nexmo.com/index.php/developer-api/search-message)
 
 #### Get Message
 

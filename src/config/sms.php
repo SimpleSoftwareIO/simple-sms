@@ -50,8 +50,11 @@
 */
 
 return [
+    'pretend' => false,
+
     'driver' => 'Selected Driver',
     'from' => 'Your Number or Email',
+
     'twilio' => [
         'account_sid' => 'Your SID',
         'auth_token' => 'Your Token',
@@ -69,5 +72,9 @@ return [
         'companyKey' => 'Your Mozeo Company Key',
         'username' => 'Your Mozeo Username',
         'password' => 'Your Mozeo Password'
-    ]
+    ],
+    'nexmo' => [
+        'key'       => 'Your Nexmo API Key',
+        'secret'    => 'Your Nexmo API Secret'
+    ],
 ];

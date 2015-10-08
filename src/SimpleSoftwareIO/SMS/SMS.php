@@ -92,12 +92,14 @@ class SMS
 
         if (!$this->pretending)
         {
-            $this->driver->send($message);
+            return $this->driver->send($message);
         }
         elseif (isset($this->logger))
         {
-            $this->logMessage($message);
+            return $this->logMessage($message);
         }
+
+        return false;
     }
 
     /**
