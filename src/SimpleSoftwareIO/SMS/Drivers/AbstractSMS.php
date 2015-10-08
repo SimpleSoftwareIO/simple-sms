@@ -149,8 +149,6 @@ abstract class AbstractSMS {
      */
     protected function postRequest()
     {
-        dd($this->getBody());
-        
         $response = $this->client->post($this->buildUrl(),
             [
                 'auth' => $this->getAuth(),
@@ -171,8 +169,6 @@ abstract class AbstractSMS {
     protected function getRequest()
     {
         $url = $this->buildUrl($this->getBody());
-
-        dd($url);
 
         $response = $this->client->get($url, ['auth' => $this->getAuth()]);
 
