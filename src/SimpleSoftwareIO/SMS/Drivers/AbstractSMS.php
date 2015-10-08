@@ -62,7 +62,16 @@ abstract class AbstractSMS {
 
         foreach ($segments as $key => $value)
         {
-            $url = $url . "$key=$value&";
+            if (is_array($value))
+            {
+                foreach ($value as $v) {
+                    $url = $url . "$key=$v&";
+                }
+            }
+            else
+            {
+                $url = $url . "$key=$value&";
+            }
         }
 
         //Remove the final &
@@ -140,6 +149,8 @@ abstract class AbstractSMS {
      */
     protected function postRequest()
     {
+        dd($this->getBody());
+        
         $response = $this->client->post($this->buildUrl(),
             [
                 'auth' => $this->getAuth(),
@@ -160,6 +171,8 @@ abstract class AbstractSMS {
     protected function getRequest()
     {
         $url = $this->buildUrl($this->getBody());
+
+        dd($url);
 
         $response = $this->client->get($url, ['auth' => $this->getAuth()]);
 

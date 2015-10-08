@@ -15,6 +15,7 @@ use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
 use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
+use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 
 class SMSServiceProvider extends ServiceProvider
@@ -90,6 +91,9 @@ class SMSServiceProvider extends ServiceProvider
             case 'mozeo':
                 return $this->buildMozeo();
 
+            case 'nexmo':
+                return $this->buildNexmo();
+
             default:
                 throw new \InvalidArgumentException('Invalid SMS driver.');
         }
@@ -147,6 +151,13 @@ class SMSServiceProvider extends ServiceProvider
         return $provider;
     }
 
+    protected function buildNexmo()
+    {
+        $provider = new NexmoSMS(new Client, config('sms.nexmo.key'), config('sms.nexmo.secret'));
+
+        return $provider;
+    }
+
     /**
      * Get the services provided by the provider.
      *
@@ -154,7 +165,7 @@ class SMSServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array('sms', 'emailsms', 'twiliosms', 'mozeosms', 'eztextingsms', 'callfiresms');
+        return array('sms', 'emailsms', 'twiliosms', 'mozeosms', 'eztextingsms', 'callfiresms', 'nexmo');
     }
 
 }
