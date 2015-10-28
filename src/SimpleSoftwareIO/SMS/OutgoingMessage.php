@@ -13,7 +13,6 @@ use Illuminate\View\Factory;
 
 class OutgoingMessage
 {
-
     /**
      * The Illuminate view factory.
      *
@@ -80,16 +79,11 @@ class OutgoingMessage
      */
     public function composeMessage()
     {
-        /**
-         * Attempts to make a view.
-         * If a view can not be created; it is assumed that simple message is passed through.
-         */
-        try
-        {
+         // Attempts to make a view.
+         // If a view can not be created; it is assumed that simple message is passed through.
+        try {
             return $this->views->make($this->view, $this->data)->render();
-        }
-        catch(\InvalidArgumentException $e)
-        {
+        } catch (\InvalidArgumentException $e) {
             return $this->view;
         }
     }
@@ -140,8 +134,7 @@ class OutgoingMessage
     public function getTo()
     {
         $numbers = array();
-        foreach ($this->to as $to)
-        {
+        foreach ($this->to as $to) {
             $numbers[] = $to['number'];
         }
         return $numbers;
@@ -208,12 +201,9 @@ class OutgoingMessage
     {
         $this->mms = true;
 
-        if (is_array($image))
-        {
+        if (is_array($image)) {
             $this->attachImages = array_merge($this->attachImages, $image);
-        }
-        else
-        {
+        } else {
             $this->attachImages[] = $image;
         }
     }

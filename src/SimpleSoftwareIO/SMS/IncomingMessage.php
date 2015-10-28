@@ -9,8 +9,8 @@
  *
  */
 
-class IncomingMessage {
-
+class IncomingMessage
+{
     /**
      * Holds the raw data from a provider.
      *

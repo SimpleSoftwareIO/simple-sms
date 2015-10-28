@@ -14,7 +14,6 @@ use Illuminate\Mail\Mailer;
 
 class EmailSMS implements DriverInterface
 {
-
     /**
      * The Message Instance
      *
@@ -67,7 +66,9 @@ class EmailSMS implements DriverInterface
      */
     protected function buildEmail($number)
     {
-        if (!$number['carrier']) throw new \InvalidArgumentException('A carrier must be specified if using the E-Mail Driver.');
+        if (!$number['carrier']) {
+            throw new \InvalidArgumentException('A carrier must be specified if using the E-Mail Driver.');
+        }
 
         return $number['number'] . '@' . $this->lookupGateway($number['carrier'], $this->outgoingMessage->isMMS());
     }

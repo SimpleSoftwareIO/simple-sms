@@ -11,8 +11,8 @@
 
 use SimpleSoftwareIO\SMS\IncomingMessage;
 
-abstract class AbstractSMS {
-
+abstract class AbstractSMS
+{
     /**
      * Holds the arguments for the body.
      *
@@ -58,10 +58,11 @@ abstract class AbstractSMS {
         //Get the base URL and add a ?
         $url = $this->apiBase . '?';
 
-        if (isset($this->apiEnding)) $segments = array_merge($segments, $this->apiEnding);
+        if (isset($this->apiEnding)) {
+            $segments = array_merge($segments, $this->apiEnding);
+        }
 
-        foreach ($segments as $key => $value)
-        {
+        foreach ($segments as $key => $value) {
             $url = $url . "$key=$value&";
         }
 
@@ -79,12 +80,9 @@ abstract class AbstractSMS {
      */
     public function buildBody($values, $key = null)
     {
-        if (is_array($values))
-        {
+        if (is_array($values)) {
             $this->body = array_merge($this->body, $values);
-        }
-        else
-        {
+        } else {
             $this->body[$key] = $values;
         }
     }
@@ -128,7 +126,9 @@ abstract class AbstractSMS {
      */
     protected function getAuth()
     {
-        if (isset($this->auth['username']) && isset($this->auth['password'])) return [$this->auth['username'], $this->auth['password']];
+        if (isset($this->auth['username']) && isset($this->auth['password'])) {
+            return [$this->auth['username'], $this->auth['password']];
+        }
         return null;
     }
 
@@ -146,7 +146,9 @@ abstract class AbstractSMS {
                 'form_params' => $this->getBody()
             ]);
 
-        if ($response->getStatusCode() != 201 && $response->getStatusCode() != 200) throw new \Exception('Unable to request from API.');
+        if ($response->getStatusCode() != 201 && $response->getStatusCode() != 200) {
+            throw new \Exception('Unable to request from API.');
+        }
 
         return $response;
     }
@@ -163,7 +165,9 @@ abstract class AbstractSMS {
 
         $response = $this->client->get($url, ['auth' => $this->getAuth()]);
 
-        if ($response->getStatusCode() != 201 && $response->getStatusCode() != 200) throw new \Exception('Unable to request from API.');
+        if ($response->getStatusCode() != 201 && $response->getStatusCode() != 200) {
+            throw new \Exception('Unable to request from API.');
+        }
 
         return $response;
     }
@@ -177,8 +181,7 @@ abstract class AbstractSMS {
     protected function makeMessages($rawMessages)
     {
         $incomingMessages = [];
-        foreach ($rawMessages as $rawMessage)
-        {
+        foreach ($rawMessages as $rawMessage) {
             $incomingMessages[] = $this->processReceive($rawMessage);
         }
 

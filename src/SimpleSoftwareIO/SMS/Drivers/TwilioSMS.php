@@ -12,8 +12,8 @@
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 use Services_Twilio;
 
-class TwilioSMS extends AbstractSMS implements DriverInterface {
-
+class TwilioSMS extends AbstractSMS implements DriverInterface
+{
     /**
      * The Twilio SDK
      *
@@ -107,8 +107,7 @@ class TwilioSMS extends AbstractSMS implements DriverInterface {
 
         $rawMessages = $this->twilio->account->messages->getIterator($start, $end, $options);
 
-        foreach ($rawMessages as $rawMessage)
-        {
+        foreach ($rawMessages as $rawMessage) {
             $incomingMessage = $this->createIncomingMessage();
             $this->processReceive($incomingMessage, $rawMessage);
             $incomingMessages[] = $incomingMessage;
@@ -139,7 +138,9 @@ class TwilioSMS extends AbstractSMS implements DriverInterface {
      */
     public function receive($raw)
     {
-        if ($this->verify) $this->validateRequest();
+        if ($this->verify) {
+            $this->validateRequest();
+        }
 
         $incomingMessage = $this->createIncomingMessage();
         $incomingMessage->setRaw($raw->get());
@@ -165,8 +166,7 @@ class TwilioSMS extends AbstractSMS implements DriverInterface {
 
         // append the data array to the url string, with no delimiters
         $url = $this->url;
-        foreach ($data as $key => $value)
-        {
+        foreach ($data as $key => $value) {
             $url = $url . $key . $value;
         }
 
@@ -174,6 +174,8 @@ class TwilioSMS extends AbstractSMS implements DriverInterface {
         $hmac = hash_hmac("sha1", $url, $this->authToken, true);
 
         //Verify it against the given Twilio key
-        if (base64_encode($hmac) != $_SERVER["HTTP_X_TWILIO_SIGNATURE"]) throw new \InvalidArgumentException('This request was not able to verify it came from Twilio.');
+        if (base64_encode($hmac) != $_SERVER["HTTP_X_TWILIO_SIGNATURE"]) {
+            throw new \InvalidArgumentException('This request was not able to verify it came from Twilio.');
+        }
     }
 }

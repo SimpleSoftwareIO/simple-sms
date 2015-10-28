@@ -14,7 +14,6 @@ use GuzzleHttp\Client;
 
 class EZTextingSMS extends AbstractSMS implements DriverInterface
 {
-
     /**
      * The Guzzle HTTP Client
      *

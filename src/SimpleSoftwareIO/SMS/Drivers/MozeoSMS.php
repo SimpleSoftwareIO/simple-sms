@@ -15,7 +15,6 @@ use GuzzleHttp\Client;
 
 class MozeoSMS extends AbstractSMS implements DriverInterface
 {
-
     /**
      * The Guzzle HTTP Client
      *
@@ -50,8 +49,7 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
     {
         $composeMessage = $message->composeMessage();
 
-        foreach($message->getTo() as $to)
-        {
+        foreach ($message->getTo() as $to) {
             $data = [
                 'to' => $to,
                 'messagebody' => $composeMessage
