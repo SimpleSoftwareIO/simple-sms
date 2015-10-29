@@ -14,6 +14,7 @@ Simple SMS
     * [EZTexting Driver](#docs-ez-texting-driver)
     * [Email Driver](#docs-e-mail-driver)
     * [Mozeo Driver](#docs-mozeo-driver)
+    * [Nexmo Driver](#docs-nexmo-driver)
     * [Twilio Driver](#docs-twilio-driver)
 * [Driver Support](#docs-driver-support)
 * [Usage](#docs-usage)
@@ -22,7 +23,7 @@ Simple SMS
 
 <a id="docs-introduction"></a>
 ## Introduction
-Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 4 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [Mozeo,](https://www.mozeo.com/) and [Twilio.](https://www.twilio.com)
+Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 4 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [Mozeo,](https://www.mozeo.com/)[Nexmo,](https://www.nexmo.com/) and [Twilio.](https://www.twilio.com)
 
 <a id="docs-requirements"></a>
 ## Requirements
@@ -202,6 +203,22 @@ This driver sends all messages through the [Mozeo](https://www.mozeo.com/) servi
 
 >Note: All messages from Mozeo come from the same short number (24587)
 
+<a id="docs-nexmo-driver"></a>
+######  Nexmo Driver
+
+This driver sends messages through the [Nexmo](https://www.nexmo.com/product/messaging/) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.
+
+	return [
+		'driver' => 'nexmo',
+		'from' => 'Company Name',
+		'nexmo' => [
+			'key'       => 'Your Nexmo API Key',
+			'secret'    => 'Your Nexmo API Secret'
+		]
+	];
+
+To enable `receive()` messages you must set up the [request URL.](https://docs.nexmo.com/index.php/sms-api/handle-inbound-message)
+
 <a id="docs-twilio-driver"></a>
 ######  Twilio Driver
 
@@ -232,6 +249,7 @@ Not all drivers support every method due to the differences in each individual A
 | EZTexting | Yes | Yes | Yes | Yes | Yes | Yes |
 | E-Mail | Yes | Yes | Yes | No | No | No |
 | Mozeo | Yes | Yes | Yes | No | No | No |
+| Nexmo | Yes | Yes | Yes | Yes | Yes | Yes |
 | Twilio | Yes | Yes | Yes | Yes | Yes | Yes |
 
 
@@ -358,6 +376,7 @@ More information about each service provider can be found at their API docs.
 * [Call Fire](https://www.callfire.com/api-documentation/rest/version/1.1#!/text/QueryTexts_get_1)
 * [EZTexting](https://www.eztexting.com/developers/sms-api-documentation/rest)
 * [Mozeo](https://www.mozeo.com/mozeo/customer/Mozeo_API_OutboundSMS.pdf)
+* [Nexmo](https://docs.nexmo.com/index.php/developer-api/search-message)
 * [Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
 
 #### Get Message
