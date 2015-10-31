@@ -50,8 +50,8 @@
 */
 
 return [
-    'driver' => 'Selected Driver',
-    'from' => 'Your Number or Email',
+    'driver' => 'labsmobile',
+    'from' => 'SENDER',
     'twilio' => [
         'account_sid' => 'Your SID',
         'auth_token' => 'Your Token',
@@ -69,5 +69,11 @@ return [
         'companyKey' => 'Your Mozeo Company Key',
         'username' => 'Your Mozeo Username',
         'password' => 'Your Mozeo Password'
+    ],
+    'labsmobile' => [
+        'client' => 'Your client ID',
+        'username' => 'Your Usernbame',
+        'password' => 'Your Password',
+        'test' => 1
     ]
 ];
