@@ -14,6 +14,7 @@ use Illuminate\Support\Manager;
 use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
+use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 
 class DriverManager extends Manager
@@ -89,6 +90,20 @@ class DriverManager extends Manager
             'password' => $config['password'],
         ];
         $provider->buildBody($auth);
+
+        return $provider;
+    }
+
+    /**
+     * Create an instance of the nexmo driver
+     *
+     * @return MozeoSMS
+     */
+    protected function createNexmoDriver()
+    {
+        $config = $this->app['config']->get('sms.nexmo', []);
+
+        $provider = new NexmoSMS(new Client, $config['key'], $config['secret']);
 
         return $provider;
     }
