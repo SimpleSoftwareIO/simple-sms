@@ -15,6 +15,7 @@ Simple SMS
     * [Email Driver](#docs-e-mail-driver)
     * [Mozeo Driver](#docs-mozeo-driver)
     * [Twilio Driver](#docs-twilio-driver)
+    * [LabsMobile Driver](#docs-labsmobile-driver)
 * [Driver Support](#docs-driver-support)
 * [Usage](#docs-usage)
 * [Outgoing Message Enclosure](#docs-outgoing-enclosure)
@@ -22,7 +23,7 @@ Simple SMS
 
 <a id="docs-introduction"></a>
 ## Introduction
-Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 4 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [Mozeo,](https://www.mozeo.com/) and [Twilio.](https://www.twilio.com)
+Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 5 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [Mozeo,](https://www.mozeo.com/) [Twilio,](https://www.twilio.com) and [LabsMobile.](http://www.labsmobile.com)
 
 <a id="docs-requirements"></a>
 ## Requirements
@@ -221,6 +222,22 @@ It is strongly recommended to have the `verify` option enabled.  This setting pe
 
 To enable `receive()` messages you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
 
+<a id="docs-labsmobile-driver"></a>
+###### LabsMobile Driver
+
+This driver sends all messages through the [LabsMobile](http://www.labsmobile.com/) service.  These settings can be found on your [API Settings](https://www.labsmobile.com/es/login) page.
+
+	return [
+		'driver' => 'labsmobile',
+		'from' => 'Sender',
+        'labsmobile' => [
+            'client' => 'Your Client Key',
+            'username' => 'Your Username',
+            'password' => 'Your Password',
+            'test' => '1 for simulate mode; 0 for real sendings'
+        ]
+    ];
+
 <a id="docs-driver-support"></a>
 ##Driver Support
 
@@ -233,6 +250,7 @@ Not all drivers support every method due to the differences in each individual A
 | E-Mail | Yes | Yes | Yes | No | No | No |
 | Mozeo | Yes | Yes | Yes | No | No | No |
 | Twilio | Yes | Yes | Yes | Yes | Yes | Yes |
+| LabsMobile | Yes | Yes | Yes | No | No | No |
 
 
 <a id="docs-usage"></a>
@@ -359,6 +377,7 @@ More information about each service provider can be found at their API docs.
 * [EZTexting](https://www.eztexting.com/developers/sms-api-documentation/rest)
 * [Mozeo](https://www.mozeo.com/mozeo/customer/Mozeo_API_OutboundSMS.pdf)
 * [Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
+* [LabsMobile](http://www.labsmobile.com/en/api-sms)
 
 #### Get Message
 
