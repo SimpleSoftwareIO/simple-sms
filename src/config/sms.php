@@ -50,8 +50,8 @@
 */
 
 return [
-    'driver' => 'labsmobile',
-    'from' => 'SENDER',
+    'driver' => 'Selected Driver',
+    'from' => 'Your Number or Email',
     'twilio' => [
         'account_sid' => 'Your SID',
         'auth_token' => 'Your Token',
