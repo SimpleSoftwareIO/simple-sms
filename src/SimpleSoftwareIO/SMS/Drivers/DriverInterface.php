@@ -15,9 +15,9 @@ use SimpleSoftwareIO\SMS\OutgoingMessage;
 interface DriverInterface
 {
     /**
-     * Sends a SMS message
+     * Sends a SMS message.
      *
-     * @parma SimpleSoftwareIO\SMS\Message @messasge The message class.
+     * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
      * @return void
      */
     public function send(OutgoingMessage $message);
@@ -28,20 +28,20 @@ interface DriverInterface
      * @param array $options
      * @return array
      */
-    public function checkMessages(Array $options = array());
+    public function checkMessages(array $options = []);
 
     /**
      * Gets a single message by it's ID.
      *
-     * @param $messageId
-     * @return IncomingMessage
+     * @param string|int $messageId
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function getMessage($messageId);
 
     /**
      * Receives an incoming message via REST call.
      *
-     * @param $raw
+     * @param mixed $raw
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function receive($raw);

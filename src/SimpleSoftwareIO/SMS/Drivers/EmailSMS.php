@@ -17,14 +17,14 @@ class EmailSMS implements DriverInterface
     /**
      * The Message Instance
      *
-     * @var SimpleSoftwareIO\SMS\Message
+     * @var \SimpleSoftwareIO\SMS\OutgoingMessage
      */
     protected $outgoingMessage;
 
     /**
      * Creates the EmailSMS Instance.
      *
-     * @parma Illuminate\Mail\Mailer $mailer Illuminate Mailer
+     * @param \Illuminate\Mail\Mailer $mailer Illuminate Mailer
      * @return void
      */
     public function __construct(Mailer $mailer)
@@ -33,9 +33,9 @@ class EmailSMS implements DriverInterface
     }
 
     /**
-     * Sends a SMS message
+     * Sends a SMS message.
      *
-     * @parma SimpleSoftwareIO\SMS\Message @messasge The message class.
+     * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
      * @return void
      */
     public function send(OutgoingMessage $message)
@@ -61,7 +61,7 @@ class EmailSMS implements DriverInterface
     /**
      * Builds the email address of a number.
      *
-     * @parma array $number The number and carrier to look up.
+     * @param array $number The number and carrier to look up.
      * @return string
      */
     protected function buildEmail($number)
@@ -76,8 +76,8 @@ class EmailSMS implements DriverInterface
     /**
      * Finds the gateway based on the carrier and MMS.
      *
-     * @parm string $carrier The desired carrier to look up.
-     * @parma boolean $mms If the Message is an MMS.
+     * @param string $carrier The desired carrier to look up.
+     * @param boolean $mms If the Message is an MMS.
      * @return string
      */
     protected function lookupGateway($carrier, $mms)
@@ -88,13 +88,13 @@ class EmailSMS implements DriverInterface
                     return 'mms.att.net';
 
                 case 'airfiremobile':
-                    throw new InvalidArgumentException('Air Fire Mobile does not support Email Gateway MMS messages.');
+                    throw new \InvalidArgumentException('Air Fire Mobile does not support Email Gateway MMS messages.');
 
                 case 'alaskacommunicates':
                     return 'msg.acsalaska.com';
 
                 case 'ameritech':
-                    throw new InvalidArgumentException('Ameritech does not support Email Gateway MMS messages.');
+                    throw new \InvalidArgumentException('Ameritech does not support Email Gateway MMS messages.');
 
                 case 'assurancewireless':
                     return 'vmobl.com';
@@ -103,7 +103,7 @@ class EmailSMS implements DriverInterface
                     return 'myboostmobile.com';
 
                 case 'cleartalk':
-                    throw new InvalidArgumentException('Clear Talk does not support Email Gateway MMS messages.');
+                    throw new \InvalidArgumentException('Clear Talk does not support Email Gateway MMS messages.');
 
                 case 'cricket':
                     return 'mms.mycricket.com ';
@@ -112,7 +112,7 @@ class EmailSMS implements DriverInterface
                     return 'mymetropcs.com';
 
                 case 'nextech':
-                    throw new InvalidArgumentException('NexTech does not support Email Gateway MMS messages.');
+                    throw new \InvalidArgumentException('NexTech does not support Email Gateway MMS messages.');
 
                 case 'rogerswireless':
                     return 'mms.rogers.com';
@@ -185,16 +185,36 @@ class EmailSMS implements DriverInterface
         }
     }
 
-    public function checkMessages(Array $options = array())
+    /**
+     * Checks the server for messages and returns their results.
+     *
+     * @param array $options
+     * @return array
+     */
+    public function checkMessages(array $options = [])
     {
         throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');
     }
 
+    /**
+     * Gets a single message by it's ID.
+     *
+     * @param string|int $messageId
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
+     * @throws \RuntimeException
+     */
     public function getMessage($messageId)
     {
         throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');
     }
 
+    /**
+     * Receives an incoming message via REST call.
+     *
+     * @param mixed $raw
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
+     * @throws \RuntimeException
+     */
     public function receive($raw)
     {
         throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');

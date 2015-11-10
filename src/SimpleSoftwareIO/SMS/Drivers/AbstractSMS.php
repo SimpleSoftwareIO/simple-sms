@@ -75,7 +75,7 @@ abstract class AbstractSMS
     /**
      * Builds the body part of the request and adds it to the body array.
      *
-     * @param array|string $values Provides the data to be merged into the array.  If a string, the key must be provided.
+     * @param array|string $values Provides the data to be merged into the array. If a string, the key must be provided.
      * @param null $key Holds the key in which a string will be merged into the array.
      */
     public function buildBody($values, $key = null)

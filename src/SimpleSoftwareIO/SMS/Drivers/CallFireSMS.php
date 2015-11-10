@@ -41,7 +41,7 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
     /**
      * Sends a SMS message.
      *
-     * @param OutgoingMessage $message The SMS message instance.
+     * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
      * @return void
      */
     public function send(OutgoingMessage $message)
@@ -86,7 +86,7 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      * @param array $options
      * @return array
      */
-    public function checkMessages(Array $options = array())
+    public function checkMessages(array $options = [])
     {
         $this->buildCall('/text');
 
@@ -98,8 +98,8 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
     /**
      * Gets a single message by it's ID.
      *
-     * @param $messageId
-     * @return IncomingMessage
+     * @param string|int $messageId
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function getMessage($messageId)
     {
@@ -111,8 +111,8 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
     /**
      * Receives an incoming message via REST call.
      *
-     * @param $raw
-     * @return \SimpleSoftwareIO\SMS\IncomingMessage|void
+     * @param mixed $raw
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
      * @throws \RuntimeException
      */
     public function receive($raw)

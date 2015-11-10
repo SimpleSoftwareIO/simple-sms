@@ -23,7 +23,7 @@ class SMS
     /**
      * The Driver Interface instance.
      *
-     * @var \SimpleSoftwareIO\SMS\DriverInterface
+     * @var \SimpleSoftwareIO\SMS\Drivers\DriverInterface
      */
     protected $driver;
 
@@ -58,7 +58,7 @@ class SMS
     /**
      * Holds the queue instance.
      *
-     * @var Illuminate\Queue\QueueManager
+     * @var \Illuminate\Queue\QueueManager
      */
     protected $queue;
 
@@ -73,11 +73,11 @@ class SMS
     }
 
     /**
-     * Send a SMS
+     * Send a SMS.
      *
-     * @parma string $view The desired view.
-     * @parma array $data The data that needs to be passed into the view.
-     * @parma \Clousure $callback The methods that you wish to fun on the message.
+     * @param string $view The desired view.
+     * @param array $data The data that needs to be passed into the view.
+     * @param \Closure $callback The methods that you wish to fun on the message.
      */
     public function send($view, $data, $callback)
     {
@@ -111,13 +111,13 @@ class SMS
     /**
      * Creates a new Message instance.
      *
-     * @return SimpleSoftwareIO\SMS\Message
+     * @return \SimpleSoftwareIO\SMS\Message
      */
     protected function createOutgoingMessage()
     {
         $message = new OutgoingMessage($this->container['view']);
 
-        //If a from address is set, pass it along to the messasge class.
+        //If a from address is set, pass it along to the message class.
         if (isset($this->from)) {
             $message->from($this->from);
         }
@@ -242,10 +242,10 @@ class SMS
      * Queues a message to be sent a later time on a given queue.
      *
      * @param null|string $queue The desired queue to push the message to.
-     *  @param int $delay The desired delay in seconds
+     * @param int $delay The desired delay in seconds
      * @param string $view The desired view.
      * @param array $data An array of data to fill the view.
-     * @param  \Closure|string $callback The callback to run on the Message class.
+     * @param \Closure|string $callback The callback to run on the Message class.
      * @return void
      */
     public function laterOn($queue, $delay, $view, array $data, $callback)
@@ -256,7 +256,7 @@ class SMS
     /**
      * Builds the callable for a queue.
      *
-     * @param \Clousure|string $callback The callback to be serialized
+     * @param \Closure|string $callback The callback to be serialized
      * @return string
      */
     protected function buildQueueCallable($callback)
