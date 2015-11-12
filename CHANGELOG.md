@@ -3,6 +3,12 @@ Simple SMS
 
 ##Change Log
 
+####2.1.0
+* Fixed doc blocks --Thanks [Ellrion](https://github.com/Ellrion)
+* Created Driver Manager class to better manager drivers. --Thanks [Ellrion](https://github.com/Ellrion)
+* Added LabsMobile driver --Thanks [borislalov](https://github.com/borislalov)
+* Added Nexmo driver --Thanks [cricu](https://github.com/cricu)
+
 ####2.0.0
 * Full Laravel 5.X support.
 * Updated to Guzzle 6.
