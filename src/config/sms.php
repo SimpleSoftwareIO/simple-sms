@@ -65,6 +65,12 @@ return [
         'app_login' => 'Your CallFire API Login',
         'app_password' => 'Your CallFire API Password'
     ],
+    'labsmobile' => [
+        'client' => 'Your client ID',
+        'username' => 'Your Usernbame',
+        'password' => 'Your Password',
+        'test' => 1
+    ],
     'mozeo' => [
         'companyKey' => 'Your Mozeo Company Key',
         'username' => 'Your Mozeo Username',
