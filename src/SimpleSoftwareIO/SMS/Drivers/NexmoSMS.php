@@ -46,23 +46,23 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
     /**
      * Sends a SMS message.
      *
-     * @param OutgoingMessage $message The SMS message instance.
+     * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
      * @return void
      */
     public function send(OutgoingMessage $message)
     {
-    	$from = $message->getFrom();
+        $from = $message->getFrom();
         $composeMessage = $message->composeMessage();
 
         //Convert to callfire format.
         $numbers = implode(",", $message->getTo());
 
         $data = [
-        	'from'			=> $from,
-            'to' 			=> $numbers,
-            'text'			=> $composeMessage,
-            'api_key'		=> $this->apiKey,
-            'api_secret'	=> $this->apiSecret,
+            'from'          => $from,
+            'to'            => $numbers,
+            'text'          => $composeMessage,
+            'api_key'       => $this->apiKey,
+            'api_secret'    => $this->apiSecret,
         ];
 
         $this->buildCall('/sms/json');
@@ -79,7 +79,7 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
      */
     protected function processReceive($rawMessage)
     {
-    	$incomingMessage = $this->createIncomingMessage();
+        $incomingMessage = $this->createIncomingMessage();
         $incomingMessage->setRaw($rawMessage);
         $incomingMessage->setFrom((string)$rawMessage->from);
         $incomingMessage->setMessage((string)$rawMessage->body);
@@ -95,7 +95,7 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
      * @param array $options
      * @return array
      */
-    public function checkMessages(Array $options = array())
+    public function checkMessages(array $options = [])
     {
         $this->buildCall('/search/messages/' . $this->apiKey . '/' . $this->apiSecret);
 
@@ -109,8 +109,8 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
     /**
      * Gets a single message by it's ID.
      *
-     * @param $messageId
-     * @return IncomingMessage
+     * @param string|int $messageId
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function getMessage($messageId)
     {
@@ -122,9 +122,8 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
     /**
      * Receives an incoming message via REST call.
      *
-     * @param $raw
-     * @return \SimpleSoftwareIO\SMS\IncomingMessage|void
-     * @throws \RuntimeException
+     * @param mixed $raw
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function receive($raw)
     {

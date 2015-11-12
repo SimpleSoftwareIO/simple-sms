@@ -61,7 +61,8 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
     /**
      * Sends a SMS message.
      *
-     * @param OutgoingMessage $message The OutgoingMessage instance.
+     * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
+     * @return void
      */
     public function send(OutgoingMessage $message)
     {
@@ -95,17 +96,18 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
     }
 
     /**
-     * Returns an array full of IncomingMessage objects.
+     * Checks the server for messages and returns their results.
      *
-     * @param array $options The options of filters to pass onto twilio.  Options are To, From, and DateSent
+     * @param array $options
      * @return array
      */
-    public function checkMessages(Array $options = array())
+    public function checkMessages(array $options = [])
     {
         $start = array_key_exists('start', $options) ? $options['start'] : 0;
         $end = array_key_exists('end', $options) ? $options['end'] : 25;
 
         $rawMessages = $this->twilio->account->messages->getIterator($start, $end, $options);
+        $incomingMessages = [];
 
         foreach ($rawMessages as $rawMessage) {
             $incomingMessage = $this->createIncomingMessage();
@@ -117,10 +119,10 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
     }
 
     /**
-     * Gets a message by messageId.
+     * Gets a single message by it's ID.
      *
-     * @param $messageId The requested messageId.
-     * @return IncomingMessage
+     * @param string|int $messageId
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function getMessage($messageId)
     {
@@ -131,10 +133,10 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
     }
 
     /**
-     * Push receives.  This method will take a request and convert it into an IncomingMessage object.
+     * Receives an incoming message via REST call.
      *
-     * @param $raw The raw data.
-     * @return IncomingMessage
+     * @param mixed $raw
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function receive($raw)
     {
