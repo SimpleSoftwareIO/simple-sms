@@ -7,7 +7,7 @@ Simple SMS
 [![License](https://poser.pugx.org/simplesoftwareio/simple-sms/license.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 [![Total Downloads](https://poser.pugx.org/simplesoftwareio/simple-sms/downloads)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 
-> This read me includes unreleased features.  Use the latest [stable docs](https://github.com/SimpleSoftwareIO/simple-sms/tree/a76acc677a440ba5ce0747cbd9564a1218b9b3b3).
+> This package is no longer actively developed for Laravel 4.
 
 * [Introduction](#docs-introduction)
 * [Requirements](#docs-requirements)
@@ -16,9 +16,7 @@ Simple SMS
     * [EZTexting Driver](#docs-ez-texting-driver)
     * [Email Driver](#docs-e-mail-driver)
     * [Mozeo Driver](#docs-mozeo-driver)
-    * [Nexmo Driver](#docs-nexmo-driver)
     * [Twilio Driver](#docs-twilio-driver)
-    * [LabsMobile Driver](#docs-labsmobile-driver)
 * [Driver Support](#docs-driver-support)
 * [Usage](#docs-usage)
 * [Outgoing Message Enclosure](#docs-outgoing-enclosure)
@@ -26,28 +24,23 @@ Simple SMS
 
 <a id="docs-introduction"></a>
 ## Introduction
-Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 4 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [LabsMobile,](http://www.labsmobile.com) [Mozeo,](https://www.mozeo.com/)[Nexmo,](https://www.nexmo.com/) and [Twilio.](https://www.twilio.com)
+Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports four paid services; [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [Mozeo,](https://www.mozeo.com/) and [Twilio.](https://www.twilio.com)
 
 <a id="docs-requirements"></a>
 ## Requirements
 
-#### Laravel 5
-* PHP: >= 5.5
-* Guzzle >= 6.0
+#### Laravel 4
+* PHP: >= 5.4
 
 <a id="docs-configuration"></a>
 ## Configuration
-
-#### Laravel 4
-
-Please read the Laravel 4 [documentation.](./docs/laravel4.md)
 
 #### Composer
 
 First, add the Simple SMS package to your `require` in your `composer/json` file:
 
 	"require": {
-		"simplesoftwareio/simple-sms": "~2"
+		"simplesoftwareio/simple-sms": "~1"
 	}
 
 Next, run the `composer update` command.  This will install the package into your Laravel application.
@@ -56,27 +49,23 @@ Next, run the `composer update` command.  This will install the package into you
 
 Once you have added the package to your composer file, you will need to register the service provider with Laravel.  
 
-Add `'SimpleSoftwareIO\SMS\SMSServiceProvider'` in your `config/app.php` configuration file within the `providers` array.
-
-__Important:__ For Laravel 5.1 LTS you have to register the Service Provider with `::class`.
+Add `'SimpleSoftwareIO\SMS\SMSServiceProvider'` in your `app/config/app.php` configuration file within the `providers` array.
 
 #### Aliases
 
 Finally, register the Facade.
- 
-Add `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `config/app.php` configuration file within the `aliases` array.
 
-__Important:__ For Laravel 5.1 LTS you have to register the Service Provider with `::class`.
+Add `'SMS' => 'SimpleSoftwareIO\SMS\Facades\SMS'` in your `app/config/app.php` configuration file within the `aliases` array.
 
 #### API Settings
 
 You must run the following command to save your configuration files to your local app:
 
-    php artisan vendor:publish
-    
-This will copy the configuration files to your `config` folder.
+	php artisan config:publish simplesoftwareio/simple-sms
 
->Failure to run the `vendor:publish` command will result in your configuration files being overwritten after every `composer update` command.
+This will copy the configuration files to your `app/config/simplesoftwareio/simple-sms` folder.
+
+>Failure to run the `config:publish` command will result in your configuration files being overwritten after every `composer update` command.
 
 #### Driver Configuration
 
@@ -176,22 +165,6 @@ This driver sends all messages through the [Mozeo](https://www.mozeo.com/) servi
 
 >Note: All messages from Mozeo come from the same short number (24587)
 
-<a id="docs-nexmo-driver"></a>
-######  Nexmo Driver
-
-This driver sends messages through the [Nexmo](https://www.nexmo.com/product/messaging/) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.
-
-	return [
-		'driver' => 'nexmo',
-		'from' => 'Company Name',
-		'nexmo' => [
-			'key'       => 'Your Nexmo API Key',
-			'secret'    => 'Your Nexmo API Secret'
-		]
-	];
-
-To enable `receive()` messages you must set up the [request URL.](https://docs.nexmo.com/index.php/sms-api/handle-inbound-message)
-
 <a id="docs-twilio-driver"></a>
 ######  Twilio Driver
 
@@ -211,22 +184,6 @@ It is strongly recommended to have the `verify` option enabled.  This setting pe
 
 To enable `receive()` messages you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
 
-<a id="docs-labsmobile-driver"></a>
-###### LabsMobile Driver
-
-This driver sends all messages through the [LabsMobile](http://www.labsmobile.com/) service.  These settings can be found on your [API Settings](https://www.labsmobile.com/es/login) page.
-
-	return [
-		'driver' => 'labsmobile',
-		'from' => 'Sender',
-        'labsmobile' => [
-            'client' => 'Your Client Key',
-            'username' => 'Your Username',
-            'password' => 'Your Password',
-            'test' => '1 for simulate mode; 0 for real sendings'
-        ]
-    ];
-
 <a id="docs-driver-support"></a>
 ##Driver Support
 
@@ -238,9 +195,7 @@ Not all drivers support every method due to the differences in each individual A
 | EZTexting | Yes | Yes | Yes | Yes | Yes | Yes |
 | E-Mail | Yes | Yes | Yes | No | No | No |
 | Mozeo | Yes | Yes | Yes | No | No | No |
-| Nexmo | Yes | Yes | Yes | Yes | Yes | Yes |
 | Twilio | Yes | Yes | Yes | Yes | Yes | Yes |
-| LabsMobile | Yes | Yes | Yes | No | No | No |
 
 
 <a id="docs-usage"></a>
@@ -366,9 +321,7 @@ More information about each service provider can be found at their API docs.
 * [Call Fire](https://www.callfire.com/api-documentation/rest/version/1.1#!/text/QueryTexts_get_1)
 * [EZTexting](https://www.eztexting.com/developers/sms-api-documentation/rest)
 * [Mozeo](https://www.mozeo.com/mozeo/customer/Mozeo_API_OutboundSMS.pdf)
-* [Nexmo](https://docs.nexmo.com/index.php/developer-api/search-message)
 * [Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
-* [LabsMobile](http://www.labsmobile.com/en/api-sms)
 
 #### Get Message
 
