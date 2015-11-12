@@ -36,6 +36,7 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
 
 #### Laravel 5
 * PHP: >= 5.5
+* Guzzle >= 6.0
 
 <a id="docs-configuration"></a>
 ## Configuration
