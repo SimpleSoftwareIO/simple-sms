@@ -69,5 +69,9 @@ return [
         'companyKey' => 'Your Mozeo Company Key',
         'username' => 'Your Mozeo Username',
         'password' => 'Your Mozeo Password'
+    ],
+    'nexmo' => [
+        'api_key' => 'Your Nexmo api key',
+        'api_secret' => 'Your Nexmo api secret'
     ]
 ];
