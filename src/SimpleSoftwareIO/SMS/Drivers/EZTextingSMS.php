@@ -9,6 +9,7 @@
  *
  */
 
+use SimpleSoftwareIO\SMS\IncomingMessage;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 use GuzzleHttp\Client;
 
@@ -48,7 +49,7 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
     /**
      * Sends a SMS message.
      *
-     * @param OutgoingMessage $message
+     * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
      * @return void
      */
     public function send(OutgoingMessage $message)
@@ -72,7 +73,7 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
      * @param array $options
      * @return array
      */
-    public function checkMessages(Array $options = array())
+    public function checkMessages(array $options = [])
     {
         $this->buildCall('/incoming-messages');
         $this->buildBody($options);
@@ -84,8 +85,8 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
     /**
      * Gets a single message by it's ID.
      *
-     * @param $messageId
-     * @return IncomingMessage
+     * @param string|int $messageId
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function getMessage($messageId)
     {
@@ -118,7 +119,7 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
     /**
      * Receives an incoming message via REST call.
      *
-     * @param $raw
+     * @param mixed $raw
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function receive($raw)

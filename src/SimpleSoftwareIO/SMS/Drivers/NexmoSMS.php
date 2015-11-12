@@ -12,14 +12,17 @@
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 use GuzzleHttp\Client;
 
-class CallFireSMS extends AbstractSMS implements DriverInterface
+class NexmoSMS extends AbstractSMS implements DriverInterface
 {
     /**
      * The API's URL.
      *
      * @var string
      */
-    protected $apiBase = 'https://www.callfire.com/api/1.1/rest';
+    protected $apiBase = 'https://rest.nexmo.com';
+
+    protected $apiKey;
+    protected $apiSecret;
 
     /**
      * The Guzzle HTTP Client
@@ -33,9 +36,11 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      *
      * @param Client $client The Guzzle Client
      */
-    public function __construct(Client $client)
+    public function __construct(Client $client, $apiKey, $apiSecret)
     {
         $this->client = $client;
+        $this->apiKey = $apiKey;
+        $this->apiSecret = $apiSecret;
     }
 
     /**
@@ -46,20 +51,24 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      */
     public function send(OutgoingMessage $message)
     {
+        $from = $message->getFrom();
         $composeMessage = $message->composeMessage();
 
         //Convert to callfire format.
         $numbers = implode(",", $message->getTo());
 
         $data = [
-            'To' => $numbers,
-            'Message' => $composeMessage
+            'from'          => $from,
+            'to'            => $numbers,
+            'text'          => $composeMessage,
+            'api_key'       => $this->apiKey,
+            'api_secret'    => $this->apiSecret,
         ];
 
-        $this->buildCall('/text');
+        $this->buildCall('/sms/json');
         $this->buildBody($data);
 
-        $this->postRequest();
+        return $this->postRequest();
     }
 
     /**
@@ -72,10 +81,10 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
     {
         $incomingMessage = $this->createIncomingMessage();
         $incomingMessage->setRaw($rawMessage);
-        $incomingMessage->setFrom((string)$rawMessage->FromNumber);
-        $incomingMessage->setMessage((string)$rawMessage->TextRecord->Message);
-        $incomingMessage->setId((string)$rawMessage['id']);
-        $incomingMessage->setTo((string)$rawMessage->ToNumber);
+        $incomingMessage->setFrom((string)$rawMessage->from);
+        $incomingMessage->setMessage((string)$rawMessage->body);
+        $incomingMessage->setId((string)$rawMessage->{'message-id'});
+        $incomingMessage->setTo((string)$rawMessage->to);
 
         return $incomingMessage;
     }
@@ -88,11 +97,13 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      */
     public function checkMessages(array $options = [])
     {
-        $this->buildCall('/text');
+        $this->buildCall('/search/messages/' . $this->apiKey . '/' . $this->apiSecret);
 
-        $rawMessages = $this->getRequest()->xml();
+        $this->buildBody($options);
 
-        return $this->makeMessages($rawMessages->Text);
+        $rawMessages = json_decode($this->getRequest()->getBody()->getContents());
+
+        return $this->makeMessages($rawMessages->items);
     }
 
     /**
@@ -103,9 +114,9 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      */
     public function getMessage($messageId)
     {
-        $this->buildCall('/text/' . $messageId);
+        $this->buildCall('/search/message/' . $this->apiKey . '/' . $this->apiSecret . '/' . $messageId);
 
-        return $this->makeMessage($this->getRequest()->xml()->Text);
+        return $this->makeMessage(json_decode($this->getRequest()->getBody()->getContents()));
     }
 
     /**
@@ -113,10 +124,16 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      *
      * @param mixed $raw
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
-     * @throws \RuntimeException
      */
     public function receive($raw)
     {
-        throw new \RuntimeException('CallFire push messages is not supported.');
+        $incomingMessage = $this->createIncomingMessage();
+        $incomingMessage->setRaw($raw->get());
+        $incomingMessage->setMessage($raw->get('text'));
+        $incomingMessage->setFrom($raw->get('msisdn'));
+        $incomingMessage->setId($raw->get('messageId'));
+        $incomingMessage->setTo($raw->get('to'));
+
+        return $incomingMessage;
     }
 }

@@ -19,25 +19,18 @@ class IncomingMessage
     protected $raw;
 
     /**
+     * Holds the message ID.
+     *
+     * @var string
+     */
+    protected $id;
+
+    /**
      * Holds who a message came from.
      *
      * @var string
      */
     protected $from;
-
-    /**
-     * Holds the message body.
-     *
-     * @var string
-     */
-    protected $message;
-
-    /**
-     * Holds the messasge ID.
-     *
-     * @var string
-     */
-    protected $id;
 
     /**
      * Holds the to address.
@@ -47,34 +40,11 @@ class IncomingMessage
     protected $to;
 
     /**
-     * Sets the raw data.
+     * Holds the message body.
      *
-     * @param mixed $raw
+     * @var string
      */
-    public function setRaw($raw)
-    {
-        $this->raw = $raw;
-    }
-
-    /**
-     * Sets the message body.
-     *
-     * @param string $message
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
-    }
-
-    /**
-     * Sets the from address.
-     *
-     * @param string $from
-     */
-    public function setFrom($from)
-    {
-        $this->from = $from;
-    }
+    protected $message;
 
     /**
      * Returns the raw data.
@@ -87,33 +57,13 @@ class IncomingMessage
     }
 
     /**
-     * Returns the message body.
+     * Sets the raw data.
      *
-     * @return string
+     * @param mixed $raw
      */
-    public function message()
+    public function setRaw($raw)
     {
-        return $this->message;
-    }
-
-    /**
-     * Returns the from address.
-     *
-     * @return string
-     */
-    public function from()
-    {
-        return $this->from;
-    }
-
-    /**
-     * Sets the message id.
-     *
-     * @param string $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
+        $this->raw = $raw;
     }
 
     /**
@@ -127,13 +77,33 @@ class IncomingMessage
     }
 
     /**
-     * Sets the to address.
+     * Sets the message id.
      *
-     * @param string $to
+     * @param string $id
      */
-    public function setTo($to)
+    public function setId($id)
     {
-        $this->to = $to;
+        $this->id = $id;
+    }
+
+    /**
+     * Returns the from address.
+     *
+     * @return string
+     */
+    public function from()
+    {
+        return $this->from;
+    }
+
+    /**
+     * Sets the from address.
+     *
+     * @param string $from
+     */
+    public function setFrom($from)
+    {
+        $this->from = $from;
     }
 
     /**
@@ -144,5 +114,35 @@ class IncomingMessage
     public function to()
     {
         return $this->to;
+    }
+
+    /**
+     * Sets the to address.
+     *
+     * @param string $to
+     */
+    public function setTo($to)
+    {
+        $this->to = $to;
+    }
+
+    /**
+     * Returns the message body.
+     *
+     * @return string
+     */
+    public function message()
+    {
+        return $this->message;
+    }
+
+    /**
+     * Sets the message body.
+     *
+     * @param string $message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
     }
 }

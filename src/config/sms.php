@@ -65,15 +65,19 @@ return [
         'app_login' => 'Your CallFire API Login',
         'app_password' => 'Your CallFire API Password'
     ],
-    'mozeo' => [
-        'companyKey' => 'Your Mozeo Company Key',
-        'username' => 'Your Mozeo Username',
-        'password' => 'Your Mozeo Password'
-    ],
     'labsmobile' => [
         'client' => 'Your client ID',
         'username' => 'Your Usernbame',
         'password' => 'Your Password',
         'test' => 1
+    ],
+    'mozeo' => [
+        'companyKey' => 'Your Mozeo Company Key',
+        'username' => 'Your Mozeo Username',
+        'password' => 'Your Mozeo Password'
+    ],
+    'nexmo' => [
+        'api_key' => 'Your Nexmo api key',
+        'api_secret' => 'Your Nexmo api secret'
     ]
 ];

@@ -42,7 +42,7 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
     /**
      * Sends a SMS message.
      *
-     * @param OutgoingMessage $message The SMS message instance.
+     * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
      * @return void
      */
     public function send(OutgoingMessage $message)
@@ -74,9 +74,11 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
     /**
      * Checks the server for messages and returns their results.
      *
+     * @param array $options
+     * @return array
      * @throws \RuntimeException
      */
-    public function checkMessages(Array $options = array())
+    public function checkMessages(array $options = [])
     {
         throw new \RuntimeException('Mozeo does not support Inbound API Calls.');
     }
@@ -84,7 +86,9 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
     /**
      * Gets a single message by it's ID.
      *
-     * @throws \RuntimeException
+     * @param string|int $messageId
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
+     * @throws \RangeException
      */
     public function getMessage($messageId)
     {
@@ -94,8 +98,8 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
     /**
      * Receives an incoming message via REST call.
      *
-     * @param $raw
-     * @return IncomingMessage|void
+     * @param mixed $raw
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
      * @throws \RuntimeException
      */
     public function receive($raw)
