@@ -7,7 +7,7 @@ Simple SMS
 [![License](https://poser.pugx.org/simplesoftwareio/simple-sms/license.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 [![Total Downloads](https://poser.pugx.org/simplesoftwareio/simple-sms/downloads)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 
-> This read me includes unreleased features.  Use the latest [stable docs](https://github.com/SimpleSoftwareIO/simple-sms/tree/a76acc677a440ba5ce0747cbd9564a1218b9b3b3).
+## This read me includes unreleased features.  Use the latest [stable docs](https://github.com/SimpleSoftwareIO/simple-sms/tree/a76acc677a440ba5ce0747cbd9564a1218b9b3b3).
 
 * [Introduction](#docs-introduction)
 * [Requirements](#docs-requirements)
