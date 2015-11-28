@@ -52,24 +52,19 @@
 return [
     'driver' => 'Selected Driver',
     'from' => 'Your Number or Email',
-    'twilio' => [
-        'account_sid' => 'Your SID',
-        'auth_token' => 'Your Token',
-        'verify' => true,
+    'callfire' => [
+        'app_login' => 'Your CallFire API Login',
+        'app_password' => 'Your CallFire API Password'
     ],
     'eztexting' => [
         'username' => 'Your EZTexting Username',
         'password' => 'Your EZTexting Password'
     ],
-    'callfire' => [
-        'app_login' => 'Your CallFire API Login',
-        'app_password' => 'Your CallFire API Password'
-    ],
     'labsmobile' => [
         'client' => 'Your client ID',
         'username' => 'Your Usernbame',
         'password' => 'Your Password',
-        'test' => 1
+        'test' => false
     ],
     'mozeo' => [
         'companyKey' => 'Your Mozeo Company Key',
@@ -79,5 +74,10 @@ return [
     'nexmo' => [
         'api_key' => 'Your Nexmo api key',
         'api_secret' => 'Your Nexmo api secret'
+    ],
+    'twilio' => [
+        'account_sid' => 'Your SID',
+        'auth_token' => 'Your Token',
+        'verify' => true,
     ]
 ];

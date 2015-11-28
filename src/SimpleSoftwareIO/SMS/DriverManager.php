@@ -12,7 +12,9 @@
 use GuzzleHttp\Client;
 use Illuminate\Support\Manager;
 use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
+use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
 use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
+use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
@@ -20,20 +22,53 @@ use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 class DriverManager extends Manager
 {
     /**
-     * Create an instance of the twillo driver
+     * Get the default sms driver name.
      *
-     * @return TwilioSMS
+     * @return string
      */
-    protected function createTwilioDriver()
+    public function getDefaultDriver()
     {
-        $config = $this->app['config']->get('sms.twillo', []);
+        return $this->app['config']['sms.driver'];
+    }
 
-        return new TwilioSMS(
-            new \Services_Twilio($config['account_sid'], $config['auth_token']),
-            $config['auth_token'],
-            $this->app['request']->url(),
-            $config['verify']
-        );
+    /**
+     * Set the default sms driver name.
+     *
+     * @param  string  $name
+     * @return void
+     */
+    public function setDefaultDriver($name)
+    {
+        $this->app['config']['sms.driver'] = $name;
+    }
+
+    /**
+     * Create an instance of the callfire driver
+     *
+     * @return CallFireSMS
+     */
+    protected function createCallfireDriver()
+    {
+        $config = $this->app['config']->get('sms.callfire', []);
+
+        $provider = new CallFireSMS(new Client);
+
+        $provider->setUser($config['app_login']);
+        $provider->setPassword($config['app_password']);
+
+        return $provider;
+    }
+
+    /**
+     * Creates an instance of the email driver
+     *
+     * @return EmailSMS
+     */
+    protected function createEmailDriver()
+    {
+        $provider = new EmailSMS($this->app['mailer']);
+
+        return $provider;
     }
 
     /**
@@ -56,19 +91,20 @@ class DriverManager extends Manager
         return $provider;
     }
 
-    /**
-     * Create an instance of the callfire driver
-     *
-     * @return CallFireSMS
-     */
-    protected function createCallfireDriver()
+    protected function createLabsMobileDriver()
     {
-        $config = $this->app['config']->get('sms.callfire', []);
+        $config = $this->app['config']->get('sms.labslabsmobile', []);
 
-        $provider = new CallFireSMS(new Client);
+        $provider = new LabsMobileSMS(new Client());
 
-        $provider->setUser($config['app_login']);
-        $provider->setPassword($config['app_password']);
+        $auth = [
+            'client' => $config['client'],
+            'username' => $config['username'],
+            'password' => $config['password'],
+            'test' => $config['test']
+        ];
+
+        $provider->buildBody($auth);
 
         return $provider;
     }
@@ -103,29 +139,29 @@ class DriverManager extends Manager
     {
         $config = $this->app['config']->get('sms.nexmo', []);
 
-        $provider = new NexmoSMS(new Client, $config['key'], $config['secret']);
+        $provider = new NexmoSMS(
+            new Client,
+            $config['key'],
+            $config['secret']
+        );
 
         return $provider;
     }
 
     /**
-     * Get the default sms driver name.
+     * Create an instance of the Twillo driver
      *
-     * @return string
+     * @return TwilioSMS
      */
-    public function getDefaultDriver()
+    protected function createTwilioDriver()
     {
-        return $this->app['config']['sms.driver'];
-    }
+        $config = $this->app['config']->get('sms.twillo', []);
 
-    /**
-     * Set the default sms driver name.
-     *
-     * @param  string  $name
-     * @return void
-     */
-    public function setDefaultDriver($name)
-    {
-        $this->app['config']['sms.driver'] = $name;
+        return new TwilioSMS(
+            new \Services_Twilio($config['account_sid'], $config['auth_token']),
+            $config['auth_token'],
+            $this->app['request']->url(),
+            $config['verify']
+        );
     }
 }
