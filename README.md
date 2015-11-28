@@ -94,26 +94,6 @@ Fill in the `config` file with the correct settings to use this driver.  You can
 
 >Note: All messages from CallFire come from the same short number (67076)
 
-<a id="docs-ez-texting-driver"></a>
-###### EZTexting
-
-This driver sends all messages through the [EZTexting](https://www.eztexting.com) service.  EZTexting has many different options that have proven to be reliable and fast.
-
-Fill in the `config` file with the correct settings to enable EZTexting.
-
-	return [
-		'driver' => 'eztexting',
-		'from' => 'Not Use For EZTexting',
-        'eztexting' => [
-            'username' => 'Your Username',
-            'password' => 'Your Password'
-        ],
-    ];
-
-To enable `receive()` for this service, you must visit the [EZTexting settings page.](https://app.eztexting.com/keywords/index/format/apist)  Enable the `Forwarding API` and `Keyword API` for the messages that you would like forwarded to your web application.
-
->Note: All messages from EZTexting come from the same short number (313131)
-
 <a id="docs-e-mail-driver"></a>
 ###### E-mail Driver
 
@@ -154,6 +134,42 @@ The following are currently supported by using the e-mail gateway driver.
 >Some carriers slightly modify messages by adding the `from` and `to` address to the SMS message.
 
 >An untested gateway means we have not been able to confirm if the gateway works with the mobile provider.  Please provide feedback if you are on one of these carriers.
+
+<a id="docs-ez-texting-driver"></a>
+###### EZTexting
+
+This driver sends all messages through the [EZTexting](https://www.eztexting.com) service.  EZTexting has many different options that have proven to be reliable and fast.
+
+Fill in the `config` file with the correct settings to enable EZTexting.
+
+	return [
+		'driver' => 'eztexting',
+		'from' => 'Not Use For EZTexting',
+        'eztexting' => [
+            'username' => 'Your Username',
+            'password' => 'Your Password'
+        ],
+    ];
+
+To enable `receive()` for this service, you must visit the [EZTexting settings page.](https://app.eztexting.com/keywords/index/format/apist)  Enable the `Forwarding API` and `Keyword API` for the messages that you would like forwarded to your web application.
+
+>Note: All messages from EZTexting come from the same short number (313131)
+
+<a id="docs-labsmobile-driver"></a>
+###### LabsMobile Driver
+
+This driver sends all messages through the [LabsMobile](http://www.labsmobile.com/) service.  These settings can be found on your [API Settings](https://www.labsmobile.com/es/login) page.
+
+	return [
+		'driver' => 'labsmobile',
+		'from' => 'Sender',
+        'labsmobile' => [
+            'client' => 'Your Client Key',
+            'username' => 'Your Username',
+            'password' => 'Your Password',
+            'test' => '1 for simulate mode; 0 for real sendings'
+        ]
+    ];
 
 <a id="docs-mozeo-driver"></a>
 ###### Mozeo Driver
@@ -206,22 +222,6 @@ This driver sends messages through the [Twilio](https://www.twilio.com/sms) mess
 It is strongly recommended to have the `verify` option enabled.  This setting performs an additional security check to ensure messages are coming from Twilio and not being spoofed.
 
 To enable `receive()` messages you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
-
-<a id="docs-labsmobile-driver"></a>
-###### LabsMobile Driver
-
-This driver sends all messages through the [LabsMobile](http://www.labsmobile.com/) service.  These settings can be found on your [API Settings](https://www.labsmobile.com/es/login) page.
-
-	return [
-		'driver' => 'labsmobile',
-		'from' => 'Sender',
-        'labsmobile' => [
-            'client' => 'Your Client Key',
-            'username' => 'Your Username',
-            'password' => 'Your Password',
-            'test' => '1 for simulate mode; 0 for real sendings'
-        ]
-    ];
 
 <a id="docs-driver-support"></a>
 ##Driver Support
@@ -279,6 +279,22 @@ It is possible to send a simple message without creating views by passing a stri
 	});
 	
 >The simple message format is only supported on Laravel 5.
+
+#### Driver
+
+The `driver` method will switch the provider during runtime.
+
+    //Will send through default provider set in the config file.
+	SMS::queue('simple-sms::welcome', $data, function($sms) {
+		$sms->to('+15555555555');
+	});
+	
+	SMS::driver('twilio');
+	
+	//Will send through Twilio
+    SMS::queue('simple-sms::welcome', $data, function($sms) {
+        $sms->to('+15555555555');
+    });
 
 #### Queue
 
