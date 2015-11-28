@@ -67,7 +67,7 @@ return [
         'test' => false
     ],
     'mozeo' => [
-        'companyKey' => 'Your Mozeo Company Key',
+        'company_key' => 'Your Mozeo Company Key',
         'username' => 'Your Mozeo Username',
         'password' => 'Your Mozeo Password'
     ],
