@@ -11,12 +11,14 @@
  *
  */
 
-use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
-use Illuminate\Container\Container;
-use Illuminate\Queue\QueueManager;
-use Illuminate\Log\Writer;
-use Illuminate\Support\SerializableClosure;
 use Closure;
+use Illuminate\Log\Writer;
+use Illuminate\Support\Str;
+use SuperClosure\Serializer;
+use Illuminate\Support\Serial;
+use Illuminate\Queue\QueueManager;
+use Illuminate\Container\Container;
+use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
 
 class SMS
 {
@@ -89,9 +91,12 @@ class SMS
 
         call_user_func($callback, $message);
 
-        if (!$this->pretending) {
+        if (!$this->pretending)
+        {
             $this->driver->send($message);
-        } elseif (isset($this->logger)) {
+        }
+        elseif (isset($this->logger))
+        {
             $this->logMessage($message);
         }
     }
@@ -264,8 +269,7 @@ class SMS
         if (! $callback instanceof Closure) {
             return $callback;
         }
-
-        return serialize(new SerializableClosure($callback));
+        return (new Serializer)->serialize($callback);
     }
 
     /**
@@ -290,10 +294,9 @@ class SMS
      */
     protected function getQueuedCallable(array $data)
     {
-        if (str_contains($data['callback'], 'SerializableClosure')) {
-            return with(unserialize($data['callback']))->getClosure();
+        if (Str::contains($data['callback'], 'SerializableClosure')) {
+            return unserialize($data['callback'])->getClosure();
         }
-
         return $data['callback'];
     }
 
