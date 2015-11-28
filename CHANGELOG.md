@@ -8,6 +8,8 @@ Simple SMS
 * Created Driver Manager class to better manager drivers. --Thanks [Ellrion](https://github.com/Ellrion)
 * Added LabsMobile driver --Thanks [borislalov](https://github.com/borislalov)
 * Added Nexmo driver --Thanks [cricu](https://github.com/cricu)
+* Added ability to switch drivers at runtime.
+* Fixed a bug when the `queue` method is called upon.
 
 ####2.0.0
 * Full Laravel 5.X support.
