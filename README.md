@@ -277,8 +277,6 @@ It is possible to send a simple message without creating views by passing a stri
 	SMS::send('This is my message', [], function($sms) {
 		$sms->to('+15555555555');
 	});
-	
->The simple message format is only supported on Laravel 5.
 
 #### Driver
 
