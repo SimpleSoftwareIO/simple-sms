@@ -75,6 +75,20 @@ class SMS
     }
 
     /**
+     * Changes the set SMS driver
+     *
+     * @param $driver
+     */
+    public function driver($driver)
+    {
+        $this->container['sms.sender'] = $this->container->share(function ($app) use ($driver) {
+            return (new DriverManager($app))->driver($driver);
+        });
+
+        $this->driver = $this->container['sms.sender'];
+    }
+
+    /**
      * Send a SMS.
      *
      * @param string $view The desired view.
