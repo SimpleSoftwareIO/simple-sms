@@ -93,9 +93,9 @@ class DriverManager extends Manager
 
     protected function createLabsMobileDriver()
     {
-        $config = $this->app['config']->get('sms.labslabsmobile', []);
+        $config = $this->app['config']->get('sms.labsmobile', []);
 
-        $provider = new LabsMobileSMS(new Client());
+        $provider = new LabsMobileSMS(new Client);
 
         $auth = [
             'client' => $config['client'],
@@ -141,8 +141,8 @@ class DriverManager extends Manager
 
         $provider = new NexmoSMS(
             new Client,
-            $config['key'],
-            $config['secret']
+            $config['api_key'],
+            $config['api_secret']
         );
 
         return $provider;
@@ -155,7 +155,7 @@ class DriverManager extends Manager
      */
     protected function createTwilioDriver()
     {
-        $config = $this->app['config']->get('sms.twillo', []);
+        $config = $this->app['config']->get('sms.twilio', []);
 
         return new TwilioSMS(
             new \Services_Twilio($config['account_sid'], $config['auth_token']),
