@@ -38,7 +38,7 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
 
 #### Laravel 4
 
-Please read the Laravel 4 [documentation.](./docs/laravel4.md)
+Please read the Laravel 4 [documentation.](https://github.com/SimpleSoftwareIO/simple-sms/blob/master/docs/laravel4.md)
 
 #### Composer
 
