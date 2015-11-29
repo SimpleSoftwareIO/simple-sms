@@ -5,14 +5,14 @@ Simple SMS
 [![Latest Stable Version](https://poser.pugx.org/simplesoftwareio/simple-sms/v/stable.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 [![Latest Unstable Version](https://poser.pugx.org/simplesoftwareio/simple-sms/v/unstable.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 [![License](https://poser.pugx.org/simplesoftwareio/simple-sms/license.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
-[![Total Downloads](https://poser.pugx.org/simplesoftwareio/simple-sms/downloads)](https://packagist.org/packages/simplesoftwareio/simple-sms)
+[![Total Downloads](https://poser.pugx.org/simplesoftwareio/simple-sms/downloads.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 
 * [Introduction](#docs-introduction)
 * [Requirements](#docs-requirements)
 * [Configuration](#docs-configuration)
     * [Call Fire Driver](#docs-call-fire-driver)
+    * [E-mail Driver](#docs-e-mail-driver)
     * [EZTexting Driver](#docs-ez-texting-driver)
-    * [Email Driver](#docs-e-mail-driver)
     * [LabsMobile Driver](#docs-labsmobile-driver)
     * [Mozeo Driver](#docs-mozeo-driver)
     * [Nexmo Driver](#docs-nexmo-driver)
@@ -229,13 +229,12 @@ Not all drivers support every method due to the differences in each individual A
 | Driver | Send | Queue | Pretend | CheckMessages | GetMessage | Receive |
 | --- | --- | --- | --- | --- | --- | --- |
 | Call Fire | Yes | Yes | Yes | Yes | Yes | No |
-| EZTexting | Yes | Yes | Yes | Yes | Yes | Yes |
 | E-Mail | Yes | Yes | Yes | No | No | No |
+| EZTexting | Yes | Yes | Yes | Yes | Yes | Yes |
+| LabsMobile | Yes | Yes | Yes | No | No | No |
 | Mozeo | Yes | Yes | Yes | No | No | No |
 | Nexmo | Yes | Yes | Yes | Yes | Yes | Yes |
 | Twilio | Yes | Yes | Yes | Yes | Yes | Yes |
-| LabsMobile | Yes | Yes | Yes | No | No | No |
-
 
 <a id="docs-usage"></a>
 ## Usage
@@ -373,10 +372,10 @@ More information about each service provider can be found at their API docs.
 
 * [Call Fire](https://www.callfire.com/api-documentation/rest/version/1.1#!/text/QueryTexts_get_1)
 * [EZTexting](https://www.eztexting.com/developers/sms-api-documentation/rest)
+* [LabsMobile](http://www.labsmobile.com/en/api-sms)
 * [Mozeo](https://www.mozeo.com/mozeo/customer/Mozeo_API_OutboundSMS.pdf)
 * [Nexmo](https://docs.nexmo.com/index.php/developer-api/search-message)
 * [Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
-* [LabsMobile](http://www.labsmobile.com/en/api-sms)
 
 #### Get Message
 
