@@ -3,6 +3,9 @@ Simple SMS
 
 ##Change Log
 
+####2.1.1
+* Updated Twilio dependency.
+
 ####2.1.0
 * Fixed doc blocks --Thanks [Ellrion](https://github.com/Ellrion)
 * Created Driver Manager class to better manager drivers. --Thanks [Ellrion](https://github.com/Ellrion)
