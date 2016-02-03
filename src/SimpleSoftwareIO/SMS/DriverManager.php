@@ -17,6 +17,7 @@ use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
 use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
+use SimpleSoftwareIO\SMS\Drivers\SmscSmppSMS;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 
 class DriverManager extends Manager
@@ -163,5 +164,11 @@ class DriverManager extends Manager
             $this->app['request']->url(),
             $config['verify']
         );
+    }
+
+    protected function createSmscSMPPDriver()
+    {
+        $config = $this->app['config']->get('sms.smscsmpp', []);
+        return new SmscSmppSMS($config);
     }
 }
