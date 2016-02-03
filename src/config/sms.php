@@ -90,5 +90,14 @@ return [
         'account_sid' => 'Your SID',
         'auth_token' => 'Your Token',
         'verify' => true,
+    ],
+    'smscsmpp' => [
+        'SMSC_HOST' => 'smpp.smsc.ru',	// адрес SMPP-сервера
+        'SMSC_PORT' => 3700,				// порт подключения
+        'SMSC_LOGIN' => '',		// логин клиента
+        'SMSC_PASSWORD' => '',	// пароль
+        'SMSC_CHARSET' => 'windows-1251',	// кодировка сообщения: utf-8, koi8-r или windows-1251 (по умолчанию)
+        'SMSC_SSL_PORT' => 3443,
+        'SMSC_USE_SSL' => true,
     ]
 ];
