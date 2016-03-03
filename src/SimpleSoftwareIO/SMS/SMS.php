@@ -94,6 +94,7 @@ class SMS
      * @param string $view The desired view.
      * @param array $data The data that needs to be passed into the view.
      * @param \Closure $callback The methods that you wish to fun on the message.
+     * @return \SimpleSoftwareIO\SMS\Message The outgoing message that was sent.
      */
     public function send($view, $data, $callback)
     {
@@ -113,6 +114,8 @@ class SMS
         {
             $this->logMessage($message);
         }
+
+        return $message;
     }
 
     /**
