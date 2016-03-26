@@ -37,7 +37,7 @@ abstract class AbstractSMS
      */
     protected function throwNotSentException($message, $code = 0)
     {
-    	throw new SMSNotSentException($message, $code);
+        throw new SMSNotSentException($message, $code);
     }
 
     /**
