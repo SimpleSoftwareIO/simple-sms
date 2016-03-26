@@ -68,7 +68,81 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
         $this->buildCall('/sms/json');
         $this->buildBody($data);
 
-        return $this->postRequest();
+        $response = $this->postRequest();
+        $body = json_decode($response->getBody(), true);
+        if ($this->hasError($body)) {
+            $this->handleError($body);
+        }
+        
+        return $response;
+    }
+    
+    /**
+     * Checks if the transaction has an error
+     *
+     * @param $body
+     * @return bool
+     */
+    protected function hasError($body)
+    {
+        if ($this->hasAResponseMessage($body) && $this->hasProperty($this->getFirstMessage($body), 'status')) {
+            $firstMessage = $this->getFirstMessage($body);
+            return (int)$firstMessage['status'] !== 0;
+        }
+        return false;
+    }
+    
+    /**
+     * Log the error message which ocurred
+     *
+     * @param $body
+     */
+    protected function handleError($body)
+    {
+        $firstMessage = $this->getFirstMessage($body);
+        $error = 'An error occurred. Nexmo status code: ' . $firstMessage['status'];
+        if ($this->hasProperty($firstMessage, 'error-text')) {
+            $error = $firstMessage['error-text'];
+        }
+        
+        \Log::error($error);
+        $this->throwNotSentException($error, $firstMessage['status']);
+    }
+    
+    /**
+     * Check for a message in the response from Nexmo
+     *
+     * @param $body
+     */
+    protected function hasAResponseMessage($body)
+    {
+        return (
+            is_array($body) &&
+            array_key_exists('messages', $body) &&
+            array_key_exists(0, $body['messages'])
+        );
+    }
+    
+    /**
+     * Get the first message in the response from Nexmo
+     *
+     * @param $body
+     */
+    protected function getFirstMessage($body)
+    {
+        return $body['messages'][0];
+    }
+    
+    /**
+     * Check if the message from Nexmo has a given property
+     *
+     * @param $message
+     * @param $property
+     * @return bool
+     */
+    protected function hasProperty($message, $property)
+    {
+        return array_key_exists($property, $message);
     }
 
     /**
