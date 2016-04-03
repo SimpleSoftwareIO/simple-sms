@@ -17,6 +17,7 @@ Simple SMS
     * [Mozeo Driver](#docs-mozeo-driver)
     * [Nexmo Driver](#docs-nexmo-driver)
     * [Twilio Driver](#docs-twilio-driver)
+    * [Infobip Driver](#docs-infobip-driver)
 * [Driver Support](#docs-driver-support)
 * [Usage](#docs-usage)
 * [Outgoing Message Enclosure](#docs-outgoing-enclosure)
@@ -221,6 +222,21 @@ It is strongly recommended to have the `verify` option enabled.  This setting pe
 
 To enable `receive()` messages you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
 
+<a id="docs-infobip-driver"></a>
+######  Infobip
+
+This driver sends messages through the [Infobib](http://www.infobip.com/en) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.
+
+    return [
+        'driver' => 'infobip',
+        'from' => 'InfoSMS', //Your Twilio Number in E.164 Format.
+        'infobip'=> [
+             'username' => 'username of infobip',
+             'password' => 'password of infobip'
+         ]
+    ];
+For more information see [Infobip API Developer Hub](https://dev.infobip.com/)
+
 <a id="docs-driver-support"></a>
 ##Driver Support
 
@@ -376,6 +392,7 @@ More information about each service provider can be found at their API docs.
 * [Mozeo](https://www.mozeo.com/mozeo/customer/Mozeo_API_OutboundSMS.pdf)
 * [Nexmo](https://docs.nexmo.com/index.php/developer-api/search-message)
 * [Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
+* [Infobip](https://dev.infobip.com/)
 
 #### Get Message
 
