@@ -223,7 +223,7 @@ It is strongly recommended to have the `verify` option enabled.  This setting pe
 To enable `receive()` messages you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
 
 <a id="docs-infobip-driver"></a>
-######  Infobip
+######  Infobip Driver
 
 This driver sends messages through the [Infobib](http://www.infobip.com/en) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.
 
