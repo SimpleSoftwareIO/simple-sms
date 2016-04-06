@@ -13,16 +13,26 @@ use infobip\SmsClient;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 /**
+ * Simple-SMS
+ * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
+ *
  * Class InfobipSMS
  * @package SimpleSoftwareIO\SMS\Drivers
  */
 class InfobipSMS extends AbstractSMS implements DriverInterface
 {
 
+    /**
+     * @var
+     */
     protected $smsRequest;
+    /**
+     * @var SmsClient
+     */
     protected $smsClient;
 
     /**
+     * Constructs the Infobip Instance.
      * @param SmsClient $client
      */
     public function __construct(SmsClient $client)
@@ -30,45 +40,63 @@ class InfobipSMS extends AbstractSMS implements DriverInterface
         $this->smsClient =  $client;
     }
 
-
-    protected function processReceive($rawMessage)
-    {
-        // TODO: Implement processReceive() method.
-    }
-
+    /**
+     * Sends a SMS message.
+     *
+     * @param OutgoingMessage $message
+     * @throws \Exception
+     */
     public function send(OutgoingMessage $message)
     {
-        // TODO: Implement send() method.
-
         $smsMessage = new SMSRequest();
         $smsMessage->senderAddress = $message->getFrom();
         $smsMessage->address = count($message->getTo()) ==1 ? $message->getTo()[0] :  $message->getTo();
         $smsMessage->message = $message->composeMessage();
-        $smsMessageSendResult = $this->smsClient->sendSMS($smsMessage);
-        $smsMessageStatus = $this->smsClient->queryDeliveryStatus($smsMessageSendResult);
 
-        if( ! $smsMessageStatus->isSuccess()) {
-            $exceptionMsg =  'Message id:'. $smsMessageStatus->exception->messageId .
-                'Text:' . $smsMessageStatus->exception->text.
-                'Variables:' .$smsMessageStatus->exception->variables;
-            throw new \Exception($exceptionMsg);
-        }
-
+        return $this->smsClient->sendSMS($smsMessage);
     }
 
-    public function checkMessages(array $options = [])
+
+    /**
+     * Creates many IncomingMessage objects and sets all of the properties.
+     *
+     * @throws \RuntimeException
+     */
+    protected function processReceive($rawMessage)
     {
-        // TODO: Implement checkMessages() method.
+        throw new \RuntimeException('Infibip does not support Inbound API Calls.');
     }
 
+    /**
+     * Checks the server for messages and returns their results.
+     *
+     * @throws \RuntimeException
+     */
+    public function checkMessages(Array $options = array())
+    {
+        throw new \RuntimeException('Infibip does not support Inbound API Calls.');
+    }
+
+    /**
+     * Gets a single message by it's ID.
+     *
+     * @throws \RuntimeException
+     */
     public function getMessage($messageId)
     {
-        // TODO: Implement getMessage() method.
+        throw new \RuntimeException('Infibip does not support Inbound API Calls.');
     }
 
+    /**
+     * Receives an incoming message via REST call.
+     *
+     * @param $raw
+     * @return IncomingMessage|void
+     * @throws \RuntimeException
+     */
     public function receive($raw)
     {
-        // TODO: Implement receive() method.
+        throw new \RuntimeException('Infibip does not support Inbound API Calls.');
     }
 
 }
