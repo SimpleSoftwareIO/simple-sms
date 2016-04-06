@@ -14,6 +14,7 @@ use Illuminate\Support\Manager;
 use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
 use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
+use SimpleSoftwareIO\SMS\Drivers\InfobipSMS;
 use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
@@ -163,5 +164,13 @@ class DriverManager extends Manager
             $this->app['request']->url(),
             $config['verify']
         );
+    }
+
+    protected function createInfobipDriver()
+    {
+        $config = $this->app['config']->get('sms.infobip', []);
+        $provider = new InfobipSMS(new \infobip\SmsClient($config['username'], $config['password']));
+
+        return $provider;
     }
 }

@@ -90,5 +90,9 @@ return [
         'account_sid' => 'Your SID',
         'auth_token' => 'Your Token',
         'verify' => true,
+    ],
+    'infobip'=> [
+         'username' => 'username of infobip',
+         'password' => 'password of infobip'
     ]
 ];
