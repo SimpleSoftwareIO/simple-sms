@@ -23,10 +23,12 @@
     |   Mozeo: https://www.mozeo.com/
     |   Nexmo: https://www.nexmo.com/
     |   Twilio: https://www.twilio.com/
+    |   Zenvia: http://www.zenvia.com.br/
     |--------------------------------------------------------------------------
     | From
     |   Email:  The from address must be a valid email address.
     |   Twilio: The from address must be a verified phone number within Twilio.
+    |   Zenvia: Any string, up to 20 chars.
     |--------------------------------------------------------------------------
     | CallFire
     |   App Login:     Your login settings. (https://www.callfire.com/ui/manage/access)
@@ -56,6 +58,14 @@
     |   Auth Token:   The Auth Token associated with your Twilio account. (https://www.twilio.com/user/account/settings)
     |   Verify:       Ensures extra security by checking if requests
     |                 are really coming from Twilio.
+    |--------------------------------------------------------------------------
+    | Zenvia
+    |   Account key:    Your account key.
+    |   Passcode:       Your code (password) set by the Zenvia Support Team.
+    |   callbackOption: It's an API param that sets if Zenvia Servers should or should not send you the status
+    |                   of SMS delivery. Valid options are: FINAL => for notification when SMS is delivered,
+    |                   ALL => all notifications or NONE => disabled (default). Please, refer to 
+    |                   http://docs.zenviasms.apiary.io/reference/callbacks-da-api for more info.
     |--------------------------------------------------------------------------
 */
 
@@ -90,5 +100,10 @@ return [
         'account_sid' => 'Your SID',
         'auth_token' => 'Your Token',
         'verify' => true,
+    ],
+    'zenvia' => [
+        'account_key' => 'Your Zenvia account key',
+        'passcode' => 'Your code (password)',
+        'callbackOption' => 'NONE'
     ]
 ];
