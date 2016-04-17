@@ -18,6 +18,7 @@ use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
+use SimpleSoftwareIO\SMS\Drivers\ZenviaSMS;
 
 class DriverManager extends Manager
 {
@@ -163,5 +164,24 @@ class DriverManager extends Manager
             $this->app['request']->url(),
             $config['verify']
         );
+    }
+
+    /**
+     * Create an instance of the Zenvia driver
+     *
+     * @return ZenviaSMS
+     */
+    protected function createZenviaDriver()
+    {
+        $config = $this->app['config']->get('sms.zenvia', []);
+
+        $provider = new ZenviaSMS(
+            new Client,
+            $config['account_key'],
+            $config['passcode'],
+            $config['callbackOption']
+        );
+
+        return $provider;
     }
 }

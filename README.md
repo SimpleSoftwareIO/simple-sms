@@ -17,6 +17,7 @@ Simple SMS
     * [Mozeo Driver](#docs-mozeo-driver)
     * [Nexmo Driver](#docs-nexmo-driver)
     * [Twilio Driver](#docs-twilio-driver)
+    * [Zenvia Driver](#docs-zenvia-driver)
 * [Driver Support](#docs-driver-support)
 * [Usage](#docs-usage)
 * [Outgoing Message Enclosure](#docs-outgoing-enclosure)
@@ -221,6 +222,33 @@ It is strongly recommended to have the `verify` option enabled.  This setting pe
 
 To enable `receive()` messages you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
 
+<a id="docs-zenvia-driver"></a>
+######  Zenvia Driver
+
+This driver sends messages through [Zenvia](http://www.zenvia.com.br) messaging service.  It is very reliable service for sending messages to mobile phones in Brazil.
+
+    return [
+        'driver' => 'twilio',
+        'from' => 'CompanyABC', //Any String up to 20 chars.
+        'zenvia' => [
+            'account_key' => 'Your account key',
+            'passcode' => 'Your code (password)',
+            'callbackOption' => 'NONE',  //used to set if Zenvia Servers should submit a callback when the message is delivered.
+        ]
+    ];
+
+The Zenvia API `recommends` that you should set an id parameter to each message. It will act as an unique identifier on Zenvia platform, can be used to check delivery status later and will prevent duplicated messages.
+
+This package allows you to set this id passing it as another argument to $sms->to.
+
+    $sms = SMS::send('simple-sms::welcome', $data, function($sms) {
+        $sms->to('5511999991234', 'your-generated-message-id');
+    });
+
+It is not mandatory. For more information about this field, please, refer to the [API docs](http://docs.zenviasms.apiary.io/#introduction/parametro-id).
+
+To enable `receive()` messages you must set up the [callback url](http://docs.zenviasms.apiary.io/#reference/callbacks-da-api) with Zenvia Support team. This request should be a `POST` request.
+
 <a id="docs-driver-support"></a>
 ##Driver Support
 
@@ -235,6 +263,7 @@ Not all drivers support every method due to the differences in each individual A
 | Mozeo | Yes | Yes | Yes | No | No | No |
 | Nexmo | Yes | Yes | Yes | Yes | Yes | Yes |
 | Twilio | Yes | Yes | Yes | Yes | Yes | Yes |
+| Zenvia | Yes | Yes | Yes | Yes | Yes | Yes |
 
 <a id="docs-usage"></a>
 ## Usage
@@ -376,6 +405,7 @@ More information about each service provider can be found at their API docs.
 * [Mozeo](https://www.mozeo.com/mozeo/customer/Mozeo_API_OutboundSMS.pdf)
 * [Nexmo](https://docs.nexmo.com/index.php/developer-api/search-message)
 * [Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
+* [Zenvia](http://docs.zenviasms.apiary.io/)
 
 #### Get Message
 
