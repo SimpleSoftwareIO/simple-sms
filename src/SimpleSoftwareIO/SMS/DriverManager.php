@@ -1,24 +1,17 @@
-<?php namespace SimpleSoftwareIO\SMS;
+<?php
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author Maksim (Ellrion) Platonov <ellrion@yandex.ru>, <ellrion11@gmail.com>
- *
- */
+namespace SimpleSoftwareIO\SMS;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Manager;
-use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
-use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
-use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
-use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
+use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 use SimpleSoftwareIO\SMS\Drivers\ZenviaSMS;
+use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
+use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
+use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
 
 class DriverManager extends Manager
 {
@@ -35,8 +28,7 @@ class DriverManager extends Manager
     /**
      * Set the default sms driver name.
      *
-     * @param  string  $name
-     * @return void
+     * @param string $name
      */
     public function setDefaultDriver($name)
     {
@@ -44,7 +36,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the callfire driver
+     * Create an instance of the callfire driver.
      *
      * @return CallFireSMS
      */
@@ -52,7 +44,7 @@ class DriverManager extends Manager
     {
         $config = $this->app['config']->get('sms.callfire', []);
 
-        $provider = new CallFireSMS(new Client);
+        $provider = new CallFireSMS(new Client());
 
         $provider->setUser($config['app_login']);
         $provider->setPassword($config['app_password']);
@@ -61,7 +53,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Creates an instance of the email driver
+     * Creates an instance of the email driver.
      *
      * @return EmailSMS
      */
@@ -73,7 +65,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the eztexting driver
+     * Create an instance of the eztexting driver.
      *
      * @return EZTextingSMS
      */
@@ -81,11 +73,11 @@ class DriverManager extends Manager
     {
         $config = $this->app['config']->get('sms.eztexting', []);
 
-        $provider = new EZTextingSMS(new Client);
+        $provider = new EZTextingSMS(new Client());
 
         $data = [
             'User' => $config['username'],
-            'Password' => $config['password']
+            'Password' => $config['password'],
         ];
         $provider->buildBody($data);
 
@@ -96,13 +88,13 @@ class DriverManager extends Manager
     {
         $config = $this->app['config']->get('sms.labsmobile', []);
 
-        $provider = new LabsMobileSMS(new Client);
+        $provider = new LabsMobileSMS(new Client());
 
         $auth = [
             'client' => $config['client'],
             'username' => $config['username'],
             'password' => $config['password'],
-            'test' => $config['test']
+            'test' => $config['test'],
         ];
 
         $provider->buildBody($auth);
@@ -111,7 +103,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the mozeo driver
+     * Create an instance of the mozeo driver.
      *
      * @return MozeoSMS
      */
@@ -119,7 +111,7 @@ class DriverManager extends Manager
     {
         $config = $this->app['config']->get('sms.mozeo', []);
 
-        $provider = new MozeoSMS(new Client);
+        $provider = new MozeoSMS(new Client());
 
         $auth = [
             'companykey' => $config['company_key'],
@@ -132,7 +124,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the nexmo driver
+     * Create an instance of the nexmo driver.
      *
      * @return MozeoSMS
      */
@@ -141,7 +133,7 @@ class DriverManager extends Manager
         $config = $this->app['config']->get('sms.nexmo', []);
 
         $provider = new NexmoSMS(
-            new Client,
+            new Client(),
             $config['api_key'],
             $config['api_secret']
         );
@@ -150,7 +142,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the Twillo driver
+     * Create an instance of the Twillo driver.
      *
      * @return TwilioSMS
      */
@@ -167,7 +159,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the Zenvia driver
+     * Create an instance of the Zenvia driver.
      *
      * @return ZenviaSMS
      */
@@ -176,7 +168,7 @@ class DriverManager extends Manager
         $config = $this->app['config']->get('sms.zenvia', []);
 
         $provider = new ZenviaSMS(
-            new Client,
+            new Client(),
             $config['account_key'],
             $config['passcode'],
             $config['callbackOption']

@@ -1,16 +1,9 @@
-<?php namespace SimpleSoftwareIO\SMS\Drivers;
+<?php
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
+namespace SimpleSoftwareIO\SMS\Drivers;
 
-use SimpleSoftwareIO\SMS\OutgoingMessage;
 use GuzzleHttp\Client;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class CallFireSMS extends AbstractSMS implements DriverInterface
 {
@@ -22,7 +15,7 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
     protected $apiBase = 'https://www.callfire.com/api/1.1/rest';
 
     /**
-     * The Guzzle HTTP Client
+     * The Guzzle HTTP Client.
      *
      * @var \GuzzleHttp\Client
      */
@@ -42,18 +35,17 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      * Sends a SMS message.
      *
      * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
-     * @return void
      */
     public function send(OutgoingMessage $message)
     {
         $composeMessage = $message->composeMessage();
 
         //Convert to callfire format.
-        $numbers = implode(",", $message->getTo());
+        $numbers = implode(',', $message->getTo());
 
         $data = [
             'To' => $numbers,
-            'Message' => $composeMessage
+            'Message' => $composeMessage,
         ];
 
         $this->buildCall('/text');
@@ -66,16 +58,17 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      * Creates many IncomingMessage objects and sets all of the properties.
      *
      * @param $rawMessage
+     *
      * @return mixed
      */
     protected function processReceive($rawMessage)
     {
         $incomingMessage = $this->createIncomingMessage();
         $incomingMessage->setRaw($rawMessage);
-        $incomingMessage->setFrom((string)$rawMessage->FromNumber);
-        $incomingMessage->setMessage((string)$rawMessage->TextRecord->Message);
-        $incomingMessage->setId((string)$rawMessage['id']);
-        $incomingMessage->setTo((string)$rawMessage->ToNumber);
+        $incomingMessage->setFrom((string) $rawMessage->FromNumber);
+        $incomingMessage->setMessage((string) $rawMessage->TextRecord->Message);
+        $incomingMessage->setId((string) $rawMessage['id']);
+        $incomingMessage->setTo((string) $rawMessage->ToNumber);
 
         return $incomingMessage;
     }
@@ -84,6 +77,7 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      * Checks the server for messages and returns their results.
      *
      * @param array $options
+     *
      * @return array
      */
     public function checkMessages(array $options = [])
@@ -99,11 +93,12 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      * Gets a single message by it's ID.
      *
      * @param string|int $messageId
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function getMessage($messageId)
     {
-        $this->buildCall('/text/' . $messageId);
+        $this->buildCall('/text/'.$messageId);
 
         return $this->makeMessage($this->getRequest()->xml()->Text);
     }
@@ -112,7 +107,9 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      * Receives an incoming message via REST call.
      *
      * @param mixed $raw
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
+     *
      * @throws \RuntimeException
      */
     public function receive($raw)

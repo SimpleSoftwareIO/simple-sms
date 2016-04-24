@@ -1,16 +1,9 @@
-<?php namespace SimpleSoftwareIO\SMS\Drivers;
+<?php
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
+namespace SimpleSoftwareIO\SMS\Drivers;
 
-use SimpleSoftwareIO\SMS\OutgoingMessage;
 use GuzzleHttp\Client;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class ZenviaSMS extends AbstractSMS implements DriverInterface
 {
@@ -29,7 +22,7 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
     protected $callbackOption;
 
     /**
-     * The Guzzle HTTP Client
+     * The Guzzle HTTP Client.
      *
      * @var \GuzzleHttp\Client
      */
@@ -43,7 +36,7 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
      * @param $passCode
      * @param string $callbackOption
      */
-    public function __construct(Client $client, $accountKey, $passCode, $callbackOption = "NONE")
+    public function __construct(Client $client, $accountKey, $passCode, $callbackOption = 'NONE')
     {
         $this->client = $client;
         $this->setUser($accountKey);
@@ -55,7 +48,6 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
      * Sends a SMS message.
      *
      * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
-     * @return void
      */
     public function send(OutgoingMessage $message)
     {
@@ -63,21 +55,21 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
         $composeMessage = $message->composeMessage();
 
         $numbers = $message->getToWithCarriers();
-        
-        if(count($numbers) > 1) {
+
+        if (count($numbers) > 1) {
             $endpoint = '/send-sms-multiple';
             $data = [
-                "sendSmsMultiRequest" => ["sendSmsRequestList" => []],
+                'sendSmsMultiRequest' => ['sendSmsRequestList' => []],
             ];
 
             foreach ($numbers as $key => $item) {
-                array_push($data['sendSmsMultiRequest']["sendSmsRequestList"],
+                array_push($data['sendSmsMultiRequest']['sendSmsRequestList'],
                     $this->generateMessageBody($from, $item, $composeMessage));
             }
         } else {
             $endpoint = '/send-sms';
             $data = [
-                "sendSmsRequest" => $this->generateMessageBody($from, $numbers[0], $composeMessage),
+                'sendSmsRequest' => $this->generateMessageBody($from, $numbers[0], $composeMessage),
             ];
         }
 
@@ -87,11 +79,11 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
         $this->postRequest();
     }
 
-
     /**
      * Parse a response from messageId check and returns a Message.
      *
      * @param $rawMessage
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     protected function processReceive($rawMessage)
@@ -107,12 +99,13 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
         return $incomingMessage;
     }
 
-
     /**
      * Checks the server for messages and returns their results.
      *
      * @param array $options
+     *
      * @return array
+     *
      * @throws \Exception
      */
     public function checkMessages(array $options = [])
@@ -123,36 +116,36 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
 
         $jsonResponse = json_decode($this->postRequest()->getBody()->getContents());
 
-        if(!isset($jsonResponse->receivedResponse)) {
+        if (!isset($jsonResponse->receivedResponse)) {
             throw new \Exception('Invalid response from API. Missing mandatory object.');
         }
 
         $rawMessages = $jsonResponse->receivedResponse;
 
-        if($rawMessages->statusCode !== "00") {
+        if ($rawMessages->statusCode !== '00') {
             throw new \Exception(
-                'Unable to request from API. Status Code: ' . $rawMessages->statusCode
-                . ' - ' . $rawMessages->detailDescription . ' (' . $rawMessages->detailCode . ')'
+                'Unable to request from API. Status Code: '.$rawMessages->statusCode
+                .' - '.$rawMessages->detailDescription.' ('.$rawMessages->detailCode.')'
             );
         }
 
-        if($rawMessages->detailCode === "300") {
-            return $this->makeMessages($rawMessages->receivedMessages);    
+        if ($rawMessages->detailCode === '300') {
+            return $this->makeMessages($rawMessages->receivedMessages);
         }
 
         return [];
     }
 
-
     /**
      * Gets a single message by it's ID.
      *
      * @param int|string $messageId
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function getMessage($messageId)
     {
-        $this->buildCall('/get-sms-status/' . $messageId);
+        $this->buildCall('/get-sms-status/'.$messageId);
 
         return $this->makeMessage(json_decode($this->getRequest()->getBody()->getContents()));
     }
@@ -164,6 +157,7 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
      * to your account before using.
      *
      * @param mixed $raw
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function receive($raw)
@@ -183,6 +177,7 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
      * Creates and sends a POST request to the requested URL.
      *
      * @return mixed
+     *
      * @throws \Exception
      */
     protected function postRequest()
@@ -197,7 +192,7 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
             ]);
 
         if ($response->getStatusCode() != 201 && $response->getStatusCode() != 200) {
-            throw new \Exception('Unable to request from API. HTTP Error: ' . $response->getStatusCode());
+            throw new \Exception('Unable to request from API. HTTP Error: '.$response->getStatusCode());
         }
 
         return $response;
@@ -207,6 +202,7 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
      * Creates and sends a GET request to the requested URL.
      *
      * @return mixed
+     *
      * @throws \Exception
      */
     protected function getRequest()
@@ -233,19 +229,20 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
      * @param $from
      * @param $number
      * @param $composeMessage
+     *
      * @return array
      */
     private function generateMessageBody($from, $number, $composeMessage)
     {
         $aux = [
-            "from"           => $from,
-            "to"             => $number['number'],
-            "msg"            => $composeMessage,
-            "callbackOption" => $this->callbackOption,
+            'from' => $from,
+            'to' => $number['number'],
+            'msg' => $composeMessage,
+            'callbackOption' => $this->callbackOption,
         ];
 
-        if(!is_null($number['carrier'])) {
-            $aux["id"] = $number['carrier'];
+        if (!is_null($number['carrier'])) {
+            $aux['id'] = $number['carrier'];
         }
 
         return $aux;

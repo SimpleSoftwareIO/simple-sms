@@ -1,23 +1,15 @@
-<?php namespace SimpleSoftwareIO\SMS\Drivers;
+<?php
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
+namespace SimpleSoftwareIO\SMS\Drivers;
 
+use GuzzleHttp\Client;
 use SimpleSoftwareIO\SMS\IncomingMessage;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
-use GuzzleHttp\Client;
 
 class LabsMobileSMS extends AbstractSMS implements DriverInterface
 {
-
     /**
-     * The Guzzle HTTP Client
+     * The Guzzle HTTP Client.
      *
      * @var \GuzzleHttp\Client
      */
@@ -44,17 +36,15 @@ class LabsMobileSMS extends AbstractSMS implements DriverInterface
      * Sends a SMS message.
      *
      * @param OutgoingMessage $message The SMS message instance.
-     * @return void
      */
     public function send(OutgoingMessage $message)
     {
         $composeMessage = $message->composeMessage();
 
-        foreach($message->getTo() as $to)
-        {
+        foreach ($message->getTo() as $to) {
             $data = [
                 'msisdn' => $to,
-                'message' => $composeMessage
+                'message' => $composeMessage,
             ];
 
             $this->buildBody($data);
@@ -78,7 +68,7 @@ class LabsMobileSMS extends AbstractSMS implements DriverInterface
      *
      * @throws \RuntimeException
      */
-    public function checkMessages(Array $options = array())
+    public function checkMessages(array $options = array())
     {
         throw new \RuntimeException('LabsMobile does not support Inbound API Calls.');
     }
@@ -97,7 +87,9 @@ class LabsMobileSMS extends AbstractSMS implements DriverInterface
      * Receives an incoming message via REST call.
      *
      * @param $raw
+     *
      * @return IncomingMessage|void
+     *
      * @throws \RuntimeException
      */
     public function receive($raw)

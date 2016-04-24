@@ -1,16 +1,9 @@
-<?php namespace SimpleSoftwareIO\SMS\Drivers;
+<?php
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
+namespace SimpleSoftwareIO\SMS\Drivers;
 
-use SimpleSoftwareIO\SMS\OutgoingMessage;
 use GuzzleHttp\Client;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class NexmoSMS extends AbstractSMS implements DriverInterface
 {
@@ -25,7 +18,7 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
     protected $apiSecret;
 
     /**
-     * The Guzzle HTTP Client
+     * The Guzzle HTTP Client.
      *
      * @var \GuzzleHttp\Client
      */
@@ -47,7 +40,6 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
      * Sends a SMS message.
      *
      * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
-     * @return void
      */
     public function send(OutgoingMessage $message)
     {
@@ -55,14 +47,14 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
         $composeMessage = $message->composeMessage();
 
         //Convert to callfire format.
-        $numbers = implode(",", $message->getTo());
+        $numbers = implode(',', $message->getTo());
 
         $data = [
-            'from'          => $from,
-            'to'            => $numbers,
-            'text'          => $composeMessage,
-            'api_key'       => $this->apiKey,
-            'api_secret'    => $this->apiSecret,
+            'from' => $from,
+            'to' => $numbers,
+            'text' => $composeMessage,
+            'api_key' => $this->apiKey,
+            'api_secret' => $this->apiSecret,
         ];
 
         $this->buildCall('/sms/json');
@@ -75,16 +67,17 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
      * Creates many IncomingMessage objects and sets all of the properties.
      *
      * @param $rawMessage
+     *
      * @return mixed
      */
     protected function processReceive($rawMessage)
     {
         $incomingMessage = $this->createIncomingMessage();
         $incomingMessage->setRaw($rawMessage);
-        $incomingMessage->setFrom((string)$rawMessage->from);
-        $incomingMessage->setMessage((string)$rawMessage->body);
-        $incomingMessage->setId((string)$rawMessage->{'message-id'});
-        $incomingMessage->setTo((string)$rawMessage->to);
+        $incomingMessage->setFrom((string) $rawMessage->from);
+        $incomingMessage->setMessage((string) $rawMessage->body);
+        $incomingMessage->setId((string) $rawMessage->{'message-id'});
+        $incomingMessage->setTo((string) $rawMessage->to);
 
         return $incomingMessage;
     }
@@ -93,11 +86,12 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
      * Checks the server for messages and returns their results.
      *
      * @param array $options
+     *
      * @return array
      */
     public function checkMessages(array $options = [])
     {
-        $this->buildCall('/search/messages/' . $this->apiKey . '/' . $this->apiSecret);
+        $this->buildCall('/search/messages/'.$this->apiKey.'/'.$this->apiSecret);
 
         $this->buildBody($options);
 
@@ -110,11 +104,12 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
      * Gets a single message by it's ID.
      *
      * @param string|int $messageId
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function getMessage($messageId)
     {
-        $this->buildCall('/search/message/' . $this->apiKey . '/' . $this->apiSecret . '/' . $messageId);
+        $this->buildCall('/search/message/'.$this->apiKey.'/'.$this->apiSecret.'/'.$messageId);
 
         return $this->makeMessage(json_decode($this->getRequest()->getBody()->getContents()));
     }
@@ -123,6 +118,7 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
      * Receives an incoming message via REST call.
      *
      * @param mixed $raw
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function receive($raw)

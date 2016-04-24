@@ -1,21 +1,14 @@
-<?php namespace SimpleSoftwareIO\SMS\Drivers;
+<?php
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
+namespace SimpleSoftwareIO\SMS\Drivers;
 
-use SimpleSoftwareIO\SMS\OutgoingMessage;
 use Services_Twilio;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class TwilioSMS extends AbstractSMS implements DriverInterface
 {
     /**
-     * The Twilio SDK
+     * The Twilio SDK.
      *
      * @var Services_Twilio
      */
@@ -38,7 +31,7 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
     /**
      * Determines if requests should be checked to be authentic.
      *
-     * @var boolean
+     * @var bool
      */
     protected $verify;
 
@@ -62,7 +55,6 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
      * Sends a SMS message.
      *
      * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
-     * @return void
      */
     public function send(OutgoingMessage $message)
     {
@@ -83,7 +75,6 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
      * Processing the raw information from a request and inputs it into the IncomingMessage object.
      *
      * @param $raw
-     * @return void
      */
     protected function processReceive($raw)
     {
@@ -99,6 +90,7 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
      * Checks the server for messages and returns their results.
      *
      * @param array $options
+     *
      * @return array
      */
     public function checkMessages(array $options = [])
@@ -122,6 +114,7 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
      * Gets a single message by it's ID.
      *
      * @param string|int $messageId
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function getMessage($messageId)
@@ -129,6 +122,7 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
         $rawMessage = $this->twilio->account->messages->get($messageId);
         $incomingMessage = $this->createIncomingMessage();
         $this->processReceive($incomingMessage, $rawMessage);
+
         return $incomingMessage;
     }
 
@@ -136,6 +130,7 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
      * Receives an incoming message via REST call.
      *
      * @param mixed $raw
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function receive($raw)
@@ -158,7 +153,6 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
      * Checks if a message is authentic from Twilio.
      *
      * @throws \InvalidArgumentException
-     * @return void
      */
     protected function validateRequest()
     {
@@ -169,14 +163,14 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
         // append the data array to the url string, with no delimiters
         $url = $this->url;
         foreach ($data as $key => $value) {
-            $url = $url . $key . $value;
+            $url = $url.$key.$value;
         }
 
         //Encode the request string
-        $hmac = hash_hmac("sha1", $url, $this->authToken, true);
+        $hmac = hash_hmac('sha1', $url, $this->authToken, true);
 
         //Verify it against the given Twilio key
-        if (base64_encode($hmac) != $_SERVER["HTTP_X_TWILIO_SIGNATURE"]) {
+        if (base64_encode($hmac) != $_SERVER['HTTP_X_TWILIO_SIGNATURE']) {
             throw new \InvalidArgumentException('This request was not able to verify it came from Twilio.');
         }
     }

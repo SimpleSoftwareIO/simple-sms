@@ -1,14 +1,6 @@
 <?php
 
 /**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
-/*
     |--------------------------------------------------------------------------
     | Simple SMS
     |--------------------------------------------------------------------------
@@ -64,37 +56,36 @@
     |   Passcode:       Your code (password) set by the Zenvia Support Team.
     |   callbackOption: It's an API param that sets if Zenvia Servers should or should not send you the status
     |                   of SMS delivery. Valid options are: FINAL => for notification when SMS is delivered,
-    |                   ALL => all notifications or NONE => disabled (default). Please, refer to 
+    |                   ALL => all notifications or NONE => disabled (default). Please, refer to
     |                   http://docs.zenviasms.apiary.io/reference/callbacks-da-api for more info.
     |--------------------------------------------------------------------------
-*/
-
+ */
 
 return [
     'driver' => 'Selected Driver',
     'from' => 'Your Number or Email',
     'callfire' => [
         'app_login' => 'Your CallFire API Login',
-        'app_password' => 'Your CallFire API Password'
+        'app_password' => 'Your CallFire API Password',
     ],
     'eztexting' => [
         'username' => 'Your EZTexting Username',
-        'password' => 'Your EZTexting Password'
+        'password' => 'Your EZTexting Password',
     ],
     'labsmobile' => [
         'client' => 'Your client ID',
         'username' => 'Your Usernbame',
         'password' => 'Your Password',
-        'test' => false
+        'test' => false,
     ],
     'mozeo' => [
         'company_key' => 'Your Mozeo Company Key',
         'username' => 'Your Mozeo Username',
-        'password' => 'Your Mozeo Password'
+        'password' => 'Your Mozeo Password',
     ],
     'nexmo' => [
         'api_key' => 'Your Nexmo api key',
-        'api_secret' => 'Your Nexmo api secret'
+        'api_secret' => 'Your Nexmo api secret',
     ],
     'twilio' => [
         'account_sid' => 'Your SID',
@@ -104,6 +95,6 @@ return [
     'zenvia' => [
         'account_key' => 'Your Zenvia account key',
         'passcode' => 'Your code (password)',
-        'callbackOption' => 'NONE'
-    ]
+        'callbackOption' => 'NONE',
+    ],
 ];

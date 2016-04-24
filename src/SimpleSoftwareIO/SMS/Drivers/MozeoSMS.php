@@ -1,22 +1,15 @@
-<?php namespace SimpleSoftwareIO\SMS\Drivers;
+<?php
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
+namespace SimpleSoftwareIO\SMS\Drivers;
 
+use GuzzleHttp\Client;
 use SimpleSoftwareIO\SMS\IncomingMessage;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
-use GuzzleHttp\Client;
 
 class MozeoSMS extends AbstractSMS implements DriverInterface
 {
     /**
-     * The Guzzle HTTP Client
+     * The Guzzle HTTP Client.
      *
      * @var \GuzzleHttp\Client
      */
@@ -43,7 +36,6 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
      * Sends a SMS message.
      *
      * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
-     * @return void
      */
     public function send(OutgoingMessage $message)
     {
@@ -52,7 +44,7 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
         foreach ($message->getTo() as $to) {
             $data = [
                 'to' => $to,
-                'messagebody' => $composeMessage
+                'messagebody' => $composeMessage,
             ];
 
             $this->buildBody($data);
@@ -75,7 +67,9 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
      * Checks the server for messages and returns their results.
      *
      * @param array $options
+     *
      * @return array
+     *
      * @throws \RuntimeException
      */
     public function checkMessages(array $options = [])
@@ -87,7 +81,9 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
      * Gets a single message by it's ID.
      *
      * @param string|int $messageId
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
+     *
      * @throws \RangeException
      */
     public function getMessage($messageId)
@@ -99,7 +95,9 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
      * Receives an incoming message via REST call.
      *
      * @param mixed $raw
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
+     *
      * @throws \RuntimeException
      */
     public function receive($raw)
