@@ -6,7 +6,7 @@ Simple SMS
 ####2.1.2
 * An `outgoing message` is now returned when a message is sent. --Thanks [marfurt](https://github.com/marfurt)
 * The E-Mail driver only sends emails in text format now.  --Thanks [cozylife](https://github.com/cozylife)
-* Added a new Zenvia Driver.  --Thanks [filipegar][https://github.com/filipegar)
+* Added a new Zenvia Driver.  --Thanks [filipegar](https://github.com/filipegar)
 * Updated docs to point to simplesoftware.io
 
 ####2.1.1
