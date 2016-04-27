@@ -105,7 +105,6 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
             $error = $firstMessage['error-text'];
         }
         
-        \Log::error($error);
         $this->throwNotSentException($error, $firstMessage['status']);
     }
     
