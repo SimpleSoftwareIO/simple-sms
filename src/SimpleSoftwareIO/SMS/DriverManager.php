@@ -176,4 +176,21 @@ class DriverManager extends Manager
 
         return $provider;
     }
+
+    /**
+     * Create an instance of the Plivo driver.
+     *
+     * @return PlivoSMS
+     */
+    protected function createPlivoDriver()
+    {
+        $config = $this->app['config']->get('sms.plivo', []);
+
+        $provider = new PlivoSMS(
+            $config['authId'],
+            $config['authToken']
+        );
+
+        return $provider;
+    }
 }
