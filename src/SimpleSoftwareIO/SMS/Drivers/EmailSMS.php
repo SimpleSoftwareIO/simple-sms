@@ -46,6 +46,8 @@ class EmailSMS implements DriverInterface
             }
 
             $email->from($me->outgoingMessage->getFrom());
+
+            $email->subject('SMS');
         });
     }
 
