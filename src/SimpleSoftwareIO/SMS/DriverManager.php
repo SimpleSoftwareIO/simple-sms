@@ -12,6 +12,7 @@ use SimpleSoftwareIO\SMS\Drivers\ZenviaSMS;
 use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
 use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
+use SimpleSoftwareIO\SMS\Drivers\PlivoSMS;
 
 class DriverManager extends Manager
 {
