@@ -7,8 +7,9 @@ Simple SMS
 [![License](https://poser.pugx.org/simplesoftwareio/simple-sms/license.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 [![Total Downloads](https://poser.pugx.org/simplesoftwareio/simple-sms/downloads.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 
+## Introduction
+Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 6 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [LabsMobile,](http://www.labsmobile.com) [Mozeo,](https://www.mozeo.com/) [Nexmo,](https://www.nexmo.com/) [Twilio,](https://www.twilio.com) and [Zenvia.](http://www.zenvia.com.br)
 * [Introduction](#docs-introduction)
-* [Breakage](#docs-breakage)
 * [Requirements](#docs-requirements)
 * [Configuration](#docs-configuration)
     * [Call Fire Driver](#docs-call-fire-driver)
@@ -18,7 +19,7 @@ Simple SMS
     * [Mozeo Driver](#docs-mozeo-driver)
     * [Nexmo Driver](#docs-nexmo-driver)
     * [Twilio Driver](#docs-twilio-driver)
-    * [Zenvia Driver](#docs-zenvia-driver)
+    * [Infobip Driver](#docs-infobip-driver)
 * [Driver Support](#docs-driver-support)
 * [Usage](#docs-usage)
 * [Outgoing Message Enclosure](#docs-outgoing-enclosure)
@@ -26,31 +27,31 @@ Simple SMS
 
 <a id="docs-introduction"></a>
 ## Introduction
-Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 6 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [LabsMobile,](http://www.labsmobile.com) [Mozeo,](https://www.mozeo.com/) [Nexmo,](https://www.nexmo.com/) [Twilio,](https://www.twilio.com) and [Zenvia.](http://www.zenvia.com.br)
-
-<a id="docs-breakage"></a>
-## Breakage
-* `Pretend` was removed in favor of the logger driver.  You will need to remove any references to this method before upgrading to version `3.0`
-* Laravel 4 is no longer supported.
+Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 6 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [LabsMobile,](http://www.labsmobile.com) [Mozeo,](https://www.mozeo.com/) [Nexmo,](https://www.nexmo.com/) and [Twilio.](https://www.twilio.com)
 
 <a id="docs-requirements"></a>
 ## Requirements
 
+#### Laravel 5
 * PHP: >= 5.5
 * Guzzle >= 6.0
 
 <a id="docs-configuration"></a>
 ## Configuration
 
+#### Laravel 4
+
+Please read the Laravel 4 [documentation.](https://github.com/SimpleSoftwareIO/simple-sms/blob/master/docs/laravel4.md)
+
 #### Composer
 
 First, add the Simple SMS package to your `require` in your `composer/json` file:
 
     "require": {
-        "simplesoftwareio/simple-sms": "~3"
+        "simplesoftwareio/simple-sms": "~2"
     }
 
-Next, run the `composer install` command.  This will install the package into your Laravel application.
+Next, run the `composer update` command.  This will install the package into your Laravel application.
 
 #### Service Provider
 
@@ -110,29 +111,30 @@ The only setting for this driver is the `from` setting.  Simply enter an email a
 
 The following are currently supported by using the e-mail gateway driver.
 
-| Country | Carrier | Carrier Prefix | SMS Supported | MMS Supported |
-| --- | --- | --- | --- | --- |
-| USA | AT&T | att | Yes | Yes |
-| USA | Air Fire Mobile | airfiremobile | Yes | No |
-| USA | Alaska Communicates | alaskacommunicates | Yes | Yes |
-| USA | Ameritech | ameritech | Yes | No |
-| USA | Boost Mobile | moostmobile | Yes | Yes |
-| USA | Clear Talk | cleartalk | Yes | No |
-| USA | Cricket | cricket | Yes | No |
-| USA | Metro PCS | metropcs | Yes | Yes |
-| USA | NexTech | nextech | Yes | No |
-| USA | ProjectFi | projectfi | Yes | Yes |
-| Canada | Rogers Wireless | rogerswireless | Yes | Yes |
-| USA | Unicel | unicel | Yes | Yes |
-| USA | Verizon Wireless | verizonwireless | Yes | Yes |
-| USA | Virgin Mobile | virginmobile | Yes | Yes |
-| USA | T-Mobile | tmobile | Yes | Yes |
+| Country | Carrier | Carrier Prefix | SMS Supported | MMS Supported | Tested? |
+| --- | --- | --- | --- | --- | --- |
+| USA | AT&T | att | Yes | Yes | Yes |
+| USA | Air Fire Mobile | airfiremobile | Yes | No | No |
+| USA | Alaska Communicates | alaskacommunicates | Yes | Yes | No |
+| USA | Ameritech | ameritech | Yes | No | No |
+| USA | Boost Mobile | moostmobile | Yes | Yes | No |
+| USA | Clear Talk | cleartalk | Yes | No | No |
+| USA | Cricket | cricket | Yes | No | No |
+| USA | Metro PCS | metropcs | Yes | Yes | No |
+| USA | NexTech | nextech | Yes | No | No |
+| Canada | Rogers Wireless | rogerswireless | Yes | Yes | No |
+| USA | Unicel | unicel | Yes | Yes | No |
+| USA | Verizon Wireless | verizonwireless | Yes | Yes | No |
+| USA | Virgin Mobile | virginmobile | Yes | Yes | No |
+| USA | T-Mobile | tmobile | Yes | Yes | Yes |
 
 >You must know the wireless provider for the mobile phone to use this driver.
 
 >Careful!  Not all wireless carriers support e-mail gateways around the world.
 
 >Some carriers slightly modify messages by adding the `from` and `to` address to the SMS message.
+
+>An untested gateway means we have not been able to confirm if the gateway works with the mobile provider.  Please provide feedback if you are on one of these carriers.
 
 <a id="docs-ez-texting-driver"></a>
 ###### EZTexting
@@ -222,48 +224,35 @@ It is strongly recommended to have the `verify` option enabled.  This setting pe
 
 To enable `receive()` messages you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
 
-<a id="docs-zenvia-driver"></a>
-######  Zenvia Driver
+<a id="docs-infobip-driver"></a>
+######  Infobip Driver
 
-This driver sends messages through [Zenvia](http://www.zenvia.com.br) messaging service.  It is very reliable service for sending messages to mobile phones in Brazil.
+This driver sends messages through the [Infobib](http://www.infobip.com/en) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.
 
     return [
-        'driver' => 'twilio',
-        'from' => 'CompanyABC', //Any String up to 20 chars.
-        'zenvia' => [
-            'account_key' => 'Your account key',
-            'passcode' => 'Your code (password)',
-            'callbackOption' => 'NONE',  //used to set if Zenvia Servers should submit a callback when the message is delivered.
-        ]
+        'driver' => 'infobip',
+        'from' => 'InfoSMS', //Your Twilio Number in E.164 Format.
+        'infobip'=> [
+             'username' => 'username of infobip',
+             'password' => 'password of infobip'
+         ]
     ];
-
-The Zenvia API `recommends` that you should set an id parameter to each message. It will act as an unique identifier on Zenvia platform, can be used to check delivery status later and will prevent duplicated messages.
-
-This package allows you to set this id passing it as another argument to $sms->to.
-
-    $sms = SMS::send('simple-sms::welcome', $data, function($sms) {
-        $sms->to('5511999991234', 'your-generated-message-id');
-    });
-
-It is not mandatory. For more information about this field, please, refer to the [API docs](http://docs.zenviasms.apiary.io/#introduction/parametro-id).
-
-To enable `receive()` messages you must set up the [callback url](http://docs.zenviasms.apiary.io/#reference/callbacks-da-api) with Zenvia Support team. This request should be a `POST` request.
+For more information see [Infobip API Developer Hub](https://dev.infobip.com/)
 
 <a id="docs-driver-support"></a>
 ##Driver Support
 
 Not all drivers support every method due to the differences in each individual API.  The following table outlines what is supported for each driver.
 
-| Driver | Send | Queue | CheckMessages | GetMessage | Receive |
+| Driver | Send | Queue | Pretend | CheckMessages | GetMessage | Receive |
 | --- | --- | --- | --- | --- | --- | --- |
-| Call Fire | Yes | Yes | Yes | Yes | No |
-| E-Mail | Yes | Yes | No | No | No |
-| EZTexting | Yes | Yes | Yes | Yes | Yes |
-| LabsMobile | Yes | Yes | No | No | No |
-| Mozeo | Yes | Yes | Yes | No | No |
-| Nexmo | Yes | Yes | Yes | Yes | Yes |
-| Twilio | Yes | Yes | Yes | Yes | Yes |
-| Zenvia | Yes | Yes | Yes | Yes | Yes |
+| Call Fire | Yes | Yes | Yes | Yes | Yes | No |
+| E-Mail | Yes | Yes | Yes | No | No | No |
+| EZTexting | Yes | Yes | Yes | Yes | Yes | Yes |
+| LabsMobile | Yes | Yes | Yes | No | No | No |
+| Mozeo | Yes | Yes | Yes | No | No | No |
+| Nexmo | Yes | Yes | Yes | Yes | Yes | Yes |
+| Twilio | Yes | Yes | Yes | Yes | Yes | Yes |
 
 <a id="docs-usage"></a>
 ## Usage
@@ -330,6 +319,21 @@ The `queue` method queues a message to be sent later instead of sending the mess
 
 >The `queue` method will fallback to the `send` method if a queue service is not configured within `Laravel.`
 
+#### Pretend
+
+The `pretend` method will simply create a log file that states that a SMS message has been "sent."  This is useful to test to see if your configuration settings are working correctly without sending actual messages.
+
+    SMS::pretend('simple-sms::welcome', $data, function($sms) {
+        $sms->to('+15555555555');
+    });
+
+You may also set the `pretend` configuration option to true to have all SMS messages pretend that they were sent.
+
+    `/app/config/simplesoftwareio/simple-sms/config.php`
+    return array(
+        'pretend' => true,
+    );
+
 #### Receive
 
 Simple SMS supports push SMS messages.  You must first configure this with your service provider by following the configuration settings above.
@@ -390,7 +394,7 @@ More information about each service provider can be found at their API docs.
 * [Mozeo](https://www.mozeo.com/mozeo/customer/Mozeo_API_OutboundSMS.pdf)
 * [Nexmo](https://docs.nexmo.com/index.php/developer-api/search-message)
 * [Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
-* [Zenvia](http://docs.zenviasms.apiary.io/)
+* [Infobip](https://dev.infobip.com/)
 
 #### Get Message
 
@@ -475,16 +479,14 @@ The `to` method returns the phone number that a message was sent to.
     $incoming = SMS::getMessage('messageId');
     echo $incoming->to();
 
-#### Id
+## Official Documentation
 
-This method returns the unique id of a message.
+Documentation for Simple SMS can be found on our [website.](https://www.simplesoftware.io/docs/simple-sms)
 
-    $incoming = SMS::getMessage('messageId');
-    echo $incoming->id();
+## Contributing
 
-#### Message
+Please submit all issues and pull requests to the [simplesoftwareio/simple-sms](https://github.com/simplesoftwareio/simple-sms) repository on the develop branch!
 
-And the best for last; this method returns the actual message of a SMS.
+## License
 
-    $incoming = SMS::getMessage('messageId');
-    echo $incoming->message();
+This software is released under the [MIT license.](https://opensource.org/licenses/MIT)
