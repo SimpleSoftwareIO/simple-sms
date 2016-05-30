@@ -16,6 +16,7 @@
     |   Nexmo: https://www.nexmo.com/
     |   Twilio: https://www.twilio.com/
     |   Zenvia: http://www.zenvia.com.br/
+    |   Plivo:  https://www.plivo.com/
     |--------------------------------------------------------------------------
     | From
     |   Email:  The from address must be a valid email address.
@@ -59,46 +60,62 @@
     |                   ALL => all notifications or NONE => disabled (default). Please, refer to
     |                   http://docs.zenviasms.apiary.io/reference/callbacks-da-api for more info.
     |--------------------------------------------------------------------------
+    | Plivo Additional Settings
+    |   Auth ID:        The Auth SID associated with your Plivo account.   (https://manage.plivo.com/dashboard/)
+    |   Auth Token:     The Auth Token associated with your Plivo account. (https://manage.plivo.com/dashboard/)
+    |--------------------------------------------------------------------------
  */
 
 return [
-    'driver' => 'Selected Driver',
-    'from' => 'Your Number or Email',
+    'driver' => env('SMS_DRIVER','email'),
+
+    'from' => env('SMS_FROM','Your Number or Email'),
+
     'callfire' => [
-        'app_login' => 'Your CallFire API Login',
-        'app_password' => 'Your CallFire API Password',
+        'app_login' => env('CALLFIRE_LOGIN','Your CallFire API Login'),
+        'app_password' => env('CALLFIRE_PASSWORD','Your CallFire API Password'),
     ],
+
     'eztexting' => [
-        'username' => 'Your EZTexting Username',
-        'password' => 'Your EZTexting Password',
+        'username' => env('EZTEXTING_USERNAME','Your EZTexting Username'),
+        'password' => env('EZTEXTING_PASSWORD','Your EZTexting Password'),
     ],
+
     'labsmobile' => [
-        'client' => 'Your client ID',
-        'username' => 'Your Usernbame',
-        'password' => 'Your Password',
+        'client' => env('LABSMOBILE_CLIENT_ID','Your client ID'),
+        'username' => env('LABSMOBILE_USERNAME','Your Username'),
+        'password' => env('LABSMOBILE_PASSWORD','Your Password'),
         'test' => false,
     ],
+
     'mozeo' => [
-        'company_key' => 'Your Mozeo Company Key',
-        'username' => 'Your Mozeo Username',
-        'password' => 'Your Mozeo Password',
+        'company_key' => env('MOZEO_COMPANY_KEY','Your Mozeo Company Key'),
+        'username' => env('MOZEO_USERNAME','Your Mozeo Username'),
+        'password' => env('MOZEO_PASSWORD','Your Mozeo Password'),
     ],
+
     'nexmo' => [
-        'api_key' => 'Your Nexmo api key',
-        'api_secret' => 'Your Nexmo api secret',
+        'api_key' => env('NEXMO_KEY','Your Nexmo api key'),
+        'api_secret' => env('NEXMO_SECRET','Your Nexmo api secret'),
     ],
+
     'twilio' => [
-        'account_sid' => 'Your SID',
-        'auth_token' => 'Your Token',
+        'account_sid' => env('TWILIO_SID','Your SID'),
+        'auth_token' => env('TWILIO_TOKEN','Your Token'),
         'verify' => true,
     ],
+
     'zenvia' => [
-        'account_key' => 'Your Zenvia account key',
-        'passcode' => 'Your code (password)',
+        'account_key' => env('ZENVIA_KEY','Your Zenvia account key'),
+        'passcode' => env('ZENVIA_PASSCODE','Your code (password)'),
         'callbackOption' => 'NONE',
     ],
     'infobip'=> [
          'username' => 'username of infobip',
          'password' => 'password of infobip'
-    ]
+    ],
+    'plivo' => [
+        'authId' => env('PLIVO_AUTH_ID','Your Plivo Auth Id'),
+        'authToken' => env('PLIVO_AUTH_TOKEN','Your Plivo Auth Token')
+    ],
 ];

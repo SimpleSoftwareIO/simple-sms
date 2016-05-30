@@ -1,7 +1,7 @@
 {
     "name": "simplesoftwareio/simple-sms",
-    "description": "Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.  Currently supports CallFire, EZTexting, Email Gateways, Mozeo, and Twilio.",
-    "keywords": ["sms", "laravel", "simple", "twilio", "callfire", "eztexting", "mozeo", "labsmobile", "nexmo", "text messages", "send", "receive"],
+    "description": "Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.  Currently supports CallFire, EZTexting, Email Gateways, Mozeo, Plivo, and Twilio.",
+    "keywords": ["sms", "laravel", "simple", "twilio", "callfire", "eztexting", "mozeo", "labsmobile", "nexmo", "plivo", "text messages", "send", "receive"],
     "homepage": "http://www.simplesoftware.io",
     "license": "MIT",
     "authors": [
@@ -19,7 +19,8 @@
         "illuminate/view": ">=5.0.0",
         "guzzlehttp/guzzle": "~6",
         "twilio/sdk": "~4",
-        "infobip/oneapi": "^1.1"
+        "infobip/oneapi": "^1.1",
+        "plivo/plivo-php": "^1.0"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",

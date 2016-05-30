@@ -34,6 +34,13 @@ abstract class AbstractSMS
     }
 
     /**
+     * Has the call been built yet
+     *
+     * @var        boolean
+     */
+    protected $callBuilt = false;
+
+    /**
      * Creates a new IncomingMessage instance.
      *
      * @return IncomingMessage
@@ -50,7 +57,11 @@ abstract class AbstractSMS
      */
     protected function buildCall($url)
     {
-        $this->apiBase .= $url;
+        if ( ! $this->callBuilt )
+        {
+            $this->apiBase .= $url;    
+            $this->callBuilt = true;
+        }
     }
 
     /**
