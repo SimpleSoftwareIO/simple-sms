@@ -125,20 +125,6 @@ class SMS
     }
 
     /**
-     * Set the log writer instance.
-     *
-     * @param \Illuminate\Log\Writer $logger
-     *
-     * @return $this
-     */
-    public function setLogger(Writer $logger)
-    {
-        $this->logger = $logger;
-
-        return $this;
-    }
-
-    /**
      * Queues a SMS message.
      *
      * @param string          $view     The desired view.
@@ -161,7 +147,7 @@ class SMS
      * @param array           $data     An array of data to fill the view.
      * @param \Closure|string $callback The callback to run on the Message class.
      */
-    public function queueOn($queue, $view, array $data, $callback)
+    public function queueOn($queue, $view, $data, $callback)
     {
         $this->queue($view, $data, $callback, $queue);
     }
@@ -175,7 +161,7 @@ class SMS
      * @param \Closure|string $callback The callback to run on the Message class.
      * @param null|string     $queue    The desired queue to push the message to.
      */
-    public function later($delay, $view, array $data, $callback, $queue = null)
+    public function later($delay, $view, $data, $callback, $queue = null)
     {
         $callback = $this->buildQueueCallable($callback);
 
@@ -191,7 +177,7 @@ class SMS
      * @param array           $data     An array of data to fill the view.
      * @param \Closure|string $callback The callback to run on the Message class.
      */
-    public function laterOn($queue, $delay, $view, array $data, $callback)
+    public function laterOn($queue, $delay, $view, $data, $callback)
     {
         $this->later($delay, $view, $data, $callback, $queue);
     }
