@@ -14,6 +14,7 @@ use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 use SimpleSoftwareIO\SMS\Drivers\ZenviaSMS;
 use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\PlivoSMS;
+use SimpleSoftwareIO\SMS\Drivers\FlowrouteSMS;
 
 class DriverManager extends Manager
 {
@@ -202,6 +203,24 @@ class DriverManager extends Manager
         $provider = new PlivoSMS(
             $config['authId'],
             $config['authToken']
+        );
+
+        return $provider;
+    }
+
+    /**
+     * Create an instance of the flowroute driver
+     *
+     * @return FlowrouteSMS
+     */
+    protected function createFlowrouteDriver()
+    {
+        $config = $this->app['config']->get('sms.flowroute', []);
+
+        $provider = new FlowrouteSMS(
+            new Client,
+            $config['access_key'],
+            $config['secret_key']
         );
 
         return $provider;
