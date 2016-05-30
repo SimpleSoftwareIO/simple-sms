@@ -205,7 +205,7 @@ class SMS
      */
     protected function buildQueueCallable($callback)
     {
-        if (!$callback instanceof Closure) {
+        if ( ! $callback instanceof Closure) {
             return $callback;
         }
 
