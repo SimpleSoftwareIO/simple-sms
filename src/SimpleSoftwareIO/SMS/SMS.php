@@ -3,7 +3,6 @@
 namespace SimpleSoftwareIO\SMS;
 
 use Closure;
-use Illuminate\Log\Writer;
 use Illuminate\Support\Str;
 use SuperClosure\Serializer;
 use Illuminate\Queue\QueueManager;
@@ -18,20 +17,6 @@ class SMS
      * @var \SimpleSoftwareIO\SMS\Drivers\DriverInterface
      */
     protected $driver;
-
-    /**
-     * The log writer instance.
-     *
-     * @var \Illuminate\Log\Writer
-     */
-    protected $logger;
-
-    /**
-     * Determines if a message should be sent or faked.
-     *
-     * @var bool
-     */
-    protected $pretending = false;
 
     /**
      * The IOC Container.
@@ -97,25 +82,9 @@ class SMS
 
         call_user_func($callback, $message);
 
-        if (!$this->pretending) {
-            $this->driver->send($message);
-        } elseif (isset($this->logger)) {
-            $this->logMessage($message);
-        }
+        $this->driver->send($message);
 
         return $message;
-    }
-
-    /**
-     * Logs that a message was sent.
-     *
-     * @param $message
-     */
-    protected function logMessage($message)
-    {
-        $numbers = implode(' , ', $message->getTo());
-
-        $this->logger->info("Pretending to send SMS message to: $numbers");
     }
 
     /**
@@ -133,39 +102,6 @@ class SMS
         }
 
         return $message;
-    }
-
-    /**
-     * Returns if the message should be faked when sent or not.
-     *
-     * @return bool
-     */
-    public function isPretending()
-    {
-        return $this->pretending;
-    }
-
-    /**
-     * Fake sending a SMS.
-     *
-     * @param $view The desired view
-     * @param $data The data to fill the view
-     * @param $callback The message callback
-     */
-    public function pretend($view, $data, $callback)
-    {
-        $this->setPretending(true);
-        $this->send($view, $data, $callback);
-    }
-
-    /**
-     * Sets if SMS should be fake send a SMS.
-     *
-     * @param bool $pretend
-     */
-    public function setPretending($pretend = false)
-    {
-        $this->pretending = $pretend;
     }
 
     /**
