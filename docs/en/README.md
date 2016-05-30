@@ -120,6 +120,7 @@ The following are currently supported by using the e-mail gateway driver.
 | USA | Cricket | cricket | Yes | No | No |
 | USA | Metro PCS | metropcs | Yes | Yes | No |
 | USA | NexTech | nextech | Yes | No | No |
+| USA | ProjectFi | projectfi | Yes | Yes | Yes |
 | Canada | Rogers Wireless | rogerswireless | Yes | Yes | No |
 | USA | Unicel | unicel | Yes | Yes | No |
 | USA | Verizon Wireless | verizonwireless | Yes | Yes | No |

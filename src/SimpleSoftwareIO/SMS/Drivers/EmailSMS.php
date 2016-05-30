@@ -107,6 +107,9 @@ class EmailSMS implements DriverInterface
                 case 'nextech':
                     throw new \InvalidArgumentException('NexTech does not support Email Gateway MMS messages.');
 
+                case 'projectfi':
+                    return 'msg.fi.google.com';
+
                 case 'rogerswireless':
                     return 'mms.rogers.com';
 
@@ -156,6 +159,9 @@ class EmailSMS implements DriverInterface
 
                 case 'nextech':
                     return 'sms.ntwls.net';
+
+                case 'projectfi':
+                    return 'msg.fi.google.com';
 
                 case 'rogerswireless':
                     return 'sms.rogers.com';
