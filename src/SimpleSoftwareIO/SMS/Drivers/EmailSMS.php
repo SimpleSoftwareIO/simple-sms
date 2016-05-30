@@ -3,17 +3,11 @@
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use Illuminate\Mail\Mailer;
+use InvalidArgumentException;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class EmailSMS implements DriverInterface
 {
-    /**
-     * The Message Instance.
-     *
-     * @var \SimpleSoftwareIO\SMS\OutgoingMessage
-     */
-    protected $outgoingMessage;
-
     /**
      * Creates the EmailSMS Instance.
      *
@@ -27,26 +21,47 @@ class EmailSMS implements DriverInterface
     /**
      * Sends a SMS message.
      *
-     * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
+     * @param \SimpleSoftwareIO\SMS\OutgoingMessage $thisssage
      */
     public function send(OutgoingMessage $message)
     {
         $this->outgoingMessage = $message;
-        $me = $this;
 
-        $this->mailer->send(['text' => $this->outgoingMessage->getView()], $this->outgoingMessage->getData(), function ($email) use ($me) {
-            foreach ($me->outgoingMessage->getToWithCarriers() as $number) {
-                $email->to($me->buildEmail($number));
-            }
+        try {
+          $this->mailer->send(['text' => $this->outgoingMessage->getView()], $this->outgoingMessage->getData(), function ($email) {
+              foreach ($this->outgoingMessage->getToWithCarriers() as $number) {
+                  $email->to($this->buildEmail($number));
+              }
 
-            if ($me->outgoingMessage->getAttachImages()) {
-                foreach ($me->outgoingMessage->getAttachImages() as $image) {
-                    $email->attach($image);
-                }
-            }
+              if ($this->outgoingMessage->getAttachImages()) {
+                  foreach ($this->outgoingMessage->getAttachImages() as $image) {
+                      $email->attach($image);
+                  }
+              }
 
-            $email->from($me->outgoingMessage->getFrom());
-        });
+              $email->from($this->outgoingMessage->getFrom());
+          });
+        } catch (InvalidArgumentException $e) {
+          $this->sendRaw($message);
+        }
+
+    }
+
+    protected function sendRaw()
+    {
+      $this->mailer->raw($this->outgoingMessage->getView(), function ($email) {
+          foreach ($this->outgoingMessage->getToWithCarriers() as $number) {
+              $email->to($this->buildEmail($number));
+          }
+
+          if ($this->outgoingMessage->getAttachImages()) {
+              foreach ($this->outgoingMessage->getAttachImages() as $image) {
+                  $email->attach($image);
+              }
+          }
+
+          $email->from($this->outgoingMessage->getFrom());
+      });
     }
 
     /**
@@ -199,13 +214,13 @@ class EmailSMS implements DriverInterface
     /**
      * Gets a single message by it's ID.
      *
-     * @param string|int $messageId
+     * @param string|int $thisssageId
      *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      *
      * @throws \RuntimeException
      */
-    public function getMessage($messageId)
+    public function getMessage($thisssageId)
     {
         throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');
     }
