@@ -17,8 +17,9 @@
         "illuminate/queue": ">=5.0.0",
         "illuminate/support": ">=5.0.0",
         "illuminate/view": ">=5.0.0",
+        "guzzlehttp/guzzle": "~6",
         "twilio/sdk": "~4",
-        "guzzlehttp/guzzle": "~6"
+        "infobip/oneapi": "^1.1"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",

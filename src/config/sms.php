@@ -97,4 +97,8 @@ return [
         'passcode' => 'Your code (password)',
         'callbackOption' => 'NONE',
     ],
+    'infobip'=> [
+         'username' => 'username of infobip',
+         'password' => 'password of infobip'
+    ]
 ];
