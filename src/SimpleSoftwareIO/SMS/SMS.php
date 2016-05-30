@@ -9,6 +9,8 @@ use Illuminate\Queue\QueueManager;
 use Illuminate\Container\Container;
 use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
 
+class SMSNotSentException extends \Exception{}
+
 class SMS
 {
     /**

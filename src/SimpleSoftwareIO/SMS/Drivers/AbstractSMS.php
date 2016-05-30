@@ -3,6 +3,7 @@
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use SimpleSoftwareIO\SMS\IncomingMessage;
+use SimpleSoftwareIO\SMS\SMSNotSentException;
 
 abstract class AbstractSMS
 {
@@ -19,6 +20,18 @@ abstract class AbstractSMS
      * @var array
      */
     protected $auth = [];
+    
+    /**
+     * Throw a not sent exception
+     *
+     * @param $message
+     * @param $code = 0
+     * @throws SMSNotSentException
+     */
+    protected function throwNotSentException($message, $code = 0)
+    {
+        throw new SMSNotSentException($message, $code);
+    }
 
     /**
      * Creates a new IncomingMessage instance.
