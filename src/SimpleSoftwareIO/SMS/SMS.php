@@ -261,7 +261,7 @@ class SMS
     public function receive()
     {
         //Passes all of the request onto the driver.
-        $raw = $this->container['Input'];
+        $raw = $this->container['Illuminate\Support\Facades\Input'];
 
         return $this->driver->receive($raw);
     }

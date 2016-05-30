@@ -59,6 +59,10 @@
     |                   ALL => all notifications or NONE => disabled (default). Please, refer to
     |                   http://docs.zenviasms.apiary.io/reference/callbacks-da-api for more info.
     |--------------------------------------------------------------------------
+    | Flowroute
+    |   Access Key:     Your API access key. (https://manage.flowroute.com/accounts/preferences/api/)
+    |   Secret Key:  Your API secret key. (https://manage.flowroute.com/accounts/preferences/api/)
+    |--------------------------------------------------------------------------
  */
 
 return [
@@ -96,5 +100,9 @@ return [
         'account_key' => 'Your Zenvia account key',
         'passcode' => 'Your code (password)',
         'callbackOption' => 'NONE',
+    ],
+    'flowroute' => [
+        'access_key' => 'Your Flowroute access key',
+        'secret_key' => 'Your Flowroute secret key'
     ],
 ];

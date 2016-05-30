@@ -12,6 +12,7 @@ use SimpleSoftwareIO\SMS\Drivers\ZenviaSMS;
 use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
 use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
+use SimpleSoftwareIO\SMS\Drivers\FlowrouteSMS;
 
 class DriverManager extends Manager
 {
@@ -172,6 +173,24 @@ class DriverManager extends Manager
             $config['account_key'],
             $config['passcode'],
             $config['callbackOption']
+        );
+
+        return $provider;
+    }
+    
+    /**
+     * Create an instance of the flowroute driver
+     *
+     * @return FlowrouteSMS
+     */
+    protected function createFlowrouteDriver()
+    {
+        $config = $this->app['config']->get('sms.flowroute', []);
+
+        $provider = new FlowrouteSMS(
+            new Client,
+            $config['access_key'],
+            $config['secret_key']
         );
 
         return $provider;
