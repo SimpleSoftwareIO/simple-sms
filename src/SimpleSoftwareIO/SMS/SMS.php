@@ -243,7 +243,7 @@ class SMS
     {
         $callback = $this->buildQueueCallable($callback);
 
-        $this->queue->later($delay, 'mailer@handleQueuedMessage', compact('view', 'data', 'callback'), $queue);
+        $this->queue->later($delay, 'sms@handleQueuedMessage', compact('view', 'data', 'callback'), $queue);
     }
 
     /**
