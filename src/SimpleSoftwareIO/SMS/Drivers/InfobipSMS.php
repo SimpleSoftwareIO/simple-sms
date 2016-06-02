@@ -1,12 +1,14 @@
 <?php
 namespace SimpleSoftwareIO\SMS\Drivers;
 
-use infobip\models\SMSRequest;
 use infobip\SmsClient;
+use infobip\models\SMSRequest;
+use SimpleSoftwareIO\SMS\DoesNotReceive;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class InfobipSMS extends AbstractSMS implements DriverInterface
 {
+    use DoesNotReceive;
 
     protected $smsRequest;
     /**
@@ -38,48 +40,4 @@ class InfobipSMS extends AbstractSMS implements DriverInterface
 
         return $this->smsClient->sendSMS($smsMessage);
     }
-
-
-    /**
-     * Creates many IncomingMessage objects and sets all of the properties.
-     *
-     * @throws \RuntimeException
-     */
-    protected function processReceive($rawMessage)
-    {
-        throw new \RuntimeException('Infibip does not support Inbound API Calls.');
-    }
-
-    /**
-     * Checks the server for messages and returns their results.
-     *
-     * @throws \RuntimeException
-     */
-    public function checkMessages(Array $options = array())
-    {
-        throw new \RuntimeException('Infibip does not support Inbound API Calls.');
-    }
-
-    /**
-     * Gets a single message by it's ID.
-     *
-     * @throws \RuntimeException
-     */
-    public function getMessage($messageId)
-    {
-        throw new \RuntimeException('Infibip does not support Inbound API Calls.');
-    }
-
-    /**
-     * Receives an incoming message via REST call.
-     *
-     * @param $raw
-     * @return IncomingMessage|void
-     * @throws \RuntimeException
-     */
-    public function receive($raw)
-    {
-        throw new \RuntimeException('Infibip does not support Inbound API Calls.');
-    }
-
 }

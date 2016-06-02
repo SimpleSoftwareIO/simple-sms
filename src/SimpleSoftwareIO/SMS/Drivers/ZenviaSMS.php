@@ -16,7 +16,7 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
 
     /**
      * The callbackOption to receive message delivery notifications.
-     * 
+     *
      * @var string
      */
     protected $callbackOption;
@@ -30,7 +30,7 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
 
     /**
      * ZenviaSMS constructor.
-     * 
+     *
      * @param Client $client
      * @param $accountKey
      * @param $passCode

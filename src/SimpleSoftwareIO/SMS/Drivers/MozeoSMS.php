@@ -3,11 +3,12 @@
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
-use SimpleSoftwareIO\SMS\IncomingMessage;
+use SimpleSoftwareIO\SMS\DoesNotReceive;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class MozeoSMS extends AbstractSMS implements DriverInterface
 {
+    use DoesNotReceive;
     /**
      * The Guzzle HTTP Client.
      *
@@ -51,57 +52,5 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
 
             $this->postRequest();
         }
-    }
-
-    /**
-     * Creates many IncomingMessage objects and sets all of the properties.
-     *
-     * @throws \RuntimeException
-     */
-    protected function processReceive($rawMessage)
-    {
-        throw new \RuntimeException('Mozeo does not support Inbound API Calls.');
-    }
-
-    /**
-     * Checks the server for messages and returns their results.
-     *
-     * @param array $options
-     *
-     * @return array
-     *
-     * @throws \RuntimeException
-     */
-    public function checkMessages(array $options = [])
-    {
-        throw new \RuntimeException('Mozeo does not support Inbound API Calls.');
-    }
-
-    /**
-     * Gets a single message by it's ID.
-     *
-     * @param string|int $messageId
-     *
-     * @return \SimpleSoftwareIO\SMS\IncomingMessage
-     *
-     * @throws \RangeException
-     */
-    public function getMessage($messageId)
-    {
-        throw new \RuntimeException('Mozeo does not support Inbound API Calls.');
-    }
-
-    /**
-     * Receives an incoming message via REST call.
-     *
-     * @param mixed $raw
-     *
-     * @return \SimpleSoftwareIO\SMS\IncomingMessage
-     *
-     * @throws \RuntimeException
-     */
-    public function receive($raw)
-    {
-        throw new \RuntimeException('Mozeo does not support Inbound API Calls.');
     }
 }
