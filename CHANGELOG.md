@@ -3,6 +3,19 @@ Simple SMS
 
 ##Change Log
 
+####3.0.0-Beta1
+* Added FlowRoute Driver. --Thanks [rasumo](https://github.com/rasumo)
+* Added Plivo Driver. --Thanks [rasumo](https://github.com/rasumo)
+* Config file now users env by default. --Thanks [rasumo](https://github.com/rasumo)
+* Config file now users env by default. --Thanks [rasumo](https://github.com/rasumo)
+* Added a Log driver.
+* Removed the pretending methods.  Use the Log driver instead.
+* Fixed a bug where sending more than one SMS message would result in an incorrectly built URL path.
+* Refactor much of the package to use traits.
+* A SMSNotSentException is now thrown in favor of a general Exception. --Thanks [cozylife](https://github.com/cozylife)
+* Moved to PSR-4 Autoloading.
+* PSR-2 Cleanup.
+
 ####2.1.2
 * An `outgoing message` is now returned when a message is sent. --Thanks [marfurt](https://github.com/marfurt)
 * The E-Mail driver only sends emails in text format now.  --Thanks [cozylife](https://github.com/cozylife)
