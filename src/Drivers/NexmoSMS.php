@@ -17,6 +17,13 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
     protected $apiBase = 'https://rest.nexmo.com';
 
     /**
+     * The ending of the URL that all requests must have.
+     *
+     * @var array
+     */
+    protected $apiEnding = ['type' => 'unicode'];
+
+    /**
      * The API key.
      *
      * @var string
