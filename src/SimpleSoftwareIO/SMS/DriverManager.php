@@ -9,7 +9,6 @@ use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
 use SimpleSoftwareIO\SMS\Drivers\PlivoSMS;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 use SimpleSoftwareIO\SMS\Drivers\ZenviaSMS;
-use SimpleSoftwareIO\SMS\Drivers\InfobipSMS;
 use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
 use SimpleSoftwareIO\SMS\Drivers\FlowrouteSMS;
@@ -46,10 +45,11 @@ class DriverManager extends Manager
     {
         $config = $this->app['config']->get('sms.callfire', []);
 
-        $provider = new CallFireSMS(new Client());
-
-        $provider->setUser($config['app_login']);
-        $provider->setPassword($config['app_password']);
+        $provider = new CallFireSMS(
+            new Client,
+            $config['app_login'],
+            $config['app_password']
+        );
 
         return $provider;
     }
@@ -179,20 +179,6 @@ class DriverManager extends Manager
 
          return $provider;
      }
-
-    /**
-     * Create an instance of the InfoBip driver.
-     *
-     * @return InfoBip
-     */
-    protected function createInfobipDriver()
-    {
-        $config = $this->app['config']->get('sms.infobip', []);
-
-        $provider = new InfobipSMS(new \infobip\SmsClient($config['username'], $config['password']));
-
-        return $provider;
-    }
 
     /**
      * Create an instance of the Plivo driver.
