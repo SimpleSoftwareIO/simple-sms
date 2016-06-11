@@ -1,12 +1,26 @@
 <?php
-
 namespace SimpleSoftwareIO\SMS\Drivers;
 
-use SimpleSoftwareIO\SMS\OutgoingMessage;
 use GuzzleHttp\Client;
+use SimpleSoftwareIO\SMS\MakesRequests;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class FlowrouteSMS extends AbstractSMS implements DriverInterface
 {
+    use MakesRequests;
+
+    /**
+     * The Guzzle HTTP Client.
+     *
+     * @var \GuzzleHttp\Client
+     */
+    protected $client;
+
+    /**
+     * The API's URL.
+     *
+     * @var string
+     */
     protected $apiBase = 'https://api.flowroute.com/v2/messages';
 
   /**
@@ -20,32 +34,30 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
         $this->setUser($accessKey);
         $this->setPassword($secretKey);
     }
-  
+
   /**
      * Sends a SMS message.
      *
      * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
      * @return void
      */
-    public function send(OutgoingMessage $message) 
+    public function send(OutgoingMessage $message)
     {
         $from = $message->getFrom();
         $composeMessage = $message->composeMessage();
 
-        // Only one message can be sent at a time
-        $number = $message->getTo()[0];
+        foreach ($message->getTo() as $number) {
+            $data = [
+                'from'          => $from,
+                'to'            => $number,
+                'body'          => $composeMessage,
+            ];
 
-        $data = [
-            'from'          => $from,
-            'to'            => $number,
-            'body'          => $composeMessage,
-        ];
-
-        $this->buildBody($data);
-
-        return $this->postRequest();
+            $this->buildBody($data);
+            $this->postRequest();
+        }
     }
-  
+
     /**
      * Checks the server for messages and returns their results.
      * See https://developer.flowroute.com/docs/lookup-a-set-of-messages
@@ -61,7 +73,7 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
 
         return $this->makeMessages($rawMessages->data);
     }
-    
+
     /**
      * Gets a single message by it's ID.
      *
@@ -71,10 +83,10 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
     public function getMessage($messageId)
     {
         $this->buildCall('/' . $messageId);
-        
+
         return $this->makeMessage(json_decode($this->getRequest()->getBody()->getContents())->data);
     }
-  
+
     /**
      * Receives an incoming message via REST call.
      *
@@ -92,7 +104,7 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
 
         return $incomingMessage;
     }
-  
+
     /**
      * Creates many IncomingMessage objects and sets all of the properties.
      *
@@ -107,15 +119,14 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
         $incomingMessage->setMessage((string)$rawMessage->attributes->body);
         $incomingMessage->setId((string)$rawMessage->id);
         $incomingMessage->setTo((string)$rawMessage->attributes->to);
-        
+
         return $incomingMessage;
     }
-  
+
     /**
      * Creates and sends a POST request to the requested URL.
      *
      * @return mixed
-     * @throws \Exception
      */
     protected function postRequest()
     {
@@ -125,7 +136,7 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
         ]);
 
         if ($response->getStatusCode() != 201 && $response->getStatusCode() != 200) {
-            throw new \Exception('Unable to request from API.');
+            $this->SMSNotSentException('Unable to request from API.');
         }
 
         return $response;
