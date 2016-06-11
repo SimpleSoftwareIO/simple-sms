@@ -7,8 +7,8 @@ Simple SMS
 [![License](https://poser.pugx.org/simplesoftwareio/simple-sms/license.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 [![Total Downloads](https://poser.pugx.org/simplesoftwareio/simple-sms/downloads.svg)](https://packagist.org/packages/simplesoftwareio/simple-sms)
 
-## V3.0.0-Beta1 Is Released!
-V3.0.0 brings in support for 2 more paid drivers bringing our total to 9!  Welcome aboard FlowRoute and Plivo.  See the full list of changes in the [changelog.](https://github.com/SimpleSoftwareIO/simple-sms/blob/develop/CHANGELOG.md)
+## 3.0.0-Beta1 Is Released!
+3.0.0 brings in support for 2 more paid drivers bringing our total to 9!  Welcome aboard FlowRoute and Plivo.  See the full list of changes in the [changelog.](https://github.com/SimpleSoftwareIO/simple-sms/blob/develop/CHANGELOG.md)
 
 [View the beta Documentation](https://github.com/SimpleSoftwareIO/simple-sms/tree/develop/docs/en/README.md)
 
