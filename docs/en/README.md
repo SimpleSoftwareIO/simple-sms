@@ -15,11 +15,14 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
     * [Call Fire Driver](#docs-call-fire-driver)
     * [E-mail Driver](#docs-e-mail-driver)
     * [EZTexting Driver](#docs-ez-texting-driver)
+    * [FlowRoute Driver](#docs-flow-route-driver)
     * [LabsMobile Driver](#docs-labsmobile-driver)
+    * [Log Driver](#docs-log-driver)
     * [Mozeo Driver](#docs-mozeo-driver)
     * [Nexmo Driver](#docs-nexmo-driver)
+    * [Plivo Driver](#docs-plivo-driver)
     * [Twilio Driver](#docs-twilio-driver)
-    * [Infobip Driver](#docs-infobip-driver)
+    * [Zenvia Driver](#docs-zenvia-driver)
 * [Driver Support](#docs-driver-support)
 * [Usage](#docs-usage)
 * [Outgoing Message Enclosure](#docs-outgoing-enclosure)
@@ -27,7 +30,7 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
 
 <a id="docs-introduction"></a>
 ## Introduction
-Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 6 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [LabsMobile,](http://www.labsmobile.com) [Mozeo,](https://www.mozeo.com/) [Nexmo,](https://www.nexmo.com/) and [Twilio.](https://www.twilio.com)
+Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that adds the capability to send and receive SMS/MMS messages to mobile phones from your web app. It currently supports a free way to send SMS messages through E-Mail gateways provided by the wireless carriers. The package also supports 6 paid services, [Call Fire,](https://www.callfire.com/) [EZTexting,](https://www.eztexting.com) [FlowRoute,](https://www.flowroute.com/) [LabsMobile,](http://www.labsmobile.com) [Mozeo,](https://www.mozeo.com/) [Nexmo,](https://www.nexmo.com/) [Plivo,](https://www.plivo.com/) [Twilio,](https://www.twilio.com) and [Zenvia.](http://www.zenvia.com.br/)
 
 <a id="docs-requirements"></a>
 ## Requirements
@@ -39,16 +42,12 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
 <a id="docs-configuration"></a>
 ## Configuration
 
-#### Laravel 4
-
-Please read the Laravel 4 [documentation.](https://github.com/SimpleSoftwareIO/simple-sms/blob/master/docs/laravel4.md)
-
 #### Composer
 
 First, add the Simple SMS package to your `require` in your `composer/json` file:
 
     "require": {
-        "simplesoftwareio/simple-sms": "~2"
+        "simplesoftwareio/simple-sms": "3.0.0-beta1"
     }
 
 Next, run the `composer update` command.  This will install the package into your Laravel application.
@@ -72,8 +71,6 @@ You must run the following command to save your configuration files to your loca
     php artisan vendor:publish
 
 This will copy the configuration files to your `config` folder.
-
->Failure to run the `vendor:publish` command will result in your configuration files being overwritten after every `composer update` command.
 
 #### Driver Configuration
 
@@ -111,30 +108,29 @@ The only setting for this driver is the `from` setting.  Simply enter an email a
 
 The following are currently supported by using the e-mail gateway driver.
 
-| Country | Carrier | Carrier Prefix | SMS Supported | MMS Supported | Tested? |
-| --- | --- | --- | --- | --- | --- |
-| USA | AT&T | att | Yes | Yes | Yes |
-| USA | Air Fire Mobile | airfiremobile | Yes | No | No |
-| USA | Alaska Communicates | alaskacommunicates | Yes | Yes | No |
-| USA | Ameritech | ameritech | Yes | No | No |
-| USA | Boost Mobile | moostmobile | Yes | Yes | No |
-| USA | Clear Talk | cleartalk | Yes | No | No |
-| USA | Cricket | cricket | Yes | No | No |
-| USA | Metro PCS | metropcs | Yes | Yes | No |
-| USA | NexTech | nextech | Yes | No | No |
-| Canada | Rogers Wireless | rogerswireless | Yes | Yes | No |
-| USA | Unicel | unicel | Yes | Yes | No |
-| USA | Verizon Wireless | verizonwireless | Yes | Yes | No |
-| USA | Virgin Mobile | virginmobile | Yes | Yes | No |
-| USA | T-Mobile | tmobile | Yes | Yes | Yes |
+| Country | Carrier | Carrier Prefix | SMS Supported | MMS Supported |
+| --- | --- | --- | --- | --- |
+| USA | AT&T | att | Yes | Yes |
+| USA | Air Fire Mobile | airfiremobile | Yes | No |
+| USA | Alaska Communicates | alaskacommunicates | Yes | Yes |
+| USA | Ameritech | ameritech | Yes | No |
+| USA | Boost Mobile | moostmobile | Yes | Yes |
+| USA | Clear Talk | cleartalk | Yes | No |
+| USA | Cricket | cricket | Yes | No |
+| USA | Metro PCS | metropcs | Yes | Yes |
+| USA | NexTech | nextech | Yes | No |
+| USA | Project Fi | projectfi | Yes | Yes |
+| Canada | Rogers Wireless | rogerswireless | Yes | Yes |
+| USA | Unicel | unicel | Yes | Yes |
+| USA | Verizon Wireless | verizonwireless | Yes | Yes |
+| USA | Virgin Mobile | virginmobile | Yes | Yes |
+| USA | T-Mobile | tmobile | Yes | Yes |
 
 >You must know the wireless provider for the mobile phone to use this driver.
 
 >Careful!  Not all wireless carriers support e-mail gateways around the world.
 
 >Some carriers slightly modify messages by adding the `from` and `to` address to the SMS message.
-
->An untested gateway means we have not been able to confirm if the gateway works with the mobile provider.  Please provide feedback if you are on one of these carriers.
 
 <a id="docs-ez-texting-driver"></a>
 ###### EZTexting
@@ -156,6 +152,24 @@ To enable `receive()` for this service, you must visit the [EZTexting settings p
 
 >Note: All messages from EZTexting come from the same short number (313131)
 
+<a id="docs-ez-flow-route-driver"></a>
+###### FlowRoute
+
+This driver sends all messages through the [FlowRoute](https://www.flowroute.com/) service.
+
+Fill in the `config` file with the correct settings to enable EZTexting.
+
+    return [
+        'driver' => 'flowroute',
+        'from' => 'Not Use For EZTexting',
+        'flowroute' => [
+            'access_key' => 'Your Access Key',
+            'secret_key' => 'Your Secret Key'
+        ],
+    ];
+
+To enable `receive()` for this service, you must visit the [FlowRoute settings page.](https://developer.flowroute.com/docs/lookup-a-set-of-messages)  Enable the `Forwarding API` and `Keyword API` for the messages that you would like forwarded to your web application.
+
 <a id="docs-labsmobile-driver"></a>
 ###### LabsMobile Driver
 
@@ -165,11 +179,18 @@ This driver sends all messages through the [LabsMobile](http://www.labsmobile.co
         'driver' => 'labsmobile',
         'from' => 'Sender',
         'labsmobile' => [
-            'client' => 'Your Client Key',
             'username' => 'Your Username',
             'password' => 'Your Password',
-            'test' => '1 for simulate mode; 0 for real sendings'
         ]
+    ];
+
+<a id="docs-log-driver"></a>
+###### Log Driver
+
+The log driver is just a simple testing driver.  This will log that a SMS message was sent in your `storage/logs` folder.
+
+    return [
+        'driver' => 'log',
     ];
 
 <a id="docs-mozeo-driver"></a>
@@ -205,6 +226,22 @@ This driver sends messages through the [Nexmo](https://www.nexmo.com/product/mes
 
 To enable `receive()` messages you must set up the [request URL.](https://docs.nexmo.com/index.php/sms-api/handle-inbound-message)
 
+<a id="docs-plivo-driver"></a>
+######  Plivo Driver
+
+This driver sends messages through the [Plivo](https://www.plivo.com/) messaging service.
+
+    return [
+        'driver' => 'plivo',
+        'from' => 'Company Name',
+        'plivo' => [
+            'auth_id'       => 'Your Auth ID.',
+            'auth_token'    => 'Your Auth Token.'
+        ]
+    ];
+
+To enable `receive()` messages you must set up the [request URL.](https://manage.plivo.com/endpoint/)
+
 <a id="docs-twilio-driver"></a>
 ######  Twilio Driver
 
@@ -220,39 +257,41 @@ This driver sends messages through the [Twilio](https://www.twilio.com/sms) mess
         ]
     ];
 
-It is strongly recommended to have the `verify` option enabled.  This setting performs an additional security check to ensure messages are coming from Twilio and not being spoofed.
+<a id="docs-plivo-driver"></a>
+######  Zenvia Driver
 
-To enable `receive()` messages you must set up the [request URL.](https://www.twilio.com/user/account/phone-numbers/incoming)  Select the number you wish to enable and then enter your request URL.  This request should be a `POST` request.
-
-<a id="docs-infobip-driver"></a>
-######  Infobip Driver
-
-This driver sends messages through the [Infobib](http://www.infobip.com/en) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.
+This driver sends messages through the [Zenvia](http://www.zenvia.com.br/ messaging service which is a popular service in Brazil.
 
     return [
-        'driver' => 'infobip',
-        'from' => 'InfoSMS', //Your Twilio Number in E.164 Format.
-        'infobip'=> [
-             'username' => 'username of infobip',
-             'password' => 'password of infobip'
-         ]
+        'driver' => 'zenvia',
+        'from' => 'Your Number',
+        'zenvia' => [
+            'account_key' => 'Your Account Key.',
+            'passcode' => 'Your Passcode.'
+            'call_back_option' => 'The URL you wish to have receive messages sent to.'
+        ]
     ];
-For more information see [Infobip API Developer Hub](https://dev.infobip.com/)
+
+<a id="docs-infobip-driver"></a>
 
 <a id="docs-driver-support"></a>
 ##Driver Support
 
 Not all drivers support every method due to the differences in each individual API.  The following table outlines what is supported for each driver.
 
-| Driver | Send | Queue | Pretend | CheckMessages | GetMessage | Receive |
+| Driver | Send | Queue | CheckMessages | GetMessage | Receive |
 | --- | --- | --- | --- | --- | --- | --- |
-| Call Fire | Yes | Yes | Yes | Yes | Yes | No |
-| E-Mail | Yes | Yes | Yes | No | No | No |
-| EZTexting | Yes | Yes | Yes | Yes | Yes | Yes |
-| LabsMobile | Yes | Yes | Yes | No | No | No |
-| Mozeo | Yes | Yes | Yes | No | No | No |
-| Nexmo | Yes | Yes | Yes | Yes | Yes | Yes |
-| Twilio | Yes | Yes | Yes | Yes | Yes | Yes |
+| Call Fire | Yes | Yes | Yes | Yes | No |
+| E-Mail | Yes | Yes | No | No | No |
+| EZTexting | Yes | Yes | Yes | Yes | Yes |
+| FlowRoute | Yes | Yes | Yes | Yes | Yes |
+| LabsMobile | Yes | Yes | No | No | No |
+| Log | Yes | Yes | No | No | No |
+| Mozeo | Yes | Yes | No | No | No |
+| Nexmo | Yes | Yes | Yes | Yes | Yes |
+| Plivo | Yes | Yes | Yes | Yes | Yes |
+| Twilio | Yes | Yes | Yes | Yes | Yes |
+| Zenvia | Yes | Yes | Yes | Yes | Yes |
 
 <a id="docs-usage"></a>
 ## Usage
@@ -262,12 +301,18 @@ Not all drivers support every method due to the differences in each individual A
 Simple SMS operates in much of the same way as the Laravel Mail service provider.  If you are familiar with this then SMS should feel like home.  The most basic way to send a SMS is to use the following:
 
     //Service Providers Example
-    SMS::send('simple-sms::welcome', $data, function($sms) {
+    SMS::send('Your SMS Message', null, function($sms) {
+        $sms->to('+15555555555');
+    });
+
+    //Service Providers Using A Laravel View
+    //$data is the information that will be passed onto the view file.
+    SMS::send('laravel::viewFile', $data, function($sms) {
         $sms->to('+15555555555');
     });
 
     //Email Driver Example
-    SMS::send('simple-sms::welcome', $data, function($sms) {
+    SMS::send('Your SMS Message', null, function($sms) {
         $sms->to('+15555555555', 'att');
     });
 
@@ -280,7 +325,7 @@ The `send` method sends the SMS through the configured driver using a Laravel vi
     SMS::send($view, Array $data, function($sms) {
         $sms->to('+15555555555');
     }
-    SMS::send('simple-sms::welcome', $data, function($sms) {
+    SMS::send('laravel::view', $data, function($sms) {
         $sms->to('+15555555555');
     });
 
@@ -298,14 +343,14 @@ It is possible to send a simple message without creating views by passing a stri
 The `driver` method will switch the provider during runtime.
 
     //Will send through default provider set in the config file.
-    SMS::queue('simple-sms::welcome', $data, function($sms) {
+    SMS::queue('Your SMS Message', $data, function($sms) {
         $sms->to('+15555555555');
     });
 
     SMS::driver('twilio');
 
     //Will send through Twilio
-    SMS::queue('simple-sms::welcome', $data, function($sms) {
+    SMS::queue('Your SMS Message', $data, function($sms) {
         $sms->to('+15555555555');
     });
 
@@ -313,26 +358,11 @@ The `driver` method will switch the provider during runtime.
 
 The `queue` method queues a message to be sent later instead of sending the message instantly.  This allows for faster respond times for the consumer by offloading uncustomary processing time. Like `Laravel's Mail` system, queue also has `queueOn,` `later,` and `laterOn` methods.
 
-    SMS::queue('simple-sms::welcome', $data, function($sms) {
+    SMS::queue('Your SMS Message', $data, function($sms) {
         $sms->to('+15555555555');
     });
 
 >The `queue` method will fallback to the `send` method if a queue service is not configured within `Laravel.`
-
-#### Pretend
-
-The `pretend` method will simply create a log file that states that a SMS message has been "sent."  This is useful to test to see if your configuration settings are working correctly without sending actual messages.
-
-    SMS::pretend('simple-sms::welcome', $data, function($sms) {
-        $sms->to('+15555555555');
-    });
-
-You may also set the `pretend` configuration option to true to have all SMS messages pretend that they were sent.
-
-    `/app/config/simplesoftwareio/simple-sms/config.php`
-    return array(
-        'pretend' => true,
-    );
 
 #### Receive
 
@@ -390,11 +420,13 @@ More information about each service provider can be found at their API docs.
 
 * [Call Fire](https://www.callfire.com/api-documentation/rest/version/1.1#!/text/QueryTexts_get_1)
 * [EZTexting](https://www.eztexting.com/developers/sms-api-documentation/rest)
+* [FlowRoute](https://developer.flowroute.com/)
 * [LabsMobile](http://www.labsmobile.com/en/api-sms)
 * [Mozeo](https://www.mozeo.com/mozeo/customer/Mozeo_API_OutboundSMS.pdf)
 * [Nexmo](https://docs.nexmo.com/index.php/developer-api/search-message)
+* [Plivo](https://www.plivo.com/docs/)
 * [Twilio](https://www.twilio.com/docs/api/rest/message#list-get)
-* [Infobip](https://dev.infobip.com/)
+* [Zenvia](http://www.zenvia.com.br/desenvolvedores/)
 
 #### Get Message
 
@@ -405,25 +437,16 @@ You are able to retrieve a message by it's ID with a simply call.  This will ret
     echo $message->from();
 
 <a id="docs-outgoing-enclosure"></a>
-## Outgoing Message Enclosure
-
-#### Why Enclosures?
-
-We use enclosures to allow for functions such as the queue methods.  Being able to easily save the message enclosures allows for much greater flexibility.
+## Outgoing Message
 
 #### To
 
 The `to` method adds a phone number that will have a message sent to it.
 
-    //Service Providers Example
-    SMS::send('simple-sms::welcome', $data, function($sms) {
+    //Service Provider Example
+    SMS::send('Your SMS Message', $data, function($sms) {
         $sms->to('+15555555555');
         $sms->to('+14444444444');
-    });
-    //Email Driver
-    SMS::send('simple-sms::welcome', $data, function($sms) {
-        $sms->to('15555555555', 'att);
-        $sms->to('14444444444', 'verizonwireless);
     });
 
 >The carrier is required for the email driver so that the correct email gateway can be used.  See the table above for a list of accepted carriers.
@@ -432,7 +455,7 @@ The `to` method adds a phone number that will have a message sent to it.
 
 The `from` method will set the address from which the message is being sent.
 
-    SMS::send('simple-sms::welcome', $data, function($sms) {
+    SMS::send('Your SMS Message', $data, function($sms) {
         $sms->from('+15555555555');
     });
 
@@ -440,12 +463,8 @@ The `from` method will set the address from which the message is being sent.
 
 The `attachImage` method will add an image to the message.  This will also convert the message to a MMS because SMS does not support image attachments.
 
-    //Email Driver
-    SMS::send('simple-sms::welcome', $data, function($sms) {
-        $sms->attachImage('/local/path/to/image.jpg');
-    });
-    //Twilio Driver
-    SMS::send('simple-sms::welcome', $data, function($sms) {
+    //Service Provider Driver
+    SMS::send('Your SMS Message', $data, function($sms) {
         $sms->attachImage('/url/to/image.jpg');
     });
 
@@ -478,15 +497,3 @@ The `to` method returns the phone number that a message was sent to.
 
     $incoming = SMS::getMessage('messageId');
     echo $incoming->to();
-
-## Official Documentation
-
-Documentation for Simple SMS can be found on our [website.](https://www.simplesoftware.io/docs/simple-sms)
-
-## Contributing
-
-Please submit all issues and pull requests to the [simplesoftwareio/simple-sms](https://github.com/simplesoftwareio/simple-sms) repository on the develop branch!
-
-## License
-
-This software is released under the [MIT license.](https://opensource.org/licenses/MIT)
