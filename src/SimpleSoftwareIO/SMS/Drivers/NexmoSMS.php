@@ -1,12 +1,14 @@
 <?php
-
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
+use SimpleSoftwareIO\SMS\MakesRequests;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class NexmoSMS extends AbstractSMS implements DriverInterface
 {
+    use MakesRequests;
+
     /**
      * The API's URL.
      *
@@ -14,7 +16,18 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
      */
     protected $apiBase = 'https://rest.nexmo.com';
 
+    /**
+     * The API key.
+     *
+     * @var string
+     */
     protected $apiKey;
+
+    /**
+     * The API secret key.
+     *
+     * @var string
+     */
     protected $apiSecret;
 
     /**
@@ -65,10 +78,10 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
         if ($this->hasError($body)) {
             $this->handleError($body);
         }
-        
+
         return $response;
     }
-    
+
     /**
      * Checks if the transaction has an error
      *
@@ -83,7 +96,7 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
         }
         return false;
     }
-    
+
     /**
      * Log the error message which ocurred
      *
@@ -96,10 +109,10 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
         if ($this->hasProperty($firstMessage, 'error-text')) {
             $error = $firstMessage['error-text'];
         }
-        
+
         $this->throwNotSentException($error, $firstMessage['status']);
     }
-    
+
     /**
      * Check for a message in the response from Nexmo
      *
@@ -113,7 +126,7 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
             array_key_exists(0, $body['messages'])
         );
     }
-    
+
     /**
      * Get the first message in the response from Nexmo
      *
@@ -123,7 +136,7 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
     {
         return $body['messages'][0];
     }
-    
+
     /**
      * Check if the message from Nexmo has a given property
      *

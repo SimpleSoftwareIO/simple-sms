@@ -3,6 +3,7 @@ namespace SimpleSoftwareIO\SMS;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Manager;
+use SimpleSoftwareIO\SMS\Drivers\LogSMS;
 use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
@@ -37,7 +38,19 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the callfire driver.
+     * Create an instance of the Log driver.
+     *
+     * @return LogSMS
+     */
+    protected function createLogDriver()
+    {
+        $provider = new LogSMS($this->app['log']);
+
+        return $provider;
+    }
+
+    /**
+     * Create an instance of the CallFire driver.
      *
      * @return CallFireSMS
      */
@@ -55,7 +68,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Creates an instance of the email driver.
+     * Creates an instance of the EMail driver.
      *
      * @return EmailSMS
      */
@@ -67,7 +80,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the eztexting driver.
+     * Create an instance of the EZTexting driver.
      *
      * @return EZTextingSMS
      */
@@ -87,6 +100,11 @@ class DriverManager extends Manager
         return $provider;
     }
 
+    /**
+     * Create an instance of the LabsMobile driver.
+     *
+     * @return LabsMobileSMS
+     */
     protected function createLabsMobileDriver()
     {
         $config = $this->app['config']->get('sms.labsmobile', []);
@@ -94,10 +112,8 @@ class DriverManager extends Manager
         $provider = new LabsMobileSMS(new Client());
 
         $auth = [
-            'client' => $config['client'],
             'username' => $config['username'],
             'password' => $config['password'],
-            'test' => $config['test'],
         ];
 
         $provider->buildBody($auth);
@@ -106,7 +122,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the mozeo driver.
+     * Create an instance of the Mozeo driver.
      *
      * @return MozeoSMS
      */
@@ -129,7 +145,7 @@ class DriverManager extends Manager
     /**
      * Create an instance of the nexmo driver.
      *
-     * @return MozeoSMS
+     * @return NexmoSMS
      */
     protected function createNexmoDriver()
     {
@@ -190,8 +206,8 @@ class DriverManager extends Manager
         $config = $this->app['config']->get('sms.plivo', []);
 
         $provider = new PlivoSMS(
-            $config['authId'],
-            $config['authToken']
+            $config['auth_id'],
+            $config['auth_token']
         );
 
         return $provider;

@@ -1,5 +1,4 @@
 <?php
-
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use Services_Twilio;

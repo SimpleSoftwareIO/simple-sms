@@ -1,5 +1,4 @@
 <?php
-
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use Plivo\RestAPI as Plivo;
@@ -42,11 +41,15 @@ class PlivoSMS extends AbstractSMS implements DriverInterface
         $composeMessage = $message->composeMessage();
 
         foreach ($message->getTo() as $to) {
-            $this->plivo->send_message([
+            $response = $this->plivo->send_message([
                 'dst' => $to,
                 'src' => $from,
                 'text' => $composeMessage,
             ]);
+
+            if ($response['status'] != 202) {
+                $this->SMSNotSentException($response['response']['error']);
+            }
         }
     }
 
@@ -78,8 +81,8 @@ class PlivoSMS extends AbstractSMS implements DriverInterface
         $end = array_key_exists('end', $options) ? $options['end'] : 25;
 
         $rawMessages = $this->plivo->get_messages([
-            'offset' => $start, 
-            'limit' => $end, 
+            'offset' => $start,
+            'limit' => $end,
         ]);
 
         $incomingMessages = [];
@@ -148,7 +151,7 @@ class PlivoSMS extends AbstractSMS implements DriverInterface
         {
             throw new \InvalidArgumentException('This request was not able to verify it came from Plivo.');
         }
-        return true;
 
+        return true;
     }
 }

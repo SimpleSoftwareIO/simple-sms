@@ -1,12 +1,14 @@
 <?php
-
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
+use SimpleSoftwareIO\SMS\MakesRequests;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class EZTextingSMS extends AbstractSMS implements DriverInterface
 {
+    use MakesRequests;
+
     /**
      * The Guzzle HTTP Client.
      *

@@ -28,9 +28,11 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      *
      * @param Client $client The Guzzle Client
      */
-    public function __construct(Client $client)
+    public function __construct(Client $client, $username, $password)
     {
         $this->client = $client;
+        $this->setUser($username);
+        $this->setPassword($password);
     }
 
     /**

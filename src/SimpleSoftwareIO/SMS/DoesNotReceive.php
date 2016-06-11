@@ -12,7 +12,7 @@ trait DoesNotReceive
      */
     public function checkMessages(array $options = [])
     {
-        throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');
+        throw new \RuntimeException('Receive methods are not support with the this driver.');
     }
 
     /**
@@ -25,7 +25,7 @@ trait DoesNotReceive
      */
     public function getMessage($messageId)
     {
-        throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');
+        throw new \RuntimeException('Receive methods are not support with the this driver.');
     }
 
     /**
@@ -37,6 +37,18 @@ trait DoesNotReceive
      */
     public function receive($raw)
     {
-        throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');
+        throw new \RuntimeException('Receive methods are not support with the this driver.');
+    }
+
+    /**
+     * Creates many IncomingMessage objects and sets all of the properties.
+     *
+     * @param string $rawMessage
+     *
+     * @return mixed
+     */
+    protected function processReceive($rawMessage)
+    {
+        throw new \RuntimeException('Receive methods are not support with this driver.');
     }
 }
