@@ -1,5 +1,4 @@
 <?php
-
 namespace SimpleSoftwareIO\SMS;
 
 use Illuminate\Support\ServiceProvider;
@@ -34,7 +33,7 @@ class SMSServiceProvider extends ServiceProvider
             $sms = new SMS($app['sms.sender']);
             $this->setSMSDependencies($sms, $app);
 
-            //Set the from and pretending settings
+            //Set the from setting
             if ($app['config']->has('sms.from')) {
                 $sms->alwaysFrom($app['config']['sms']['from']);
             }

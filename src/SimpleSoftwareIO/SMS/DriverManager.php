@@ -1,20 +1,19 @@
 <?php
-
 namespace SimpleSoftwareIO\SMS;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Manager;
 use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
-use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
-use SimpleSoftwareIO\SMS\Drivers\InfobipSMS;
-use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
+use SimpleSoftwareIO\SMS\Drivers\PlivoSMS;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 use SimpleSoftwareIO\SMS\Drivers\ZenviaSMS;
+use SimpleSoftwareIO\SMS\Drivers\InfobipSMS;
 use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
-use SimpleSoftwareIO\SMS\Drivers\PlivoSMS;
+use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
 use SimpleSoftwareIO\SMS\Drivers\FlowrouteSMS;
+use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
 
 class DriverManager extends Manager
 {
@@ -82,6 +81,7 @@ class DriverManager extends Manager
             'User' => $config['username'],
             'Password' => $config['password'],
         ];
+
         $provider->buildBody($data);
 
         return $provider;
@@ -169,12 +169,14 @@ class DriverManager extends Manager
      protected function createZenviaDriver()
      {
          $config = $this->app['config']->get('sms.zenvia', []);
+
          $provider = new ZenviaSMS(
              new Client(),
              $config['account_key'],
              $config['passcode'],
              $config['callbackOption']
          );
+
          return $provider;
      }
 
@@ -186,6 +188,7 @@ class DriverManager extends Manager
     protected function createInfobipDriver()
     {
         $config = $this->app['config']->get('sms.infobip', []);
+
         $provider = new InfobipSMS(new \infobip\SmsClient($config['username'], $config['password']));
 
         return $provider;
