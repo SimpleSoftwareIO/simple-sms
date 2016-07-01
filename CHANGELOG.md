@@ -3,6 +3,9 @@ Simple SMS
 
 ##Change Log
 
+####3.0.0
+* Updated Readme
+
 ####3.0.0-Beta1
 * Added FlowRoute Driver. --Thanks [rasumo](https://github.com/rasumo)
 * Added Plivo Driver. --Thanks [rasumo](https://github.com/rasumo)
