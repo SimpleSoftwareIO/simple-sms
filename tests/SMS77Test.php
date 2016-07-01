@@ -27,7 +27,7 @@ class SMS77Test extends \PHPUnit_Framework_TestCase
         $this->sms = new \SimpleSoftwareIO\SMS\SMS($this->driver);
     }
 
-    public function testSendSMSDebug()
+    public function testSendSMS()
     {
         $viewFactory = m::mock('\Illuminate\View\Factory');
         $view = m::mock('\Illuminate\View\View');

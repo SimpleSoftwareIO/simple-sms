@@ -2,12 +2,13 @@
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
+use SimpleSoftwareIO\SMS\DoesNotReceive;
 use SimpleSoftwareIO\SMS\MakesRequests;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class SMS77 extends AbstractSMS implements DriverInterface
 {
-    use MakesRequests;
+    use DoesNotReceive, MakesRequests;
 
     /**
      * The API's URL.
@@ -28,7 +29,7 @@ class SMS77 extends AbstractSMS implements DriverInterface
      *
      * @param Client $client The Guzzle Client
      */
-    public function __construct(Client $client, $username, $password, $debug)
+    public function __construct(Client $client, $username, $password, $debug = false)
     {
         $this->client = $client;
         $this->setUser($username);
@@ -68,69 +69,6 @@ class SMS77 extends AbstractSMS implements DriverInterface
     }
 
     /**
-     * Creates many IncomingMessage objects and sets all of the properties.
-     *
-     * @param $rawMessage
-     *
-     * @return mixed
-     */
-    protected function processReceive($rawMessage)
-    {
-        $incomingMessage = $this->createIncomingMessage();
-        $incomingMessage->setRaw($rawMessage);
-        $incomingMessage->setFrom((string) $rawMessage->FromNumber);
-        $incomingMessage->setMessage((string) $rawMessage->TextRecord->Message);
-        $incomingMessage->setId((string) $rawMessage['id']);
-        $incomingMessage->setTo((string) $rawMessage->ToNumber);
-
-        return $incomingMessage;
-    }
-
-    /**
-     * Checks the server for messages and returns their results.
-     *
-     * @param array $options
-     *
-     * @return array
-     */
-    public function checkMessages(array $options = [])
-    {
-        $this->buildCall('/text');
-
-        $rawMessages = $this->getRequest()->xml();
-
-        return $this->makeMessages($rawMessages->Text);
-    }
-
-    /**
-     * Gets a single message by it's ID.
-     *
-     * @param string|int $messageId
-     *
-     * @return \SimpleSoftwareIO\SMS\IncomingMessage
-     */
-    public function getMessage($messageId)
-    {
-        $this->buildCall('/text/'.$messageId);
-
-        return $this->makeMessage($this->getRequest()->xml()->Text);
-    }
-
-    /**
-     * Receives an incoming message via REST call.
-     *
-     * @param mixed $raw
-     *
-     * @return \SimpleSoftwareIO\SMS\IncomingMessage
-     *
-     * @throws \RuntimeException
-     */
-    public function receive($raw)
-    {
-        throw new \RuntimeException('SMS77 push messages is not supported yet.');
-    }
-
-    /**
      * Checks if the transaction has an error
      *
      * @param $body
@@ -159,67 +97,67 @@ class SMS77 extends AbstractSMS implements DriverInterface
                 $error .= 'Versand an mindestens einen Empfänger fehlgeschlagen';
                 break;
             case '201':
-                $error .= ' - Absender ungültig. Erlaubt sind max 11 alphanumerische oder 16 numerische Zeichen.';
+                $error .= 'Absender ungültig. Erlaubt sind max 11 alphanumerische oder 16 numerische Zeichen.';
                 break;
             case '202':
-                $error .= ' - Empfängernummer ungültig';
+                $error .= 'Empfängernummer ungültig';
                 break;
             case '300':
-                $error .= ' - Bitte Benutzer/Passwort angeben';
+                $error .= 'Bitte Benutzer/Passwort angeben';
                 break;
             case '301':
-                $error .= ' - Variable to nicht gesetzt';
+                $error .= 'Variable to nicht gesetzt';
                 break;
             case '304':
-                $error .= ' - Variable type nicht gesetzt';
+                $error .= 'Variable type nicht gesetzt';
                 break;
             case '305':
-                $error .= ' - Variable text nicht gesetzt';
+                $error .= 'Variable text nicht gesetzt';
                 break;
             case '306':
-                $error .= ' - Absendernummer ungültig (nur bei Standard SMS). Diese muss vom Format 0049... sein un eine gültige Handynummer darstellen.';
+                $error .= 'Absendernummer ungültig (nur bei Standard SMS). Diese muss vom Format 0049... sein un eine gültige Handynummer darstellen.';
                 break;
             case '307':
-                $error .= ' - Variable url nicht gesetzt';
+                $error .= 'Variable url nicht gesetzt';
                 break;
             case '400':
-                $error .= ' - type ungültig. Siehe erlaubte Werte oben.';
+                $error .= 'type ungültig. Siehe erlaubte Werte oben.';
                 break;
             case '401':
-                $error .= ' - Variable text ist zu lang';
+                $error .= 'Variable text ist zu lang';
                 break;
             case '402':
-                $error .= ' - Reloadsperre – diese SMS wurde bereits innerhalb der letzten 90 Sekunden verschickt';
+                $error .= 'Reloadsperre – diese SMS wurde bereits innerhalb der letzten 90 Sekunden verschickt';
                 break;
             case '500':
-                $error .= ' - Zu wenig Guthaben vorhanden.';
+                $error .= 'Zu wenig Guthaben vorhanden.';
                 break;
             case '600':
-                $error .= ' - Carrier Zustellung misslungen';
+                $error .= 'Carrier Zustellung misslungen';
                 break;
             case '700':
-                $error .= ' - Unbekannter Fehler';
+                $error .= 'Unbekannter Fehler';
                 break;
             case '801':
-                $error .= ' - Logodatei nicht angegeben';
+                $error .= 'Logodatei nicht angegeben';
                 break;
             case '802':
-                $error .= ' - Logodatei existiert nicht';
+                $error .= 'Logodatei existiert nicht';
                 break;
             case '803':
-                $error .= ' - Klingelton nicht angegeben';
+                $error .= 'Klingelton nicht angegeben';
                 break;
             case '900':
-                $error .= ' - Benutzer/Passwort-Kombination falsch';
+                $error .= 'Benutzer/Passwort-Kombination falsch';
                 break;
             case '902':
-                $error .= ' - http API für diesen Account deaktiviert';
+                $error .= 'http API für diesen Account deaktiviert';
                 break;
             case '903':
-                $error .= ' - Server IP ist falsch';
+                $error .= 'Server IP ist falsch';
                 break;
             case '11':
-                $error .= ' - SMS Carrier temporär nicht verfügbar';
+                $error .= 'SMS Carrier temporär nicht verfügbar';
                 break;
 
         }
