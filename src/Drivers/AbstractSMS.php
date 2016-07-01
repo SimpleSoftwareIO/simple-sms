@@ -6,6 +6,9 @@ use SimpleSoftwareIO\SMS\SMSNotSentException;
 
 abstract class AbstractSMS
 {
+
+    protected $debug;
+
     /**
      * Throw a not sent exception
      *
@@ -65,4 +68,16 @@ abstract class AbstractSMS
      * @return mixed
      */
     abstract protected function processReceive($rawMessage);
+
+    /**
+     * Defines if debug is enabled or disabled (SMS77)
+     *
+     * @param $debug
+     */
+    public function setDebug($debug)
+    {
+        $this->debug = $debug;
+    }
+
+
 }
