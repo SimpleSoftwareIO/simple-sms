@@ -230,4 +230,18 @@ class DriverManager extends Manager
 
         return $provider;
     }
+
+    protected function createSms77Driver()
+    {
+        $config = $this->app['config']->get('sms.sms77', []);
+
+        $provider = new SMS77(
+            new Client,
+            $config['user'],
+            $config['api_key'],
+            $config['debug']
+        );
+
+        return $provider;
+    }
 }
