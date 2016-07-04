@@ -3,6 +3,9 @@ Simple SMS
 
 ##Change Log
 
+####3.0.1
+* Fixed a bug where the config file was not being copied correctly.
+
 ####3.0.0
 * Updated Readme
 
