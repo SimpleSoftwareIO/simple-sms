@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
@@ -23,7 +24,7 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
      */
     protected $apiBase = 'https://api.flowroute.com/v2/messages';
 
-  /**
+    /**
      * Create the Flowroute instance.
      *
      * @param Client $client The Guzzle Client
@@ -35,10 +36,11 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
         $this->setPassword($secretKey);
     }
 
-  /**
+    /**
      * Sends a SMS message.
      *
      * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
+     *
      * @return void
      */
     public function send(OutgoingMessage $message)
@@ -60,9 +62,10 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
 
     /**
      * Checks the server for messages and returns their results.
-     * See https://developer.flowroute.com/docs/lookup-a-set-of-messages
+     * See https://developer.flowroute.com/docs/lookup-a-set-of-messages.
      *
      * @param array $options
+     *
      * @return array
      */
     public function checkMessages(array $options = [])
@@ -78,11 +81,12 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
      * Gets a single message by it's ID.
      *
      * @param string|int $messageId
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function getMessage($messageId)
     {
-        $this->buildCall('/' . $messageId);
+        $this->buildCall('/'.$messageId);
 
         return $this->makeMessage(json_decode($this->getRequest()->getBody()->getContents())->data);
     }
@@ -91,6 +95,7 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
      * Receives an incoming message via REST call.
      *
      * @param mixed $raw
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function receive($raw)
@@ -109,16 +114,17 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
      * Creates many IncomingMessage objects and sets all of the properties.
      *
      * @param $rawMessage
+     *
      * @return mixed
      */
     protected function processReceive($rawMessage)
     {
         $incomingMessage = $this->createIncomingMessage();
         $incomingMessage->setRaw($rawMessage);
-        $incomingMessage->setFrom((string)$rawMessage->attributes->from);
-        $incomingMessage->setMessage((string)$rawMessage->attributes->body);
-        $incomingMessage->setId((string)$rawMessage->id);
-        $incomingMessage->setTo((string)$rawMessage->attributes->to);
+        $incomingMessage->setFrom((string) $rawMessage->attributes->from);
+        $incomingMessage->setMessage((string) $rawMessage->attributes->body);
+        $incomingMessage->setId((string) $rawMessage->id);
+        $incomingMessage->setTo((string) $rawMessage->attributes->to);
 
         return $incomingMessage;
     }
@@ -132,7 +138,7 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
     {
         $response = $this->client->post($this->buildUrl(), [
             'auth' => $this->getAuth(),
-            'json' => $this->getBody()
+            'json' => $this->getBody(),
         ]);
 
         if ($response->getStatusCode() != 201 && $response->getStatusCode() != 200) {

@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
@@ -70,10 +71,10 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
         $numbers = implode(',', $message->getTo());
 
         $data = [
-            'from' => $from,
-            'to' => $numbers,
-            'text' => $composeMessage,
-            'api_key' => $this->apiKey,
+            'from'       => $from,
+            'to'         => $numbers,
+            'text'       => $composeMessage,
+            'api_key'    => $this->apiKey,
             'api_secret' => $this->apiSecret,
         ];
 
@@ -90,29 +91,32 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
     }
 
     /**
-     * Checks if the transaction has an error
+     * Checks if the transaction has an error.
      *
      * @param $body
+     *
      * @return bool
      */
     protected function hasError($body)
     {
         if ($this->hasAResponseMessage($body) && $this->hasProperty($this->getFirstMessage($body), 'status')) {
             $firstMessage = $this->getFirstMessage($body);
-            return (int)$firstMessage['status'] !== 0;
+
+            return (int) $firstMessage['status'] !== 0;
         }
+
         return false;
     }
 
     /**
-     * Log the error message which ocurred
+     * Log the error message which ocurred.
      *
      * @param $body
      */
     protected function handleError($body)
     {
         $firstMessage = $this->getFirstMessage($body);
-        $error = 'An error occurred. Nexmo status code: ' . $firstMessage['status'];
+        $error = 'An error occurred. Nexmo status code: '.$firstMessage['status'];
         if ($this->hasProperty($firstMessage, 'error-text')) {
             $error = $firstMessage['error-text'];
         }
@@ -121,21 +125,20 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
     }
 
     /**
-     * Check for a message in the response from Nexmo
+     * Check for a message in the response from Nexmo.
      *
      * @param $body
      */
     protected function hasAResponseMessage($body)
     {
-        return (
+        return
             is_array($body) &&
             array_key_exists('messages', $body) &&
-            array_key_exists(0, $body['messages'])
-        );
+            array_key_exists(0, $body['messages']);
     }
 
     /**
-     * Get the first message in the response from Nexmo
+     * Get the first message in the response from Nexmo.
      *
      * @param $body
      */
@@ -145,10 +148,11 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
     }
 
     /**
-     * Check if the message from Nexmo has a given property
+     * Check if the message from Nexmo has a given property.
      *
      * @param $message
      * @param $property
+     *
      * @return bool
      */
     protected function hasProperty($message, $property)

@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Facades;
 
 use Illuminate\Support\Facades\Facade;

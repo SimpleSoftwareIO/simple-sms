@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS;
 
 trait DoesNotReceive
@@ -21,7 +22,6 @@ trait DoesNotReceive
      * @param string|int $messageId
      *
      * @throws \RuntimeException
-     *
      */
     public function getMessage($messageId)
     {

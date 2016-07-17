@@ -53,7 +53,7 @@ class OutgoingMessage
      *
      * @var array
      */
-    protected $attachImages = array();
+    protected $attachImages = [];
 
     /**
      * Create a OutgoingMessage Instance.
@@ -112,7 +112,7 @@ class OutgoingMessage
     public function to($number, $carrier = null)
     {
         $this->to[] = [
-            'number' => $number,
+            'number'  => $number,
             'carrier' => $carrier,
         ];
 
@@ -126,7 +126,7 @@ class OutgoingMessage
      */
     public function getTo()
     {
-        $numbers = array();
+        $numbers = [];
         foreach ($this->to as $to) {
             $numbers[] = $to['number'];
         }

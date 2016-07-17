@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
@@ -51,7 +52,7 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
 
         $data = [
             'PhoneNumbers' => $message->getTo(),
-            'Message' => $composedMessage,
+            'Message'      => $composedMessage,
         ];
 
         $this->buildCall('/sending/messages');

@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS;
 
 trait MakesRequests
@@ -18,9 +19,9 @@ trait MakesRequests
     protected $auth = [];
 
     /**
-     * Has the call been built yet
+     * Has the call been built yet.
      *
-     * @var        boolean
+     * @var bool
      */
     protected $callBuilt = false;
 
@@ -31,8 +32,7 @@ trait MakesRequests
      */
     protected function buildCall($url)
     {
-        if ( ! $this->callBuilt )
-        {
+        if (!$this->callBuilt) {
             $this->apiBase .= $url;
             $this->callBuilt = true;
         }
@@ -68,7 +68,7 @@ trait MakesRequests
      * Builds the body part of the request and adds it to the body array.
      *
      * @param array|string $values
-     * @param null $key
+     * @param null         $key
      */
     public function buildBody($values, $key = null)
     {
@@ -119,21 +119,18 @@ trait MakesRequests
         if (isset($this->auth['username']) && isset($this->auth['password'])) {
             return [$this->auth['username'], $this->auth['password']];
         }
-
-        return null;
     }
 
     /**
      * Creates and sends a POST request to the requested URL.
      *
      * @return mixed
-     *
      */
     protected function postRequest()
     {
         $response = $this->client->post($this->buildUrl(),
             [
-                'auth' => $this->getAuth(),
+                'auth'        => $this->getAuth(),
                 'form_params' => $this->getBody(),
             ]);
 
@@ -148,7 +145,6 @@ trait MakesRequests
      * Creates and sends a GET request to the requested URL.
      *
      * @return mixed
-     *
      */
     protected function getRequest()
     {
