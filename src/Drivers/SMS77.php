@@ -53,6 +53,7 @@ class SMS77 extends AbstractSMS implements DriverInterface
             'u' => $this->auth['username'],
             'p' => $this->auth['password'],
             'to' => $numbers,
+            'from' => $message->getFrom(),
             'type' => 'direct',
             'text' => $composeMessage,
             'debug' => (int) $this->debug,
@@ -62,8 +63,9 @@ class SMS77 extends AbstractSMS implements DriverInterface
         $this->buildBody($data);
 
         $response = $this->postRequest();
-        if ($this->hasError($response->getBody()->read(3))) {
-            $this->handleError($response->getBody()->read(3));
+        $responseBody = $response->getBody()->read(3);
+        if ($this->hasError($responseBody)) {
+            $this->handleError($responseBody);
         }
         return $response;
     }
