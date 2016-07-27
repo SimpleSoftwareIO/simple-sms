@@ -62,8 +62,8 @@ class SMS77 extends AbstractSMS implements DriverInterface
         $this->buildBody($data);
 
         $response = $this->postRequest();
-        if ($this->hasError($response->getBody())) {
-            $this->handleError($response->getBody());
+        if ($this->hasError($response->getBody()->read(3))) {
+            $this->handleError($response->getBody()->read(3));
         }
         return $response;
     }
