@@ -8,6 +8,7 @@ use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
 use SimpleSoftwareIO\SMS\Drivers\PlivoSMS;
+use SimpleSoftwareIO\SMS\Drivers\SMS77;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 use SimpleSoftwareIO\SMS\Drivers\ZenviaSMS;
 use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
@@ -231,6 +232,11 @@ class DriverManager extends Manager
         return $provider;
     }
 
+    /**
+     * Create an instance of the SMS77 driver
+     *
+     * @return SMS77
+     */
     protected function createSms77Driver()
     {
         $config = $this->app['config']->get('sms.sms77', []);
