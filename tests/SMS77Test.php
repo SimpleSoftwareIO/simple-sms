@@ -21,8 +21,11 @@ class SMS77Test extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $username = getenv('SMS77USER');
+        if (!$username) {
+            $this->markTestSkipped('SMS77 integration Testing not possible with out SMS77 user name (SMS77USER + SMS77PASSWORD in ENV). Skipping.');
+        }
         $password = getenv('SMS77PASSWORD');
-        $debug = getenv('SMS77DEBUG');
+        $debug = getenv('SMS77DEBUG', 1);
         $this->driver = new SMS77(new GuzzleHttp\Client(), $username, $password, $debug);
         $this->sms = new \SimpleSoftwareIO\SMS\SMS($this->driver);
     }
