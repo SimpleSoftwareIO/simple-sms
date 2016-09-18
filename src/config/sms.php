@@ -62,4 +62,10 @@ return [
         'passcode'         => env('ZENVIA_PASSCODE', 'Your Zenvia Passcode'),
         'call_back_option' => env('ZENVIA_CALLBACK_OPTION', 'NONE'),
     ],
+
+    'sms77' => [
+        'user' => env('SMS77_LOGIN', 'Your SMS77 API Login Name'),
+        'api_key' => env('SMS77_PASSWORD', 'Your SMS77 API Password or Api Key'),
+        'debug' => env('SMS77_DEBUG', '0')
+    ],
 ];

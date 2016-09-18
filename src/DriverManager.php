@@ -13,6 +13,7 @@ use SimpleSoftwareIO\SMS\Drivers\LogSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
 use SimpleSoftwareIO\SMS\Drivers\PlivoSMS;
+use SimpleSoftwareIO\SMS\Drivers\SMS77;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 use SimpleSoftwareIO\SMS\Drivers\ZenviaSMS;
 
@@ -227,6 +228,25 @@ class DriverManager extends Manager
             new Client(),
             $config['access_key'],
             $config['secret_key']
+        );
+
+        return $provider;
+    }
+
+    /**
+     * Create an instance of the SMS77 driver
+     *
+     * @return SMS77
+     */
+    protected function createSms77Driver()
+    {
+        $config = $this->app['config']->get('sms.sms77', []);
+
+        $provider = new SMS77(
+            new Client,
+            $config['user'],
+            $config['api_key'],
+            $config['debug']
         );
 
         return $provider;
