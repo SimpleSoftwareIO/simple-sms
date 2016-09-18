@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use Illuminate\Mail\Mailer;
@@ -43,7 +44,7 @@ class EmailSMS implements DriverInterface
     /**
      * Generates the Laravel Message Object.
      *
-     * @param Illuminate\Mail\Message $email
+     * @param Illuminate\Mail\Message              $email
      * @param SimpleSoftwareIO\SMS\OutgoingMessage $message
      *
      * @return Illuminate\Mail\Message
@@ -84,14 +85,14 @@ class EmailSMS implements DriverInterface
     /**
      * Builds the email address of a number.
      *
-     * @param array $number
+     * @param array                                $number
      * @param SimpleSoftwareIO\SMS\OutgoingMessage $message
      *
      * @return string
      */
     protected function buildEmail($number, OutgoingMessage $message)
     {
-        if ( ! $number['carrier']) {
+        if (!$number['carrier']) {
             throw new \InvalidArgumentException('A carrier must be specified if using the E-Mail Driver.');
         }
 
@@ -102,7 +103,7 @@ class EmailSMS implements DriverInterface
      * Finds the gateway based on the carrier and MMS.
      *
      * @param string $carrier
-     * @param boolean   $mms
+     * @param bool   $mms
      *
      * @return string
      */

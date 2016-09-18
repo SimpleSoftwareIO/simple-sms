@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use Services_Twilio;
@@ -62,9 +63,9 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
 
         foreach ($message->getTo() as $to) {
             $this->twilio->account->messages->create([
-                'To' => $to,
-                'From' => $from,
-                'Body' => $composeMessage,
+                'To'       => $to,
+                'From'     => $from,
+                'Body'     => $composeMessage,
                 'MediaUrl' => $message->getAttachImages(),
             ]);
         }

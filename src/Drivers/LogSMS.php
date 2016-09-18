@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use Illuminate\Log\Writer;
@@ -10,7 +11,7 @@ class LogSMS implements DriverInterface
     use DoesNotReceive;
 
     /**
-     * Laravel Logger
+     * Laravel Logger.
      *
      * @var \GuzzleHttp\Client
      */

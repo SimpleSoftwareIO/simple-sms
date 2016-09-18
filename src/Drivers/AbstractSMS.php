@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use SimpleSoftwareIO\SMS\IncomingMessage;
@@ -7,10 +8,11 @@ use SimpleSoftwareIO\SMS\SMSNotSentException;
 abstract class AbstractSMS
 {
     /**
-     * Throw a not sent exception
+     * Throw a not sent exception.
      *
-     * @param string $message
-     * @param null|integer $code
+     * @param string   $message
+     * @param null|int $code
+     *
      * @throws SMSNotSentException
      */
     protected function throwNotSentException($message, $code = null)
