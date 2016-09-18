@@ -3,10 +3,13 @@
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
+use SimpleSoftwareIO\SMS\MakesRequests;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class ZenviaSMS extends AbstractSMS implements DriverInterface
 {
+    use MakesRequests;
+    
     /**
      * The API's URL.
      *
