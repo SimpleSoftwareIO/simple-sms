@@ -2,9 +2,8 @@
 
 namespace SimpleSoftwareIO\SMS\NotificationChannel;
 
-
-use SimpleSoftwareIO\SMS\SMS;
 use Illuminate\Notifications\Notification;
+use SimpleSoftwareIO\SMS\SMS;
 use SimpleSoftwareIO\SMS\SMSNotSentException;
 
 class SMSChannel
@@ -13,7 +12,6 @@ class SMSChannel
      * @var SMS;
      */
     protected $SMS;
-
 
     /**
      * @param SMS $SMS
@@ -33,7 +31,7 @@ class SMSChannel
      */
     public function send($notifiable, Notification $notification)
     {
-        if (! $to = $notifiable->routeNotificationFor('SMS')) {
+        if (!$to = $notifiable->routeNotificationFor('SMS')) {
             return;
         }
 
@@ -42,9 +40,10 @@ class SMSChannel
             $message = new SMSMessage($message);
         }
 
-        resolve('sms')->send(trim($message->content), [], function($sms) use ($message, $to) {
-            if($message->from)
+        resolve('sms')->send(trim($message->content), [], function ($sms) use ($message, $to) {
+            if ($message->from) {
                 $sms->from($message->from);
+            }
 
             $sms->to($to);
         });
