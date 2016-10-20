@@ -270,6 +270,24 @@ This driver sends messages through the [Zenvia](http://www.zenvia.com.br/ messag
         ]
     ];
 
+<a id="docs-justsend-driver"></a>
+######  JustSend Driver
+
+This driver sends messages through the [JustSend](https://justsend.pl/) messaging service which is only avaliable in Poland.
+
+    return [
+        'driver' => 'justsend',
+        'from' => 'From text',
+        'justsend' => [
+            'api_key' => 'Your API Key.'
+        ]
+    ];
+    
+`from` can be one of the following:
+ - `ECO` - cheapest type (about 0.03 PLN per SMS). SMS will be send from random short-code number.
+ - One of: `INFO`, `INFORMACJA`, `KONKURS`, `NOWOSC`, `OFERTA`, `OKAZJA`, `PROMOCJA`, `SMS` - about 0.06 PLN per SMS.
+ - Any other text (can not be only number) - about 0.07 PLN per SMS.
+
 <a id="docs-infobip-driver"></a>
 
 <a id="docs-driver-support"></a>
@@ -290,6 +308,7 @@ Not all drivers support every method due to the differences in each individual A
 | Plivo | Yes | Yes | Yes | Yes | Yes |
 | Twilio | Yes | Yes | Yes | Yes | Yes |
 | Zenvia | Yes | Yes | Yes | Yes | Yes |
+| JustSend | Yes | Yes | No | No | No |
 
 <a id="docs-usage"></a>
 ## Usage
