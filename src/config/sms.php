@@ -70,6 +70,6 @@ return [
     ],
 
     'justsend' => [
-        'api_key'    => env('JUSTSEND_KEY', 'Your JustSend API key')
+        'api_key'    => env('JUSTSEND_KEY', 'Your JustSend API key'),
     ],
 ];
