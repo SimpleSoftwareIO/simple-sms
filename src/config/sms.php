@@ -68,4 +68,8 @@ return [
         'api_key' => env('SMS77_PASSWORD', 'Your SMS77 API Password or Api Key'),
         'debug' => env('SMS77_DEBUG', '0')
     ],
+
+    'justsend' => [
+        'api_key'    => env('JUSTSEND_KEY', 'Your JustSend API key')
+    ],
 ];
