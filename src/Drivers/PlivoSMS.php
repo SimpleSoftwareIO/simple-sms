@@ -52,6 +52,7 @@ class PlivoSMS extends AbstractSMS implements DriverInterface
                 $this->SMSNotSentException($response['response']['error']);
             }
         }
+        $this->dispatchOutgoingMessageSentEvent($message) ;
     }
 
     /**

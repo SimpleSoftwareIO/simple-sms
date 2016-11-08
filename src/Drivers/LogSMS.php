@@ -4,6 +4,7 @@ namespace SimpleSoftwareIO\SMS\Drivers;
 
 use Illuminate\Log\Writer;
 use SimpleSoftwareIO\SMS\DoesNotReceive;
+use SimpleSoftwareIO\SMS\Events\SMSSentEvent;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class LogSMS implements DriverInterface
@@ -37,6 +38,7 @@ class LogSMS implements DriverInterface
         foreach ($message->getTo() as $number) {
             $this->logger->notice("Sending SMS message to: $number");
         }
+        event( new SMSSentEvent($message) ) ;
     }
 
     /**

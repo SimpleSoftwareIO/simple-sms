@@ -86,6 +86,7 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
         if ($this->hasError($body)) {
             $this->handleError($body);
         }
+        $this->dispatchOutgoingMessageSentEvent($message) ;
 
         return $response;
     }

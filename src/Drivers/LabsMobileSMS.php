@@ -53,6 +53,7 @@ class LabsMobileSMS extends AbstractSMS implements DriverInterface
             $this->buildBody($data);
 
             $this->getRequest();
+            $this->dispatchOutgoingMessageSentEvent($message) ;
         }
     }
 }

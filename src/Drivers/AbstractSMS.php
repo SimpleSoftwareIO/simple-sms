@@ -2,7 +2,9 @@
 
 namespace SimpleSoftwareIO\SMS\Drivers;
 
+use SimpleSoftwareIO\SMS\Events\SMSSentEvent;
 use SimpleSoftwareIO\SMS\IncomingMessage;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 use SimpleSoftwareIO\SMS\SMSNotSentException;
 
 abstract class AbstractSMS
@@ -81,5 +83,11 @@ abstract class AbstractSMS
         $this->debug = $debug;
     }
 
-
+    /**
+     * @param OutgoingMessage $outgoingMessage
+     */
+    protected function dispatchOutgoingMessageSentEvent(OutgoingMessage $outgoingMessage)
+    {
+        event(new SMSSentEvent($outgoingMessage));
+    }
 }
