@@ -64,9 +64,9 @@ return [
     ],
 
     'sms77' => [
-        'user' => env('SMS77_LOGIN', 'Your SMS77 API Login Name'),
+        'user'    => env('SMS77_LOGIN', 'Your SMS77 API Login Name'),
         'api_key' => env('SMS77_PASSWORD', 'Your SMS77 API Password or Api Key'),
-        'debug' => env('SMS77_DEBUG', '0')
+        'debug'   => env('SMS77_DEBUG', '0'),
     ],
 
     'justsend' => [
