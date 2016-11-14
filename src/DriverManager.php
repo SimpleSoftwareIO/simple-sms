@@ -234,7 +234,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the SMS77 driver.
+     * Create an instance of the SMS77 driver
      *
      * @return SMS77
      */
@@ -243,7 +243,7 @@ class DriverManager extends Manager
         $config = $this->app['config']->get('sms.sms77', []);
 
         $provider = new SMS77(
-            new Client(),
+            new Client,
             $config['user'],
             $config['api_key'],
             $config['debug']
