@@ -123,6 +123,7 @@ The following are currently supported by using the e-mail gateway driver.
 | USA | Verizon Wireless | verizonwireless | Yes | Yes |
 | USA | Virgin Mobile | virginmobile | Yes | Yes |
 | USA | T-Mobile | tmobile | Yes | Yes |
+| USA | Sprint | sprint | Yes | Yes |
 
 >You must know the wireless provider for the mobile phone to use this driver.
 
