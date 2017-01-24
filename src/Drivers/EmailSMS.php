@@ -92,7 +92,7 @@ class EmailSMS implements DriverInterface
      */
     protected function buildEmail($number, OutgoingMessage $message)
     {
-        if (!$number['carrier']) {
+        if (! $number['carrier']) {
             throw new \InvalidArgumentException('A carrier must be specified if using the E-Mail Driver.');
         }
 
