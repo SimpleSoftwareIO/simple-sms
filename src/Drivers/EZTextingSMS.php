@@ -1,22 +1,16 @@
-<?php namespace SimpleSoftwareIO\SMS\Drivers;
+<?php
+namespace SimpleSoftwareIO\SMS\Drivers;
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
-
-use SimpleSoftwareIO\SMS\IncomingMessage;
-use SimpleSoftwareIO\SMS\OutgoingMessage;
 use GuzzleHttp\Client;
+use SimpleSoftwareIO\SMS\MakesRequests;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class EZTextingSMS extends AbstractSMS implements DriverInterface
 {
+    use MakesRequests;
+
     /**
-     * The Guzzle HTTP Client
+     * The Guzzle HTTP Client.
      *
      * @var \GuzzleHttp\Client
      */
@@ -50,7 +44,6 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
      * Sends a SMS message.
      *
      * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
-     * @return void
      */
     public function send(OutgoingMessage $message)
     {
@@ -58,7 +51,7 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
 
         $data = [
             'PhoneNumbers' => $message->getTo(),
-            'Message' => $composedMessage
+            'Message' => $composedMessage,
         ];
 
         $this->buildCall('/sending/messages');
@@ -71,6 +64,7 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
      * Checks the server for messages and returns their results.
      *
      * @param array $options
+     *
      * @return array
      */
     public function checkMessages(array $options = [])
@@ -79,6 +73,7 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
         $this->buildBody($options);
 
         $rawMessages = $this->getRequest()->json();
+
         return $this->makeMessages($rawMessages['Response']['Entries']);
     }
 
@@ -86,12 +81,13 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
      * Gets a single message by it's ID.
      *
      * @param string|int $messageId
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function getMessage($messageId)
     {
         $this->buildCall('/incoming-messages');
-        $this->buildCall('/' . $messageId);
+        $this->buildCall('/'.$messageId);
 
         $rawMessage = $this->getRequest()->json();
 
@@ -102,6 +98,7 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
      * Returns an IncomingMessage object with it's properties filled out.
      *
      * @param $rawMessage
+     *
      * @return mixed|\SimpleSoftwareIO\SMS\IncomingMessage
      */
     protected function processReceive($rawMessage)
@@ -120,6 +117,7 @@ class EZTextingSMS extends AbstractSMS implements DriverInterface
      * Receives an incoming message via REST call.
      *
      * @param mixed $raw
+     *
      * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function receive($raw)

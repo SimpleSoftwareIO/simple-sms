@@ -1,23 +1,19 @@
-<?php namespace SimpleSoftwareIO\SMS;
-
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author Maksim (Ellrion) Platonov <ellrion@yandex.ru>, <ellrion11@gmail.com>
- *
- */
+<?php
+namespace SimpleSoftwareIO\SMS;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Manager;
-use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
+use SimpleSoftwareIO\SMS\Drivers\LogSMS;
 use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
-use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
-use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
+use SimpleSoftwareIO\SMS\Drivers\PlivoSMS;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
+use SimpleSoftwareIO\SMS\Drivers\ZenviaSMS;
+use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
+use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
+use SimpleSoftwareIO\SMS\Drivers\FlowrouteSMS;
+use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
 
 class DriverManager extends Manager
 {
@@ -34,8 +30,7 @@ class DriverManager extends Manager
     /**
      * Set the default sms driver name.
      *
-     * @param  string  $name
-     * @return void
+     * @param string $name
      */
     public function setDefaultDriver($name)
     {
@@ -43,7 +38,19 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the callfire driver
+     * Create an instance of the Log driver.
+     *
+     * @return LogSMS
+     */
+    protected function createLogDriver()
+    {
+        $provider = new LogSMS($this->app['log']);
+
+        return $provider;
+    }
+
+    /**
+     * Create an instance of the CallFire driver.
      *
      * @return CallFireSMS
      */
@@ -51,16 +58,17 @@ class DriverManager extends Manager
     {
         $config = $this->app['config']->get('sms.callfire', []);
 
-        $provider = new CallFireSMS(new Client);
-
-        $provider->setUser($config['app_login']);
-        $provider->setPassword($config['app_password']);
+        $provider = new CallFireSMS(
+            new Client,
+            $config['app_login'],
+            $config['app_password']
+        );
 
         return $provider;
     }
 
     /**
-     * Creates an instance of the email driver
+     * Creates an instance of the EMail driver.
      *
      * @return EmailSMS
      */
@@ -72,7 +80,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the eztexting driver
+     * Create an instance of the EZTexting driver.
      *
      * @return EZTextingSMS
      */
@@ -80,28 +88,32 @@ class DriverManager extends Manager
     {
         $config = $this->app['config']->get('sms.eztexting', []);
 
-        $provider = new EZTextingSMS(new Client);
+        $provider = new EZTextingSMS(new Client());
 
         $data = [
             'User' => $config['username'],
-            'Password' => $config['password']
+            'Password' => $config['password'],
         ];
+
         $provider->buildBody($data);
 
         return $provider;
     }
 
+    /**
+     * Create an instance of the LabsMobile driver.
+     *
+     * @return LabsMobileSMS
+     */
     protected function createLabsMobileDriver()
     {
         $config = $this->app['config']->get('sms.labsmobile', []);
 
-        $provider = new LabsMobileSMS(new Client);
+        $provider = new LabsMobileSMS(new Client());
 
         $auth = [
-            'client' => $config['client'],
             'username' => $config['username'],
             'password' => $config['password'],
-            'test' => $config['test']
         ];
 
         $provider->buildBody($auth);
@@ -110,7 +122,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the mozeo driver
+     * Create an instance of the Mozeo driver.
      *
      * @return MozeoSMS
      */
@@ -118,7 +130,7 @@ class DriverManager extends Manager
     {
         $config = $this->app['config']->get('sms.mozeo', []);
 
-        $provider = new MozeoSMS(new Client);
+        $provider = new MozeoSMS(new Client());
 
         $auth = [
             'companykey' => $config['company_key'],
@@ -131,16 +143,16 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the nexmo driver
+     * Create an instance of the nexmo driver.
      *
-     * @return MozeoSMS
+     * @return NexmoSMS
      */
     protected function createNexmoDriver()
     {
         $config = $this->app['config']->get('sms.nexmo', []);
 
         $provider = new NexmoSMS(
-            new Client,
+            new Client(),
             $config['api_key'],
             $config['api_secret']
         );
@@ -149,7 +161,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the Twillo driver
+     * Create an instance of the Twillo driver.
      *
      * @return TwilioSMS
      */
@@ -163,5 +175,59 @@ class DriverManager extends Manager
             $this->app['request']->url(),
             $config['verify']
         );
+    }
+
+    /**
+     * Create an instance of the Zenvia driver.
+     *
+     * @return ZenviaSMS
+     */
+     protected function createZenviaDriver()
+     {
+         $config = $this->app['config']->get('sms.zenvia', []);
+
+         $provider = new ZenviaSMS(
+             new Client(),
+             $config['account_key'],
+             $config['passcode'],
+             $config['callbackOption']
+         );
+
+         return $provider;
+     }
+
+    /**
+     * Create an instance of the Plivo driver.
+     *
+     * @return PlivoSMS
+     */
+    protected function createPlivoDriver()
+    {
+        $config = $this->app['config']->get('sms.plivo', []);
+
+        $provider = new PlivoSMS(
+            $config['auth_id'],
+            $config['auth_token']
+        );
+
+        return $provider;
+    }
+
+    /**
+     * Create an instance of the flowroute driver
+     *
+     * @return FlowrouteSMS
+     */
+    protected function createFlowrouteDriver()
+    {
+        $config = $this->app['config']->get('sms.flowroute', []);
+
+        $provider = new FlowrouteSMS(
+            new Client,
+            $config['access_key'],
+            $config['secret_key']
+        );
+
+        return $provider;
     }
 }

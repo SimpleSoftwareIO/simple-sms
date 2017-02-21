@@ -1,17 +1,7 @@
-<?php namespace SimpleSoftwareIO\SMS\Drivers;
+<?php
+namespace SimpleSoftwareIO\SMS;
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
-
-use SimpleSoftwareIO\SMS\IncomingMessage;
-
-abstract class AbstractSMS
+trait MakesRequests
 {
     /**
      * Holds the arguments for the body.
@@ -28,14 +18,11 @@ abstract class AbstractSMS
     protected $auth = [];
 
     /**
-     * Creates a new IncomingMessage instance.
+     * Has the call been built yet
      *
-     * @return IncomingMessage
+     * @var        boolean
      */
-    protected function createIncomingMessage()
-    {
-        return new IncomingMessage();
-    }
+    protected $callBuilt = false;
 
     /**
      * Builds the API call address.
@@ -44,26 +31,31 @@ abstract class AbstractSMS
      */
     protected function buildCall($url)
     {
-        $this->apiBase .= $url;
+        if ( ! $this->callBuilt )
+        {
+            $this->apiBase .= $url;
+            $this->callBuilt = true;
+        }
     }
 
     /**
-     * Builds a URL
+     * Builds a URL.
      *
      * @param array $segments
+     *
      * @return string
      */
-    protected function buildUrl(Array $segments = [])
+    protected function buildUrl(array $segments = [])
     {
         //Get the base URL and add a ?
-        $url = $this->apiBase . '?';
+        $url = $this->apiBase.'?';
 
         if (isset($this->apiEnding)) {
             $segments = array_merge($segments, $this->apiEnding);
         }
 
         foreach ($segments as $key => $value) {
-            $url = $url . "$key=$value&";
+            $url = $url."$key=$value&";
         }
 
         //Remove the final &
@@ -75,8 +67,8 @@ abstract class AbstractSMS
     /**
      * Builds the body part of the request and adds it to the body array.
      *
-     * @param array|string $values Provides the data to be merged into the array. If a string, the key must be provided.
-     * @param null $key Holds the key in which a string will be merged into the array.
+     * @param array|string $values
+     * @param null $key
      */
     public function buildBody($values, $key = null)
     {
@@ -100,8 +92,7 @@ abstract class AbstractSMS
     /**
      * Sets the username for auth.
      *
-     * @param $username
-     * @return void.
+     * @param string $username
      */
     public function setUser($username)
     {
@@ -111,8 +102,7 @@ abstract class AbstractSMS
     /**
      * Sets the password for auth.
      *
-     * @param $password
-     * @return void
+     * @param string $password
      */
     public function setPassword($password)
     {
@@ -129,6 +119,7 @@ abstract class AbstractSMS
         if (isset($this->auth['username']) && isset($this->auth['password'])) {
             return [$this->auth['username'], $this->auth['password']];
         }
+
         return null;
     }
 
@@ -136,18 +127,18 @@ abstract class AbstractSMS
      * Creates and sends a POST request to the requested URL.
      *
      * @return mixed
-     * @throws \Exception
+     *
      */
     protected function postRequest()
     {
         $response = $this->client->post($this->buildUrl(),
             [
                 'auth' => $this->getAuth(),
-                'form_params' => $this->getBody()
+                'form_params' => $this->getBody(),
             ]);
 
         if ($response->getStatusCode() != 201 && $response->getStatusCode() != 200) {
-            throw new \Exception('Unable to request from API.');
+            $this->throwNotSentException('Unable to request from API.');
         }
 
         return $response;
@@ -157,7 +148,7 @@ abstract class AbstractSMS
      * Creates and sends a GET request to the requested URL.
      *
      * @return mixed
-     * @throws \Exception
+     *
      */
     protected function getRequest()
     {
@@ -166,44 +157,9 @@ abstract class AbstractSMS
         $response = $this->client->get($url, ['auth' => $this->getAuth()]);
 
         if ($response->getStatusCode() != 201 && $response->getStatusCode() != 200) {
-            throw new \Exception('Unable to request from API.');
+            $this->throwNotSentException('Unable to request from API.');
         }
 
         return $response;
     }
-
-    /**
-     * Creates many IncomingMessage objects.
-     *
-     * @param $rawMessages
-     * @return array
-     */
-    protected function makeMessages($rawMessages)
-    {
-        $incomingMessages = [];
-        foreach ($rawMessages as $rawMessage) {
-            $incomingMessages[] = $this->processReceive($rawMessage);
-        }
-
-        return $incomingMessages;
-    }
-
-    /**
-     * Creates a single IncomingMessage object.
-     *
-     * @param $rawMessage
-     * @return mixed
-     */
-    protected function makeMessage($rawMessage)
-    {
-        return $this->processReceive($rawMessage);
-    }
-
-    /**
-     * Creates many IncomingMessage objects and sets all of the properties.
-     *
-     * @param $rawMessage
-     * @return mixed
-     */
-    abstract protected function processReceive($rawMessage);
 }

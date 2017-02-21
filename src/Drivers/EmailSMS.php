@@ -1,31 +1,19 @@
-<?php namespace SimpleSoftwareIO\SMS\Drivers;
+<?php
+namespace SimpleSoftwareIO\SMS\Drivers;
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
-
-use SimpleSoftwareIO\SMS\OutgoingMessage;
 use Illuminate\Mail\Mailer;
+use InvalidArgumentException;
+use SimpleSoftwareIO\SMS\DoesNotReceive;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class EmailSMS implements DriverInterface
 {
-    /**
-     * The Message Instance
-     *
-     * @var \SimpleSoftwareIO\SMS\OutgoingMessage
-     */
-    protected $outgoingMessage;
+    use DoesNotReceive;
 
     /**
      * Creates the EmailSMS Instance.
      *
-     * @param \Illuminate\Mail\Mailer $mailer Illuminate Mailer
-     * @return void
+     * @param \Illuminate\Mail\Mailer $mailer
      */
     public function __construct(Mailer $mailer)
     {
@@ -33,51 +21,89 @@ class EmailSMS implements DriverInterface
     }
 
     /**
-     * Sends a SMS message.
+     * Sends a SMS message via the mailer.
      *
-     * @param \SimpleSoftwareIO\SMS\OutgoingMessage $message
-     * @return void
+     * @param SimpleSoftwareIO\SMS\OutgoingMessage $message
+     *
+     * @return Illuminate\Mail\Message
      */
     public function send(OutgoingMessage $message)
     {
-        $this->outgoingMessage = $message;
-        $me = $this;
+        try {
+            $message = $this->mailer->send(['text' => $message->getView()], $message->getData(), function ($email) use ($message) {
+                $this->generateMessage($email, $message);
+            });
+        } catch (InvalidArgumentException $e) {
+            $message = $this->sendRaw($message);
+        }
 
-        $this->mailer->send(['text' => $this->outgoingMessage->getView()], $this->outgoingMessage->getData(), function ($email) use ($me) {
-            foreach ($me->outgoingMessage->getToWithCarriers() as $number) {
-                $email->to($me->buildEmail($number));
+        return $message;
+    }
+
+    /**
+     * Generates the Laravel Message Object.
+     *
+     * @param Illuminate\Mail\Message $email
+     * @param SimpleSoftwareIO\SMS\OutgoingMessage $message
+     *
+     * @return Illuminate\Mail\Message
+     */
+    protected function generateMessage($email, $message)
+    {
+        foreach ($message->getToWithCarriers() as $number) {
+            $email->to($this->buildEmail($number, $message));
+        }
+
+        if ($message->getAttachImages()) {
+            foreach ($message->getAttachImages() as $image) {
+                $email->attach($image);
             }
+        }
 
-            if ($me->outgoingMessage->getAttachImages()) {
-                foreach ($me->outgoingMessage->getAttachImages() as $image) {
-                    $email->attach($image);
-                }
-            }
+        $email->from($message->getFrom());
 
-            $email->from($me->outgoingMessage->getFrom());
+        return $email;
+    }
+
+    /**
+     * Sends a SMS message via the mailer using the raw method.
+     *
+     * @param SimpleSoftwareIO\SMS\OutgoingMessage $message
+     *
+     * @return Illuminate\Mail\Message
+     */
+    protected function sendRaw(OutgoingMessage $message)
+    {
+        $message = $this->mailer->raw($message->getView(), function ($email) use ($message) {
+            $this->generateMessage($email, $message);
         });
+
+        return $message;
     }
 
     /**
      * Builds the email address of a number.
      *
-     * @param array $number The number and carrier to look up.
+     * @param array $number
+     * @param SimpleSoftwareIO\SMS\OutgoingMessage $message
+     *
      * @return string
      */
-    protected function buildEmail($number)
+    protected function buildEmail($number, OutgoingMessage $message)
     {
-        if (!$number['carrier']) {
+        if ( ! $number['carrier']) {
             throw new \InvalidArgumentException('A carrier must be specified if using the E-Mail Driver.');
         }
 
-        return $number['number'] . '@' . $this->lookupGateway($number['carrier'], $this->outgoingMessage->isMMS());
+        return $number['number'].'@'.$this->lookupGateway($number['carrier'], $message->isMMS());
     }
 
     /**
      * Finds the gateway based on the carrier and MMS.
      *
-     * @param string $carrier The desired carrier to look up.
-     * @param boolean $mms If the Message is an MMS.
+     * @param string $carrier
+     * @param boolean   $mms
+     *
      * @return string
      */
     protected function lookupGateway($carrier, $mms)
@@ -113,6 +139,9 @@ class EmailSMS implements DriverInterface
 
                 case 'nextech':
                     throw new \InvalidArgumentException('NexTech does not support Email Gateway MMS messages.');
+
+                case 'projectfi':
+                    return 'msg.fi.google.com';
 
                 case 'rogerswireless':
                     return 'mms.rogers.com';
@@ -164,6 +193,9 @@ class EmailSMS implements DriverInterface
                 case 'nextech':
                     return 'sms.ntwls.net';
 
+                case 'projectfi':
+                    return 'msg.fi.google.com';
+
                 case 'rogerswireless':
                     return 'sms.rogers.com';
 
@@ -183,40 +215,5 @@ class EmailSMS implements DriverInterface
                     throw new \InvalidArgumentException('Carrier specified is not found.');
             }
         }
-    }
-
-    /**
-     * Checks the server for messages and returns their results.
-     *
-     * @param array $options
-     * @return array
-     */
-    public function checkMessages(array $options = [])
-    {
-        throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');
-    }
-
-    /**
-     * Gets a single message by it's ID.
-     *
-     * @param string|int $messageId
-     * @return \SimpleSoftwareIO\SMS\IncomingMessage
-     * @throws \RuntimeException
-     */
-    public function getMessage($messageId)
-    {
-        throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');
-    }
-
-    /**
-     * Receives an incoming message via REST call.
-     *
-     * @param mixed $raw
-     * @return \SimpleSoftwareIO\SMS\IncomingMessage
-     * @throws \RuntimeException
-     */
-    public function receive($raw)
-    {
-        throw new \RuntimeException('Receive methods are not support with the E-Mail driver.');
     }
 }

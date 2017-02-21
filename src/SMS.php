@@ -1,24 +1,15 @@
-<?php namespace SimpleSoftwareIO\SMS;
+<?php
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * Part of this file is based on the Illuminate\Mail system.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
+namespace SimpleSoftwareIO\SMS;
 
 use Closure;
-use Illuminate\Log\Writer;
 use Illuminate\Support\Str;
 use SuperClosure\Serializer;
-use Illuminate\Support\Serial;
 use Illuminate\Queue\QueueManager;
 use Illuminate\Container\Container;
 use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
+
+class SMSNotSentException extends \Exception{}
 
 class SMS
 {
@@ -30,28 +21,14 @@ class SMS
     protected $driver;
 
     /**
-     * The log writer instance.
-     *
-     * @var \Illuminate\Log\Writer
-     */
-    protected $logger;
-
-    /**
-     * Determines if a message should be sent or faked.
-     *
-     * @var boolean
-     */
-    protected $pretending = false;
-
-    /**
-     * The IOC Container
+     * The IOC Container.
      *
      * @var \Illuminate\Container\Container
      */
     protected $container;
 
     /**
-     * The global from address
+     * The global from address.
      *
      * @var string
      */
@@ -75,7 +52,7 @@ class SMS
     }
 
     /**
-     * Changes the set SMS driver
+     * Changes the set SMS driver.
      *
      * @param $driver
      */
@@ -91,10 +68,11 @@ class SMS
     /**
      * Send a SMS.
      *
-     * @param string $view The desired view.
-     * @param array $data The data that needs to be passed into the view.
+     * @param string   $view     The desired view.
+     * @param array    $data     The data that needs to be passed into the view.
      * @param \Closure $callback The methods that you wish to fun on the message.
-     * @return \SimpleSoftwareIO\SMS\Message The outgoing message that was sent.
+     *
+     * @return \SimpleSoftwareIO\SMS\OutgoingMessage The outgoing message that was sent.
      */
     public function send($view, $data, $callback)
     {
@@ -106,34 +84,15 @@ class SMS
 
         call_user_func($callback, $message);
 
-        if (!$this->pretending)
-        {
-            $this->driver->send($message);
-        }
-        elseif (isset($this->logger))
-        {
-            $this->logMessage($message);
-        }
+        $this->driver->send($message);
 
         return $message;
     }
 
     /**
-     * Logs that a message was sent.
-     *
-     * @param $message
-     */
-    protected function logMessage($message)
-    {
-        $numbers = implode(" , ", $message->getTo());
-
-        $this->logger->info("Pretending to send SMS message to: $numbers");
-    }
-
-    /**
      * Creates a new Message instance.
      *
-     * @return \SimpleSoftwareIO\SMS\Message
+     * @return \SimpleSoftwareIO\SMS\OutgoingMessage
      */
     protected function createOutgoingMessage()
     {
@@ -148,40 +107,7 @@ class SMS
     }
 
     /**
-     * Returns if the message should be faked when sent or not.
-     *
-     * @return boolean
-     */
-    public function isPretending()
-    {
-        return $this->pretending;
-    }
-
-    /**
-     * Fake sending a SMS
-     *
-     * @param $view The desired view
-     * @param $data The data to fill the view
-     * @param $callback The message callback
-     */
-    public function pretend($view, $data, $callback)
-    {
-        $this->setPretending(true);
-        $this->send($view, $data, $callback);
-    }
-
-    /**
-     * Sets if SMS should be fake send a SMS
-     *
-     * @param bool $pretend
-     */
-    public function setPretending($pretend = false)
-    {
-        $this->pretending = $pretend;
-    }
-
-    /**
-     * Sets the IoC container
+     * Sets the IoC container.
      *
      * @param Container $container
      */
@@ -201,26 +127,12 @@ class SMS
     }
 
     /**
-     * Set the log writer instance.
-     *
-     * @param  \Illuminate\Log\Writer $logger
-     * @return $this
-     */
-    public function setLogger(Writer $logger)
-    {
-        $this->logger = $logger;
-
-        return $this;
-    }
-
-    /**
      * Queues a SMS message.
      *
-     * @param string $view The desired view.
-     * @param array $data An array of data to fill the view.
-     * @param  \Closure|string $callback The callback to run on the Message class.
-     * @param null|string $queue The desired queue to push the message to.
-     * @return void
+     * @param string          $view     The desired view.
+     * @param array           $data     An array of data to fill the view.
+     * @param \Closure|string $callback The callback to run on the Message class.
+     * @param null|string     $queue    The desired queue to push the message to.
      */
     public function queue($view, $data, $callback, $queue = null)
     {
@@ -232,13 +144,12 @@ class SMS
     /**
      * Queues a SMS message to a given queue.
      *
-     * @param null|string $queue The desired queue to push the message to.
-     * @param string $view The desired view.
-     * @param array $data An array of data to fill the view.
-     * @param  \Closure|string $callback The callback to run on the Message class.
-     * @return void
+     * @param null|string     $queue    The desired queue to push the message to.
+     * @param string          $view     The desired view.
+     * @param array           $data     An array of data to fill the view.
+     * @param \Closure|string $callback The callback to run on the Message class.
      */
-    public function queueOn($queue, $view, array $data, $callback)
+    public function queueOn($queue, $view, $data, $callback)
     {
         $this->queue($view, $data, $callback, $queue);
     }
@@ -246,31 +157,29 @@ class SMS
     /**
      * Queues a message to be sent a later time.
      *
-     * @param int $delay The desired delay in seconds
-     * @param string $view The desired view.
-     * @param array $data An array of data to fill the view.
-     * @param  \Closure|string $callback The callback to run on the Message class.
-     * @param null|string $queue The desired queue to push the message to.
-     * @return void
+     * @param int             $delay    The desired delay in seconds
+     * @param string          $view     The desired view.
+     * @param array           $data     An array of data to fill the view.
+     * @param \Closure|string $callback The callback to run on the Message class.
+     * @param null|string     $queue    The desired queue to push the message to.
      */
-    public function later($delay, $view, array $data, $callback, $queue = null)
+    public function later($delay, $view, $data, $callback, $queue = null)
     {
         $callback = $this->buildQueueCallable($callback);
 
-        $this->queue->later($delay, 'mailer@handleQueuedMessage', compact('view', 'data', 'callback'), $queue);
+        $this->queue->later($delay, 'sms@handleQueuedMessage', compact('view', 'data', 'callback'), $queue);
     }
 
     /**
      * Queues a message to be sent a later time on a given queue.
      *
-     * @param null|string $queue The desired queue to push the message to.
-     * @param int $delay The desired delay in seconds
-     * @param string $view The desired view.
-     * @param array $data An array of data to fill the view.
+     * @param null|string     $queue    The desired queue to push the message to.
+     * @param int             $delay    The desired delay in seconds
+     * @param string          $view     The desired view.
+     * @param array           $data     An array of data to fill the view.
      * @param \Closure|string $callback The callback to run on the Message class.
-     * @return void
      */
-    public function laterOn($queue, $delay, $view, array $data, $callback)
+    public function laterOn($queue, $delay, $view, $data, $callback)
     {
         $this->later($delay, $view, $data, $callback, $queue);
     }
@@ -279,22 +188,23 @@ class SMS
      * Builds the callable for a queue.
      *
      * @param \Closure|string $callback The callback to be serialized
+     *
      * @return string
      */
     protected function buildQueueCallable($callback)
     {
-        if (! $callback instanceof Closure) {
+        if ( ! $callback instanceof Closure) {
             return $callback;
         }
-        return (new Serializer)->serialize($callback);
+
+        return (new Serializer())->serialize($callback);
     }
 
     /**
      * Handles a queue message.
      *
      * @param \Illuminate\Queue\Jobs\Job $job
-     * @param array $data
-     * @return void
+     * @param array                      $data
      */
     public function handleQueuedMessage($job, $data)
     {
@@ -307,6 +217,7 @@ class SMS
      * Gets the callable for a queued message.
      *
      * @param array $data
+     *
      * @return mixed
      */
     protected function getQueuedCallable(array $data)
@@ -314,13 +225,15 @@ class SMS
         if (Str::contains($data['callback'], 'SerializableClosure')) {
             return unserialize($data['callback'])->getClosure();
         }
+
         return $data['callback'];
     }
 
     /**
      * Set the queue manager instance.
      *
-     * @param  \Illuminate\Queue\QueueManager  $queue
+     * @param \Illuminate\Queue\QueueManager $queue
+     *
      * @return $this
      */
     public function setQueue(QueueManager $queue)
@@ -336,7 +249,8 @@ class SMS
     public function receive()
     {
         //Passes all of the request onto the driver.
-        $raw = $this->container['Input'];
+        $raw = $this->container['Illuminate\Support\Facades\Input'];
+
         return $this->driver->receive($raw);
     }
 
@@ -344,9 +258,10 @@ class SMS
      * Queries the provider for a list of messages.
      *
      * @param array $options The options to pass onto a provider.  See each provider for a list of options.
+     *
      * @return array Returns an array of IncomingMessage objects.
      */
-    public function checkMessages(Array $options = array())
+    public function checkMessages(array $options = array())
     {
         return $this->driver->checkMessages($options);
     }
@@ -355,6 +270,7 @@ class SMS
      * Gets a message by it's ID.
      *
      * @param $messageId The requested messageId.
+     *
      * @return IncomingMessage
      */
     public function getMessage($messageId)

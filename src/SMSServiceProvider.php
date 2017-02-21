@@ -1,19 +1,10 @@
-<?php namespace SimpleSoftwareIO\SMS;
-
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
+<?php
+namespace SimpleSoftwareIO\SMS;
 
 use Illuminate\Support\ServiceProvider;
 
 class SMSServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -23,20 +14,16 @@ class SMSServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap the application events.
-     *
-     * @return void
      */
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../../config/sms.php' => config_path('sms.php'),
+            __DIR__.'/config/sms.php' => config_path('sms.php'),
         ]);
     }
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -46,12 +33,10 @@ class SMSServiceProvider extends ServiceProvider
             $sms = new SMS($app['sms.sender']);
             $this->setSMSDependencies($sms, $app);
 
-            //Set the from and pretending settings
+            //Set the from setting
             if ($app['config']->has('sms.from')) {
                 $sms->alwaysFrom($app['config']['sms']['from']);
             }
-
-            $sms->setPretending($app['config']->get('sms.pretend', false));
 
             return $sms;
         });
@@ -59,8 +44,6 @@ class SMSServiceProvider extends ServiceProvider
 
     /**
      * Register the correct driver based on the config file.
-     *
-     * @return void
      */
     public function registerSender()
     {
@@ -74,12 +57,10 @@ class SMSServiceProvider extends ServiceProvider
      *
      * @param SMS $sms
      * @param  $app
-     * @return void
      */
     private function setSMSDependencies($sms, $app)
     {
         $sms->setContainer($app);
-        $sms->setLogger($app['log']);
         $sms->setQueue($app['queue']);
     }
 
@@ -92,5 +73,4 @@ class SMSServiceProvider extends ServiceProvider
     {
         return array('sms', 'sms.sender');
     }
-
 }

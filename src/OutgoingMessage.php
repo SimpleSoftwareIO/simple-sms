@@ -1,13 +1,6 @@
-<?php namespace SimpleSoftwareIO\SMS;
+<?php
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
+namespace SimpleSoftwareIO\SMS;
 
 use Illuminate\View\Factory;
 
@@ -28,7 +21,7 @@ class OutgoingMessage
     protected $view;
 
     /**
-     * The data that will be passed into the Illuminate View Factory
+     * The data that will be passed into the Illuminate View Factory.
      *
      * @var array
      */
@@ -49,9 +42,9 @@ class OutgoingMessage
     protected $to;
 
     /**
-     * Whether a message is a MMS or SMS
+     * Whether a message is a MMS or SMS.
      *
-     * @var boolean
+     * @var bool
      */
     protected $mms = false;
 
@@ -79,7 +72,7 @@ class OutgoingMessage
      */
     public function composeMessage()
     {
-         // Attempts to make a view.
+        // Attempts to make a view.
          // If a view can not be created; it is assumed that simple message is passed through.
         try {
             return $this->views->make($this->view, $this->data)->render();
@@ -92,7 +85,6 @@ class OutgoingMessage
      * Sets the numbers messages will be sent from.
      *
      * @param string $number Holds the number that messages
-     * @return void
      */
     public function from($number)
     {
@@ -100,7 +92,7 @@ class OutgoingMessage
     }
 
     /**
-     * Gets the from address
+     * Gets the from address.
      *
      * @return string
      */
@@ -110,24 +102,25 @@ class OutgoingMessage
     }
 
     /**
-     * Sets the to addresses
+     * Sets the to addresses.
      *
-     * @param string $number Holds the number that a message will be sent to.
+     * @param string $number  Holds the number that a message will be sent to.
      * @param string $carrier The carrier the number is on.
+     *
      * @return $this
      */
     public function to($number, $carrier = null)
     {
         $this->to[] = [
             'number' => $number,
-            'carrier' => $carrier
+            'carrier' => $carrier,
         ];
 
         return $this;
     }
 
     /**
-     * Returns the To addresses without the carriers
+     * Returns the To addresses without the carriers.
      *
      * @return array
      */
@@ -137,6 +130,7 @@ class OutgoingMessage
         foreach ($this->to as $to) {
             $numbers[] = $to['number'];
         }
+
         return $numbers;
     }
 
@@ -154,7 +148,6 @@ class OutgoingMessage
      * Sets the view file to be loaded.
      *
      * @param string $view The desired view file
-     * @return void
      */
     public function view($view)
     {
@@ -165,7 +158,6 @@ class OutgoingMessage
      * Sets the data for the view file.
      *
      * @param array $data An array of values to be passed to the View Factory.
-     * @return void
      */
     public function data($data)
     {
@@ -173,7 +165,7 @@ class OutgoingMessage
     }
 
     /**
-     * Returns the current view file.Returns
+     * Returns the current view file.Returns.
      *
      * @return string
      */
@@ -219,9 +211,9 @@ class OutgoingMessage
     }
 
     /**
-     * Returns if a message is a MMS.Returns
+     * Returns if a message is a MMS.Returns.
      *
-     * @return boolean
+     * @return bool
      */
     public function isMMS()
     {

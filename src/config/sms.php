@@ -1,94 +1,65 @@
 <?php
 
-/**
- * Simple-SMS
- * Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.
- *
- * @link http://www.simplesoftware.io
- * @author SimpleSoftware support@simplesoftware.io
- *
- */
 /*
-    |--------------------------------------------------------------------------
-    | Simple SMS
-    |--------------------------------------------------------------------------
-    | Driver
-    |   Email:  The Email driver uses the Illuminate\Mail\Mailer instance to
-    |           send SMS messages based on the carriers e-mail to SMS gateways.
-    |           The Email driver will send messages out based on your Laravel
-    |           mail settings.
-    |   CallFire: https://www.callfire.com/
-    |   EzTexting: https://www.eztexting.com/
-    |   LabsMobile: http://www.labsmobile.com/
-    |   Mozeo: https://www.mozeo.com/
-    |   Nexmo: https://www.nexmo.com/
-    |   Twilio: https://www.twilio.com/
-    |--------------------------------------------------------------------------
-    | From
-    |   Email:  The from address must be a valid email address.
-    |   Twilio: The from address must be a verified phone number within Twilio.
-    |--------------------------------------------------------------------------
-    | CallFire
-    |   App Login:     Your login settings. (https://www.callfire.com/ui/manage/access)
-    |   App Password:  Your login password. (https://www.callfire.com/ui/manage/access)
-    |--------------------------------------------------------------------------
-    | EZTexting Additional Settings
-    |   Username:  Your login username.
-    |   Password:  Your login password.
-    |--------------------------------------------------------------------------
-    | LabsMobile
-    |   Client:    Your client login. (https://websms.labsmobile.com/SY0204/parameters)
-    |   Username:  Your login username.
-    |   Password:  Your login password.
-    |   Test:      Sends the message as a test if set to true.
-    |--------------------------------------------------------------------------
-    | Mozeo
-    |   Company Key:  Your company key. (https://www.mozeo.com/mozeo/customer/platformdetails.php)
-    |   Username:     Your username.  (https://www.mozeo.com/mozeo/customer/platformdetails.php)
-    |   Password:     Your password.  (https://www.mozeo.com/mozeo/customer/platformdetails.php)
-    |--------------------------------------------------------------------------
-    | Nexmo
-    |   API Key:     Your API key. (https://dashboard.nexmo.com/private/settings)
-    |   API Secret:  Your API secret. (https://dashboard.nexmo.com/private/settings)
-    |--------------------------------------------------------------------------
-    | Twilio Additional Settings
-    |   Account SID:  The Account SID associated with your Twilio account. (https://www.twilio.com/user/account/settings)
-    |   Auth Token:   The Auth Token associated with your Twilio account. (https://www.twilio.com/user/account/settings)
-    |   Verify:       Ensures extra security by checking if requests
-    |                 are really coming from Twilio.
-    |--------------------------------------------------------------------------
-*/
-
-
+ * https://simplesoftware.io/docs/simple-sms#docs-configuration for more information.
+ */
 return [
-    'driver' => 'Selected Driver',
-    'from' => 'Your Number or Email',
+    'driver' => env('SMS_DRIVER', 'email'),
+
+    'from' => env('SMS_FROM', 'Your Number or Email'),
+
     'callfire' => [
-        'app_login' => 'Your CallFire API Login',
-        'app_password' => 'Your CallFire API Password'
+        'app_login' => env('CALLFIRE_LOGIN', 'Your CallFire API Login'),
+        'app_password' => env('CALLFIRE_PASSWORD', 'Your CallFire API Password')
     ],
+
     'eztexting' => [
-        'username' => 'Your EZTexting Username',
-        'password' => 'Your EZTexting Password'
+        'username' => env('EZTEXTING_USERNAME', 'Your EZTexting Username'),
+        'password' => env('EZTEXTING_PASSWORD', 'Your EZTexting Password')
     ],
+
+    'flowroute' => [
+        'access_key' => env('FLOWROUTE_ACCESS_KEY', 'Your Flowroute Access Key'),
+        'secret_key' => env('FLOWROUTE_SECRET_KEY', 'Your Flowroute Secret Key')
+    ],
+
+    'infobip'=> [
+         'username' => env('INFOBIP_USERNAME', 'Your Infobip Username'),
+         'password' => env('INFOBIP_PASSWORD', 'Your Infobip Password')
+    ],
+
     'labsmobile' => [
-        'client' => 'Your client ID',
-        'username' => 'Your Usernbame',
-        'password' => 'Your Password',
-        'test' => false
+        'client_id' => env('LABSMOBILE_CLIENT_ID', 'Your Labsmobile Client ID'),
+        'username' => env('LABSMOBILE_USERNAME', 'Your Labsmobile Username'),
+        'password' => env('LABSMOBILE_PASSWORD', 'Your Labsmobile Password'),
+        'test' => env('LABSMOBILE_TEST', false)
     ],
+
     'mozeo' => [
-        'company_key' => 'Your Mozeo Company Key',
-        'username' => 'Your Mozeo Username',
-        'password' => 'Your Mozeo Password'
+        'company_key' => env('MOZEO_COMPANY_KEY', 'Your Mozeo Company Key'),
+        'username' => env('MOZEO_USERNAME', 'Your Mozeo Username'),
+        'password' => env('MOZEO_PASSWORD', 'Your Mozeo Password')
     ],
+
     'nexmo' => [
-        'api_key' => 'Your Nexmo api key',
-        'api_secret' => 'Your Nexmo api secret'
+        'api_key' => env('NEXMO_KEY', 'Your Nexmo API key'),
+        'api_secret' => env('NEXMO_SECRET', 'Your Nexmo API secret')
     ],
+
+    'plivo' => [
+        'auth_id' => env('PLIVO_AUTH_ID', 'Your Plivo Auth ID'),
+        'auth_token' => env('PLIVO_AUTH_TOKEN', 'Your Plivo Auth Token')
+    ],
+
     'twilio' => [
-        'account_sid' => 'Your SID',
-        'auth_token' => 'Your Token',
-        'verify' => true,
-    ]
+        'account_sid' => env('TWILIO_SID', 'Your Twilio SID'),
+        'auth_token' => env('TWILIO_TOKEN', 'Your Twilio Token'),
+        'verify' => env('TWILIO_VERIFY', true)
+    ],
+
+    'zenvia' => [
+        'account_key' => env('ZENVIA_KEY','Your Zenvia account key'),
+        'passcode' => env('ZENVIA_PASSCODE','Your Zenvia Passcode'),
+        'call_back_option' => env('ZENVIA_CALLBACK_OPTION', 'NONE')
+    ],
 ];
