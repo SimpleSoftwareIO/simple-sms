@@ -92,7 +92,7 @@ class EmailSMS implements DriverInterface
      */
     protected function buildEmail($number, OutgoingMessage $message)
     {
-        if (!$number['carrier']) {
+        if (! $number['carrier']) {
             throw new \InvalidArgumentException('A carrier must be specified if using the E-Mail Driver.');
         }
 
@@ -159,6 +159,9 @@ class EmailSMS implements DriverInterface
                 case 'tmobile':
                     return 'tmomail.net';
 
+                case 'sprint':
+                    return 'pm.sprint.com';
+
                 default:
                     throw new \InvalidArgumentException('Carrier specified is not found.');
             }
@@ -211,6 +214,9 @@ class EmailSMS implements DriverInterface
 
                 case 'tmobile':
                     return 'tmomail.net';
+
+                case 'sprint':
+                    return 'messaging.sprintpcs.com';
 
                 default:
                     throw new \InvalidArgumentException('Carrier specified is not found.');
