@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use SimpleSoftwareIO\SMS\OutgoingMessage;

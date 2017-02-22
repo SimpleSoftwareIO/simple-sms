@@ -3,13 +3,11 @@
 namespace SimpleSoftwareIO\SMS;
 
 use Closure;
-use Illuminate\Support\Str;
-use SuperClosure\Serializer;
-use Illuminate\Queue\QueueManager;
 use Illuminate\Container\Container;
+use Illuminate\Queue\QueueManager;
+use Illuminate\Support\Str;
 use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
-
-class SMSNotSentException extends \Exception{}
+use SuperClosure\Serializer;
 
 class SMS
 {
@@ -193,7 +191,7 @@ class SMS
      */
     protected function buildQueueCallable($callback)
     {
-        if ( ! $callback instanceof Closure) {
+        if (!$callback instanceof Closure) {
             return $callback;
         }
 
@@ -261,7 +259,7 @@ class SMS
      *
      * @return array Returns an array of IncomingMessage objects.
      */
-    public function checkMessages(array $options = array())
+    public function checkMessages(array $options = [])
     {
         return $this->driver->checkMessages($options);
     }

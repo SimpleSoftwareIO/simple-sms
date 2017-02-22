@@ -1,9 +1,10 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
-use SimpleSoftwareIO\SMS\MakesRequests;
 use SimpleSoftwareIO\SMS\DoesNotReceive;
+use SimpleSoftwareIO\SMS\MakesRequests;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class MozeoSMS extends AbstractSMS implements DriverInterface
@@ -44,7 +45,7 @@ class MozeoSMS extends AbstractSMS implements DriverInterface
 
         foreach ($message->getTo() as $to) {
             $data = [
-                'to' => $to,
+                'to'          => $to,
                 'messagebody' => $composeMessage,
             ];
 
