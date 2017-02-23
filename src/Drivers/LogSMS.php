@@ -4,6 +4,7 @@ namespace SimpleSoftwareIO\SMS\Drivers;
 
 use Illuminate\Log\Writer;
 use SimpleSoftwareIO\SMS\DoesNotReceive;
+use SimpleSoftwareIO\SMS\Events\SMSSentEvent;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class LogSMS implements DriverInterface
@@ -11,16 +12,13 @@ class LogSMS implements DriverInterface
     use DoesNotReceive;
 
     /**
-     * Laravel Logger.
-     *
-     * @var \GuzzleHttp\Client
+     * @var Writer|Illuminate\Log\Writer
      */
     protected $logger;
 
     /**
-     * Create the CallFire instance.
-     *
-     * @param Illuminate\Log\Writer $logger
+     * LogSMS constructor.
+     * @param Writer $logger
      */
     public function __construct(Writer $logger)
     {
@@ -35,8 +33,16 @@ class LogSMS implements DriverInterface
     public function send(OutgoingMessage $message)
     {
         foreach ($message->getTo() as $number) {
-            $this->logger->notice("Sending SMS message to: $number");
+            $this->logger->notice("Sending SMS message to: $number", [
+                'from'         => $message->getFrom(),
+                'to'           => $message->getToWithCarriers(),
+                'view'         => $message->getView(),
+                'data'         => $message->getData(),
+                'attachImages' => $message->getAttachImages(),
+                'mms'          => $message->isMMS()
+            ]);
         }
+        event(new SMSSentEvent($message));
     }
 
     /**
@@ -50,10 +56,10 @@ class LogSMS implements DriverInterface
     {
         $incomingMessage = $this->createIncomingMessage();
         $incomingMessage->setRaw($rawMessage);
-        $incomingMessage->setFrom((string) $rawMessage->FromNumber);
-        $incomingMessage->setMessage((string) $rawMessage->TextRecord->Message);
-        $incomingMessage->setId((string) $rawMessage['id']);
-        $incomingMessage->setTo((string) $rawMessage->ToNumber);
+        $incomingMessage->setFrom((string)$rawMessage->FromNumber);
+        $incomingMessage->setMessage((string)$rawMessage->TextRecord->Message);
+        $incomingMessage->setId((string)$rawMessage['id']);
+        $incomingMessage->setTo((string)$rawMessage->ToNumber);
 
         return $incomingMessage;
     }

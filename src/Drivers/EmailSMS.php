@@ -5,6 +5,7 @@ namespace SimpleSoftwareIO\SMS\Drivers;
 use Illuminate\Mail\Mailer;
 use InvalidArgumentException;
 use SimpleSoftwareIO\SMS\DoesNotReceive;
+use SimpleSoftwareIO\SMS\Events\SMSSentEvent;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class EmailSMS implements DriverInterface
@@ -34,6 +35,7 @@ class EmailSMS implements DriverInterface
             $message = $this->mailer->send(['text' => $message->getView()], $message->getData(), function ($email) use ($message) {
                 $this->generateMessage($email, $message);
             });
+            event( new SMSSentEvent($message) ) ;
         } catch (InvalidArgumentException $e) {
             $message = $this->sendRaw($message);
         }

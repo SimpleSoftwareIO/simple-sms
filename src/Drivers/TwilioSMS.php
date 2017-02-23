@@ -69,6 +69,7 @@ class TwilioSMS extends AbstractSMS implements DriverInterface
                 'MediaUrl' => $message->getAttachImages(),
             ]);
         }
+        $this->dispatchOutgoingMessageSentEvent($message) ;
     }
 
     /**

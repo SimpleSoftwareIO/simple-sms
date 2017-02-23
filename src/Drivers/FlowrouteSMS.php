@@ -57,6 +57,7 @@ class FlowrouteSMS extends AbstractSMS implements DriverInterface
 
             $this->buildBody($data);
             $this->postRequest();
+            $this->dispatchOutgoingMessageSentEvent($message) ;
         }
     }
 
