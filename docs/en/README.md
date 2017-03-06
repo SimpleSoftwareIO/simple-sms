@@ -125,6 +125,7 @@ The following are currently supported by using the e-mail gateway driver.
 | USA | Virgin Mobile | virginmobile | Yes | Yes |
 | USA | T-Mobile | tmobile | Yes | Yes |
 | USA | Sprint | sprint | Yes | Yes |
+| USA | US Cellular | uscellular | Yes | Yes |
 
 >You must know the wireless provider for the mobile phone to use this driver.
 
@@ -284,7 +285,7 @@ This driver sends messages through the [JustSend](https://justsend.pl/) messagin
             'api_key' => 'Your API Key.'
         ]
     ];
-    
+
 `from` can be one of the following:
  - `ECO` - cheapest type (about 0.03 PLN per SMS). SMS will be send from random short-code number.
  - One of: `INFO`, `INFORMACJA`, `KONKURS`, `NOWOSC`, `OFERTA`, `OKAZJA`, `PROMOCJA`, `SMS` - about 0.06 PLN per SMS.
