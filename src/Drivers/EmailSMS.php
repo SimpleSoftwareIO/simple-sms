@@ -162,6 +162,9 @@ class EmailSMS implements DriverInterface
                 case 'sprint':
                     return 'pm.sprint.com';
 
+                case 'uscellular':
+                    return 'mms.uscc.net';
+
                 default:
                     throw new \InvalidArgumentException('Carrier specified is not found.');
             }
@@ -217,6 +220,9 @@ class EmailSMS implements DriverInterface
 
                 case 'sprint':
                     return 'messaging.sprintpcs.com';
+
+                case 'uscellular':
+                    return 'email.uscc.net';
 
                 default:
                     throw new \InvalidArgumentException('Carrier specified is not found.');
