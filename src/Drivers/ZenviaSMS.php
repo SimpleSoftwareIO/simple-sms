@@ -1,11 +1,15 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
+use SimpleSoftwareIO\SMS\MakesRequests;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class ZenviaSMS extends AbstractSMS implements DriverInterface
 {
+    use MakesRequests;
+    
     /**
      * The API's URL.
      *
@@ -103,9 +107,9 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
      *
      * @param array $options
      *
-     * @return array
-     *
      * @throws \Exception
+     *
+     * @return array
      */
     public function checkMessages(array $options = [])
     {
@@ -175,16 +179,16 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
     /**
      * Creates and sends a POST request to the requested URL.
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     protected function postRequest()
     {
         $response = $this->client->post($this->buildUrl(),
             [
-                'auth' => $this->getAuth(),
-                'json' => $this->getBody(),
+                'auth'    => $this->getAuth(),
+                'json'    => $this->getBody(),
                 'headers' => [
                     'Accept' => 'application/json',
                 ],
@@ -200,16 +204,16 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
     /**
      * Creates and sends a GET request to the requested URL.
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     protected function getRequest()
     {
         $url = $this->buildUrl($this->getBody());
 
         $response = $this->client->get($url, [
-            'auth' => $this->getAuth(),
+            'auth'    => $this->getAuth(),
             'headers' => [
                 'Accept' => 'application/json',
             ],
@@ -234,9 +238,9 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
     private function generateMessageBody($from, $number, $composeMessage)
     {
         $aux = [
-            'from' => $from,
-            'to' => $number['number'],
-            'msg' => $composeMessage,
+            'from'           => $from,
+            'to'             => $number['number'],
+            'msg'            => $composeMessage,
             'callbackOption' => $this->callbackOption,
         ];
 

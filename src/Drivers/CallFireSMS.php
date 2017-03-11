@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
@@ -48,7 +49,7 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
         $numbers = implode(',', $message->getTo());
 
         $data = [
-            'To' => $numbers,
+            'To'      => $numbers,
             'Message' => $composeMessage,
         ];
 
@@ -112,9 +113,9 @@ class CallFireSMS extends AbstractSMS implements DriverInterface
      *
      * @param mixed $raw
      *
-     * @return \SimpleSoftwareIO\SMS\IncomingMessage
-     *
      * @throws \RuntimeException
+     *
+     * @return \SimpleSoftwareIO\SMS\IncomingMessage
      */
     public function receive($raw)
     {

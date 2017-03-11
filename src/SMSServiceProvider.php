@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS;
 
 use Illuminate\Support\ServiceProvider;
@@ -28,7 +29,6 @@ class SMSServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('sms', function ($app) {
-
             $this->registerSender();
             $sms = new SMS($app['sms.sender']);
             $this->setSMSDependencies($sms, $app);
@@ -47,9 +47,9 @@ class SMSServiceProvider extends ServiceProvider
      */
     public function registerSender()
     {
-        $this->app['sms.sender'] = $this->app->share(function ($app) {
-            return (new DriverManager($app))->driver();
-        });
+        $this->app->singleton('sms.sender', function ($app) {
+		    return (new DriverManager($app))->driver();
+	    });
     }
 
     /**
@@ -71,6 +71,6 @@ class SMSServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array('sms', 'sms.sender');
+        return ['sms', 'sms.sender'];
     }
 }
