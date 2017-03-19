@@ -1,9 +1,10 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
-use SimpleSoftwareIO\SMS\DoesNotReceive;
 use SimpleSoftwareIO\SMS\MakesRequests;
+use SimpleSoftwareIO\SMS\DoesNotReceive;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class SMS77 extends AbstractSMS implements DriverInterface
@@ -67,11 +68,12 @@ class SMS77 extends AbstractSMS implements DriverInterface
         if ($this->hasError($responseBody)) {
             $this->handleError($responseBody);
         }
+
         return $response;
     }
 
     /**
-     * Checks if the transaction has an error
+     * Checks if the transaction has an error.
      *
      * @param $body
      * @return bool
@@ -81,20 +83,21 @@ class SMS77 extends AbstractSMS implements DriverInterface
         if ($body != '100') {
             return $body;
         }
+
         return false;
     }
 
     /**
-     * Log the error message which ocurred
+     * Log the error message which ocurred.
      *
      * @param $body
      */
     protected function handleError($body)
     {
-        $error = 'An error occurred. Status code: ' . $body . ' - ';
+        $error = 'An error occurred. Status code: '.$body.' - ';
 
         //From https://www.sms77.de/api.pdf Rückgabewerte (German doc)
-        switch($body){
+        switch ($body) {
             case '101':
                 $error .= 'Versand an mindestens einen Empfänger fehlgeschlagen';
                 break;

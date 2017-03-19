@@ -3,11 +3,11 @@
 namespace SimpleSoftwareIO\SMS;
 
 use Closure;
-use Illuminate\Container\Container;
-use Illuminate\Queue\QueueManager;
 use Illuminate\Support\Str;
-use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
 use SuperClosure\Serializer;
+use Illuminate\Queue\QueueManager;
+use Illuminate\Container\Container;
+use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
 
 class SMS
 {
@@ -191,7 +191,7 @@ class SMS
      */
     protected function buildQueueCallable($callback)
     {
-        if (!$callback instanceof Closure) {
+        if (! $callback instanceof Closure) {
             return $callback;
         }
 

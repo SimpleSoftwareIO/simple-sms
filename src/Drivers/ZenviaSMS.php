@@ -9,7 +9,7 @@ use SimpleSoftwareIO\SMS\OutgoingMessage;
 class ZenviaSMS extends AbstractSMS implements DriverInterface
 {
     use MakesRequests;
-    
+
     /**
      * The API's URL.
      *
@@ -119,7 +119,7 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
 
         $jsonResponse = json_decode($this->postRequest()->getBody()->getContents());
 
-        if (!isset($jsonResponse->receivedResponse)) {
+        if (! isset($jsonResponse->receivedResponse)) {
             throw new \Exception('Invalid response from API. Missing mandatory object.');
         }
 
@@ -244,7 +244,7 @@ class ZenviaSMS extends AbstractSMS implements DriverInterface
             'callbackOption' => $this->callbackOption,
         ];
 
-        if (!is_null($number['carrier'])) {
+        if (! is_null($number['carrier'])) {
             $aux['id'] = $number['carrier'];
         }
 
