@@ -116,13 +116,11 @@ class EmailSMS implements DriverInterface
 
                 case 'airfiremobile':
                     throw new \InvalidArgumentException('Air Fire Mobile does not support Email Gateway MMS messages.');
-
                 case 'alaskacommunicates':
                     return 'msg.acsalaska.com';
 
                 case 'ameritech':
                     throw new \InvalidArgumentException('Ameritech does not support Email Gateway MMS messages.');
-
                 case 'assurancewireless':
                     return 'vmobl.com';
 
@@ -131,7 +129,6 @@ class EmailSMS implements DriverInterface
 
                 case 'cleartalk':
                     throw new \InvalidArgumentException('Clear Talk does not support Email Gateway MMS messages.');
-
                 case 'cricket':
                     return 'mms.mycricket.com ';
 
@@ -140,7 +137,6 @@ class EmailSMS implements DriverInterface
 
                 case 'nextech':
                     throw new \InvalidArgumentException('NexTech does not support Email Gateway MMS messages.');
-
                 case 'projectfi':
                     return 'msg.fi.google.com';
 

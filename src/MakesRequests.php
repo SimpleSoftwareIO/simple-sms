@@ -32,7 +32,7 @@ trait MakesRequests
      */
     protected function buildCall($url)
     {
-        if (!$this->callBuilt) {
+        if (! $this->callBuilt) {
             $this->apiBase .= $url;
             $this->callBuilt = true;
         }

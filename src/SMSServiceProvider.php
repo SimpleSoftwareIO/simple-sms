@@ -48,8 +48,8 @@ class SMSServiceProvider extends ServiceProvider
     public function registerSender()
     {
         $this->app->singleton('sms.sender', function ($app) {
-		    return (new DriverManager($app))->driver();
-	    });
+            return (new DriverManager($app))->driver();
+        });
     }
 
     /**
