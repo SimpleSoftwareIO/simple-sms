@@ -216,12 +216,15 @@ This driver sends all messages through the [Mozeo](https://www.mozeo.com/) servi
 
 This driver sends messages through the [Nexmo](https://www.nexmo.com/product/messaging/) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.
 
+Check out the [guide on choosing the correct encoding for your messages](https://help.nexmo.com/hc/en-us/articles/204076866-How-Long-is-a-Single-SMS-body-).
+
     return [
         'driver' => 'nexmo',
         'from' => 'Company Name',
         'nexmo' => [
-            'key'       => 'Your Nexmo API Key',
-            'secret'    => 'Your Nexmo API Secret'
+            'api_key'       => 'Your Nexmo API Key',
+            'api_secret'    => 'Your Nexmo API Secret',
+            'encoding'		=> 'unicode', // Can be `unicode` or `gsm`
         ]
     ];
 
