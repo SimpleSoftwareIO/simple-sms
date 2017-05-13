@@ -297,7 +297,7 @@ This driver sends messages through the [JustSend](https://justsend.pl/) messagin
 <a id="docs-infobip-driver"></a>
 
 <a id="docs-driver-support"></a>
-##Driver Support
+## Driver Support
 
 Not all drivers support every method due to the differences in each individual API.  The following table outlines what is supported for each driver.
 
