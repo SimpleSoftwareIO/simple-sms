@@ -15,7 +15,7 @@ class SMS77Test extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $username = getenv('SMS77USER');
-        if (! $username) {
+        if (!$username) {
             $this->markTestSkipped('SMS77 integration Testing not possible with out SMS77 user name (SMS77USER + SMS77PASSWORD in ENV). Skipping.');
         }
         $password = getenv('SMS77PASSWORD');

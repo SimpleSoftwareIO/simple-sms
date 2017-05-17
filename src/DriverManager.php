@@ -4,19 +4,19 @@ namespace SimpleSoftwareIO\SMS;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Manager;
-use SimpleSoftwareIO\SMS\Drivers\SMS77;
-use SimpleSoftwareIO\SMS\Drivers\LogSMS;
+use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
+use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
+use SimpleSoftwareIO\SMS\Drivers\FlowrouteSMS;
+use SimpleSoftwareIO\SMS\Drivers\JustSendSMS;
+use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
+use SimpleSoftwareIO\SMS\Drivers\LogSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
 use SimpleSoftwareIO\SMS\Drivers\PlivoSMS;
+use SimpleSoftwareIO\SMS\Drivers\SMS77;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 use SimpleSoftwareIO\SMS\Drivers\ZenviaSMS;
-use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
-use SimpleSoftwareIO\SMS\Drivers\JustSendSMS;
-use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
-use SimpleSoftwareIO\SMS\Drivers\FlowrouteSMS;
-use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
 
 class DriverManager extends Manager
 {
