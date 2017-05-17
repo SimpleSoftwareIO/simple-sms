@@ -230,11 +230,11 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
 
         return $incomingMessage;
     }
-    
+
     private function setEncoding()
     {
-    	if (env('NEXMO_ENCODING', 'unicode') === "unicode") {
-    		$this->apiEnding = ['type' => 'unicode'];
-    	}
+        if (env('NEXMO_ENCODING', 'unicode') === 'unicode') {
+            $this->apiEnding = ['type' => 'unicode'];
+        }
     }
 }

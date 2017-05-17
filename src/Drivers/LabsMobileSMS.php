@@ -3,8 +3,8 @@
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
-use SimpleSoftwareIO\SMS\MakesRequests;
 use SimpleSoftwareIO\SMS\DoesNotReceive;
+use SimpleSoftwareIO\SMS\MakesRequests;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class LabsMobileSMS extends AbstractSMS implements DriverInterface

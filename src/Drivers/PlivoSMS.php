@@ -148,7 +148,7 @@ class PlivoSMS extends AbstractSMS implements DriverInterface
         $signature = $_SERVER['X-Plivo-Signature'];
         $authToken = $this->authToken;
 
-        if (! $this->plivo->validate_signature($url, $data, $signature, $authToken)) {
+        if (!$this->plivo->validate_signature($url, $data, $signature, $authToken)) {
             throw new \InvalidArgumentException('This request was not able to verify it came from Plivo.');
         }
 
