@@ -539,8 +539,7 @@ public function via($notifiable)
 
 public function toSMS($notifiable)
 {
-    return (new SMSMessage)
-        ->content('This is a test SMS sent via Simple SMS using Laravel Notifications!');
+    return SMSMessage::create('This is a test SMS sent via Simple SMS using Laravel Notifications!');
 }
 ```  
 
