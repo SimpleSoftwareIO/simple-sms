@@ -549,7 +549,7 @@ Add a `routeNotificationForSMS` method to your Notifiable model to return the ph
 ```php
 public function routeNotificationForSMS()
 {
-    return $this->phone_number
+    return $this->phone_number;
 }
 ```    
 
