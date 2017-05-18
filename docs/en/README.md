@@ -30,6 +30,7 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
 * [Usage](#docs-usage)
 * [Outgoing Message Enclosure](#docs-outgoing-enclosure)
 * [Incoming Message](#docs-incoming-message)
+* [Creating Custom Driver](#docs-creating-custom-driver)
 
 <a id="docs-requirements"></a>
 ## Requirements
@@ -520,3 +521,59 @@ The `to` method returns the phone number that a message was sent to.
 
     $incoming = SMS::getMessage('messageId');
     echo $incoming->to();
+
+
+
+<a id="docs-creating-custom-driver"></a>
+## Creating Custom Driver
+
+Create your custom driver class in place, where Composer can autoload it. You can use following template to start with:
+
+	namespace App\SMS\Drivers;
+	
+	use SimpleSoftwareIO\SMS\DoesNotReceive;
+	use SimpleSoftwareIO\SMS\Drivers\DriverInterface;
+	use SimpleSoftwareIO\SMS\OutgoingMessage;
+	
+	class DemoDriver implements DriverInterface
+	{
+	    use DoesNotReceive;
+	
+	    private $api_key;
+	
+	    function __construct($api_key)
+	    {
+	        $this->api_key = $api_key;
+	    }
+	
+	    public function send(OutgoingMessage $message)
+	    {
+	        dd(
+	        	$this->api_key,
+	        	$message->getFrom(),
+	        	$message->getTo(),
+	        	$message->composeMessage()
+	       	);
+	    }
+	}
+	
+To use this custom driver set `SMS_DRIVER` enviroment varible (.env) to fully qualified class name, for example:
+
+	SMS_DRIVER=App\SMS\Drivers\DemoDriver
+	
+Alternatively you can change `driver` key in your `sms.php` config file, for example:
+
+	    'driver' => App\SMS\Drivers\DemoDriver::class,
+	    
+## Injecting custom attributes to driver
+
+If you need to pass custom attributes to your driver like api key or HTTP client, you can use Laravel Dependency Injection. For example, in `register` method of your service provider, you can bind your custom parameters:
+
+	    public function register()
+	    {
+	        $this->app->bind(\App\SMS\Drivers\DemoDriver::class, function ($app) {
+	            return new \App\SMS\Drivers\DemoDriver(
+	                $app['config']->get('sms.demodriver.api_key', null)
+	            );
+	        });
+	    }
