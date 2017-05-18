@@ -40,7 +40,7 @@ class SMSChannel
             $message = new SMSMessage($message);
         }
 
-        resolve('sms')->send(trim($message->content), [], function ($sms) use ($message, $to) {
+        $this->sms->send(trim($message->content), [], function ($sms) use ($message, $to) {
             if ($message->from) {
                 $sms->from($message->from);
             }
