@@ -532,14 +532,18 @@ use Illuminate\Notifications\Notification;
 use SimpleSoftwareIO\SMS\NotificationChannel\SMSChannel;
 use SimpleSoftwareIO\SMS\NotificationChannel\SMSMessage;
 
-public function via($notifiable)
+class NotificationSMSChannelTestNotification extends Notification
 {
-    return [SMSChannel::class];
-}
-
-public function toSMS($notifiable)
-{
-    return SMSMessage::create('This is a test SMS sent via Simple SMS using Laravel Notifications!');
+    public function via($notifiable)
+    {
+        return [SMSChannel::class];
+    }
+    
+    public function toSMS($notifiable)
+    {
+        return SMSMessage::create('This is a test SMS sent via Simple SMS using Laravel Notifications!')
+            ->from('5554443333');
+    }
 }
 ```  
 
