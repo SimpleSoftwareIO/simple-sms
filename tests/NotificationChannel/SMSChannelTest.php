@@ -10,8 +10,9 @@ class SMSChannelTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        if(!class_exists('\Illuminate\Notifications\Notification'))
+        if (!class_exists('\Illuminate\Notifications\Notification')) {
             $this->markTestSkipped('Testing of SMSChannel skipped because illuminate/notifications isn\'t installed. Run "composer require illuminate/notifications" and try again.');
+        }
     }
 
     public function tearDown()
@@ -21,12 +22,13 @@ class SMSChannelTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param \SimpleSoftwareIO\SMS\Drivers\DriverInterface $driver
+     *
      * @return SMS
      */
     private function prepare_sms_object_for_test($driver)
     {
         $view_factory = m::mock(\Illuminate\View\Factory::class, function ($factory) {
-            $factory->shouldReceive('make')->andThrow(new \InvalidArgumentException);
+            $factory->shouldReceive('make')->andThrow(new \InvalidArgumentException());
         });
 
         $container = m::mock(\Illuminate\Container\Container::class, function ($container) use ($view_factory) {
@@ -36,14 +38,15 @@ class SMSChannelTest extends PHPUnit_Framework_TestCase
         $SMS = new SMS($driver);
         $SMS->setContainer($container);
         $SMS->alwaysFrom('4444444444');
+
         return $SMS;
     }
 
     public function testSmsIsSentViaSMS()
     {
-        $notification = new NotificationSMSChannelTestNotification;
-        $notifiable = new NotificationSMSChannelTestNotifiable;
-        $driver = new NotificationSMSDriverTestCustomFromNotification;
+        $notification = new NotificationSMSChannelTestNotification();
+        $notifiable = new NotificationSMSChannelTestNotifiable();
+        $driver = new NotificationSMSDriverTestCustomFromNotification();
         $SMS = $this->prepare_sms_object_for_test($driver);
         $channel = new SMSChannel($SMS);
 
@@ -58,9 +61,9 @@ class SMSChannelTest extends PHPUnit_Framework_TestCase
 
     public function testSmsIsSentViaSMSWithCustomFrom()
     {
-        $notification = new NotificationSMSChannelTestCustomFromNotification;
-        $notifiable = new NotificationSMSChannelTestNotifiable;
-        $driver = new NotificationSMSDriverTestCustomFromNotification;
+        $notification = new NotificationSMSChannelTestCustomFromNotification();
+        $notifiable = new NotificationSMSChannelTestNotifiable();
+        $driver = new NotificationSMSDriverTestCustomFromNotification();
         $SMS = $this->prepare_sms_object_for_test($driver);
         $channel = new SMSChannel($SMS);
 
@@ -74,7 +77,7 @@ class SMSChannelTest extends PHPUnit_Framework_TestCase
     }
 }
 /* Prepare test objects */
-if(class_exists('\Illuminate\Notifications\Notification')){
+if (class_exists('\Illuminate\Notifications\Notification')) {
     class NotificationSMSChannelTestNotifiable
     {
         use \Illuminate\Notifications\Notifiable;
@@ -103,7 +106,8 @@ if(class_exists('\Illuminate\Notifications\Notification')){
         }
     }
 
-    class NotificationSMSDriverTestCustomFromNotification implements \SimpleSoftwareIO\SMS\Drivers\DriverInterface {
+    class NotificationSMSDriverTestCustomFromNotification implements \SimpleSoftwareIO\SMS\Drivers\DriverInterface
+    {
         use \SimpleSoftwareIO\SMS\DoesNotReceive;
 
         /**
