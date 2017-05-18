@@ -44,10 +44,11 @@ class DriverManager extends Manager
     /**
      * Create a new driver instance.
      *
-     * @param  string  $driver
-     * @return mixed
+     * @param string $driver
      *
      * @throws \InvalidArgumentException
+     *
+     * @return mixed
      */
     protected function createDriver($driver)
     {
