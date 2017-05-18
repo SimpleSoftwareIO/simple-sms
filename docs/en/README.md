@@ -525,7 +525,7 @@ The `to` method returns the phone number that a message was sent to.
 <a id="docs-notifications-channel"></a>
 ## Laravel 5.3 Notifications Channel Usage
 
-Follow Laravel's documentation to add the channel your Notification class:
+Follow Laravel's documentation to add the channel your Notification class, for example:
 
 ```php
 use Illuminate\Notifications\Notification;
@@ -547,7 +547,7 @@ class NotificationSMSChannelTestNotification extends Notification
 }
 ```  
 
-Add a `routeNotificationForSMS` method to your Notifiable model to return the phone number:  
+Also you neet to add a `routeNotificationForSMS` method to your Notifiable model to return the phone number, for example:  
 
 ```php
 public function routeNotificationForSMS()
