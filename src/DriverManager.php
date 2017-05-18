@@ -4,6 +4,7 @@ namespace SimpleSoftwareIO\SMS;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Manager;
+use InvalidArgumentException;
 use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
 use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
@@ -38,6 +39,27 @@ class DriverManager extends Manager
     public function setDefaultDriver($name)
     {
         $this->app['config']['sms.driver'] = $name;
+    }
+
+    /**
+     * Create a new driver instance.
+     *
+     * @param  string  $driver
+     * @return mixed
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function createDriver($driver)
+    {
+        try {
+            return parent::createDriver($driver);
+        } catch (InvalidArgumentException $e) {
+            if (class_exists($driver)) {
+                return $this->app->make($driver);
+            }
+
+            throw $e;
+        }
     }
 
     /**
