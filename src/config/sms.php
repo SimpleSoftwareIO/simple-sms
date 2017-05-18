@@ -44,6 +44,7 @@ return [
     'nexmo' => [
         'api_key'    => env('NEXMO_KEY', 'Your Nexmo API key'),
         'api_secret' => env('NEXMO_SECRET', 'Your Nexmo API secret'),
+          'encoding' => env('NEXMO_ENCODING', 'unicode'), // Can be "unicode" or "gsm"
     ],
 
     'plivo' => [
@@ -64,8 +65,12 @@ return [
     ],
 
     'sms77' => [
-        'user' => env('SMS77_LOGIN', 'Your SMS77 API Login Name'),
+        'user'    => env('SMS77_LOGIN', 'Your SMS77 API Login Name'),
         'api_key' => env('SMS77_PASSWORD', 'Your SMS77 API Password or Api Key'),
-        'debug' => env('SMS77_DEBUG', '0')
+        'debug'   => env('SMS77_DEBUG', '0'),
+    ],
+
+    'justsend' => [
+        'api_key'    => env('JUSTSEND_KEY', 'Your JustSend API key'),
     ],
 ];

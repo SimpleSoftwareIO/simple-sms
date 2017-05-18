@@ -1,4 +1,5 @@
 <?php
+
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
@@ -50,12 +51,12 @@ class SMS77 extends AbstractSMS implements DriverInterface
         $numbers = implode(',', $message->getTo());
 
         $data = [
-            'u' => $this->auth['username'],
-            'p' => $this->auth['password'],
-            'to' => $numbers,
-            'from' => $message->getFrom(),
-            'type' => 'direct',
-            'text' => $composeMessage,
+            'u'     => $this->auth['username'],
+            'p'     => $this->auth['password'],
+            'to'    => $numbers,
+            'from'  => $message->getFrom(),
+            'type'  => 'direct',
+            'text'  => $composeMessage,
             'debug' => (int) $this->debug,
         ];
 
@@ -67,13 +68,15 @@ class SMS77 extends AbstractSMS implements DriverInterface
         if ($this->hasError($responseBody)) {
             $this->handleError($responseBody);
         }
+
         return $response;
     }
 
     /**
-     * Checks if the transaction has an error
+     * Checks if the transaction has an error.
      *
      * @param $body
+     *
      * @return bool
      */
     protected function hasError($body)
@@ -81,20 +84,21 @@ class SMS77 extends AbstractSMS implements DriverInterface
         if ($body != '100') {
             return $body;
         }
+
         return false;
     }
 
     /**
-     * Log the error message which ocurred
+     * Log the error message which ocurred.
      *
      * @param $body
      */
     protected function handleError($body)
     {
-        $error = 'An error occurred. Status code: ' . $body . ' - ';
+        $error = 'An error occurred. Status code: '.$body.' - ';
 
         //From https://www.sms77.de/api.pdf Rückgabewerte (German doc)
-        switch($body){
+        switch ($body) {
             case '101':
                 $error .= 'Versand an mindestens einen Empfänger fehlgeschlagen';
                 break;

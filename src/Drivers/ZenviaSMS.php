@@ -9,7 +9,7 @@ use SimpleSoftwareIO\SMS\OutgoingMessage;
 class ZenviaSMS extends AbstractSMS implements DriverInterface
 {
     use MakesRequests;
-    
+
     /**
      * The API's URL.
      *

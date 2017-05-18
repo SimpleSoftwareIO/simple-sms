@@ -8,6 +8,7 @@ use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
 use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
 use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
 use SimpleSoftwareIO\SMS\Drivers\FlowrouteSMS;
+use SimpleSoftwareIO\SMS\Drivers\JustSendSMS;
 use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
 use SimpleSoftwareIO\SMS\Drivers\LogSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
@@ -234,7 +235,7 @@ class DriverManager extends Manager
     }
 
     /**
-     * Create an instance of the SMS77 driver
+     * Create an instance of the SMS77 driver.
      *
      * @return SMS77
      */
@@ -243,10 +244,26 @@ class DriverManager extends Manager
         $config = $this->app['config']->get('sms.sms77', []);
 
         $provider = new SMS77(
-            new Client,
+            new Client(),
             $config['user'],
             $config['api_key'],
             $config['debug']
+        );
+
+        return $provider;
+    }
+
+    /**
+     * Create an instance of the justsend driver.
+     *
+     * @return JustSendSMS
+     */
+    protected function createJustSendDriver()
+    {
+        $config = $this->app['config']->get('sms.justsend', []);
+
+        $provider = new JustSendSMS(
+            $config['api_key']
         );
 
         return $provider;

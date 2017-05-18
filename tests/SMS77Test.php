@@ -1,22 +1,16 @@
 <?php
 
-use GuzzleHttp\Client;
-use SimpleSoftwareIO\SMS\Drivers\SMS77;
-use SimpleSoftwareIO\SMS\MakesRequests;
-use SimpleSoftwareIO\SMS\OutgoingMessage;
 use Mockery as m;
+use SimpleSoftwareIO\SMS\Drivers\SMS77;
+use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class SMS77Test extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \SimpleSoftwareIO\SMS\SMS
      */
     protected $sms;
 
-    /**
-     *
-     */
     public function setUp()
     {
         parent::setUp();
@@ -43,8 +37,6 @@ class SMS77Test extends \PHPUnit_Framework_TestCase
         $message->to('+155555555');
         $this->driver->send($message);
     }
-
-
 
     public function testSendSMSReal()
     {

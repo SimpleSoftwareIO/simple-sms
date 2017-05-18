@@ -25,6 +25,7 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
     * [Plivo Driver](#docs-plivo-driver)
     * [Twilio Driver](#docs-twilio-driver)
     * [Zenvia Driver](#docs-zenvia-driver)
+    * [JustSend Driver](#docs-justsend-driver)
 * [Driver Support](#docs-driver-support)
 * [Usage](#docs-usage)
 * [Outgoing Message Enclosure](#docs-outgoing-enclosure)
@@ -124,6 +125,8 @@ The following are currently supported by using the e-mail gateway driver.
 | USA | Verizon Wireless | verizonwireless | Yes | Yes |
 | USA | Virgin Mobile | virginmobile | Yes | Yes |
 | USA | T-Mobile | tmobile | Yes | Yes |
+| USA | Sprint | sprint | Yes | Yes |
+| USA | US Cellular | uscellular | Yes | Yes |
 
 >You must know the wireless provider for the mobile phone to use this driver.
 
@@ -214,12 +217,15 @@ This driver sends all messages through the [Mozeo](https://www.mozeo.com/) servi
 
 This driver sends messages through the [Nexmo](https://www.nexmo.com/product/messaging/) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.
 
+Check out the [guide on choosing the correct encoding for your messages](https://help.nexmo.com/hc/en-us/articles/204076866-How-Long-is-a-Single-SMS-body-).
+
     return [
         'driver' => 'nexmo',
         'from' => 'Company Name',
         'nexmo' => [
-            'key'       => 'Your Nexmo API Key',
-            'secret'    => 'Your Nexmo API Secret'
+            'api_key'       => 'Your Nexmo API Key',
+            'api_secret'    => 'Your Nexmo API Secret',
+            'encoding'		=> 'unicode', // Can be `unicode` or `gsm`
         ]
     ];
 
@@ -271,10 +277,28 @@ This driver sends messages through the [Zenvia](http://www.zenvia.com.br/ messag
         ]
     ];
 
+<a id="docs-justsend-driver"></a>
+######  JustSend Driver
+
+This driver sends messages through the [JustSend](https://justsend.pl/) messaging service which is only avaliable in Poland.
+
+    return [
+        'driver' => 'justsend',
+        'from' => 'From text',
+        'justsend' => [
+            'api_key' => 'Your API Key.'
+        ]
+    ];
+
+`from` can be one of the following:
+ - `ECO` - cheapest type (about 0.03 PLN per SMS). SMS will be send from random short-code number.
+ - One of: `INFO`, `INFORMACJA`, `KONKURS`, `NOWOSC`, `OFERTA`, `OKAZJA`, `PROMOCJA`, `SMS` - about 0.06 PLN per SMS.
+ - Any other text (can not be only number) - about 0.07 PLN per SMS.
+
 <a id="docs-infobip-driver"></a>
 
 <a id="docs-driver-support"></a>
-##Driver Support
+## Driver Support
 
 Not all drivers support every method due to the differences in each individual API.  The following table outlines what is supported for each driver.
 
@@ -291,6 +315,7 @@ Not all drivers support every method due to the differences in each individual A
 | Plivo | Yes | Yes | Yes | Yes | Yes |
 | Twilio | Yes | Yes | Yes | Yes | Yes |
 | Zenvia | Yes | Yes | Yes | Yes | Yes |
+| JustSend | Yes | Yes | No | No | No |
 
 <a id="docs-usage"></a>
 ## Usage
