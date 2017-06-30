@@ -49,7 +49,7 @@ class PlivoSMS extends AbstractSMS implements DriverInterface
             ]);
 
             if ($response['status'] != 202) {
-                $this->SMSNotSentException($response['response']['error']);
+                $this->throwNotSentException($response['response']['error']);
             }
         }
     }
