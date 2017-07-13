@@ -33,7 +33,7 @@ class PlivoSMS extends AbstractSMS implements DriverInterface
      * @param $authId
      * @param $authToken
      */
-    public function __construct($authId, $authTokenm, $verify = false)
+    public function __construct($authId, $authToken, $verify = false)
     {
         $this->plivo = new Plivo($authId, $authToken);
         $this->authToken = $authToken;
