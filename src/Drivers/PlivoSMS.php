@@ -20,15 +20,24 @@ class PlivoSMS extends AbstractSMS implements DriverInterface
     protected $authToken;
 
     /**
+     * Determines if requests should be checked to be authentic.
+     *
+     * @var bool
+     */
+    protected $verify;
+
+
+    /**
      * Constructs the PlivoSMS object.
      *
      * @param $authId
      * @param $authToken
      */
-    public function __construct($authId, $authToken)
+    public function __construct($authId, $authTokenm, $verify = false)
     {
         $this->plivo = new Plivo($authId, $authToken);
         $this->authToken = $authToken;
+        $this->verify = $verify;
     }
 
     /**
