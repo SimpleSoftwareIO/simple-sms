@@ -3,6 +3,7 @@
 namespace SimpleSoftwareIO\SMS;
 
 use Illuminate\Support\ServiceProvider;
+use SimpleSoftwareIO\SMS\NotificationChannel\SMSChannel;
 
 class SMSServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,12 @@ class SMSServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/config/sms.php' => config_path('sms.php'),
         ]);
+
+        $this->app->when(SMSChannel::class)
+            ->needs(SMS::class)
+            ->give(function () {
+                return $this->app->make('sms');
+            });
     }
 
     /**

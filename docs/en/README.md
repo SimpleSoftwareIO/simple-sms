@@ -30,6 +30,7 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
 * [Usage](#docs-usage)
 * [Outgoing Message Enclosure](#docs-outgoing-enclosure)
 * [Incoming Message](#docs-incoming-message)
+* [Laravel 5.3 Notifications Channel Usage](#docs-notifications-channel)
 
 <a id="docs-requirements"></a>
 ## Requirements
@@ -520,3 +521,42 @@ The `to` method returns the phone number that a message was sent to.
 
     $incoming = SMS::getMessage('messageId');
     echo $incoming->to();
+
+<a id="docs-notifications-channel"></a>
+## Laravel 5.3 Notifications Channel Usage
+
+Follow Laravel's documentation to add the channel your Notification class, for example:
+
+```php
+use Illuminate\Notifications\Notification;
+use SimpleSoftwareIO\SMS\NotificationChannel\SMSChannel;
+use SimpleSoftwareIO\SMS\NotificationChannel\SMSMessage;
+
+class NotificationSMSChannelTestNotification extends Notification
+{
+    public function via($notifiable)
+    {
+        return [SMSChannel::class];
+    }
+    
+    public function toSMS($notifiable)
+    {
+        return SMSMessage::create('This is a test SMS sent via Simple SMS using Laravel Notifications!')
+            ->from('5554443333');
+    }
+}
+```  
+
+Also you neet to add a `routeNotificationForSMS` method to your Notifiable model to return the phone number, for example:  
+
+```php
+public function routeNotificationForSMS()
+{
+    return $this->phone_number;
+}
+```    
+
+### `SMSMessage` Available methods
+
+* `content()` - SMS notification body
+* `from()` - Override default from number
