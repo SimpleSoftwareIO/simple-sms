@@ -44,6 +44,7 @@ return [
     'nexmo' => [
         'api_key'    => env('NEXMO_KEY', 'Your Nexmo API key'),
         'api_secret' => env('NEXMO_SECRET', 'Your Nexmo API secret'),
+          'encoding' => env('NEXMO_ENCODING', 'unicode'), // Can be "unicode" or "gsm"
     ],
 
     'plivo' => [

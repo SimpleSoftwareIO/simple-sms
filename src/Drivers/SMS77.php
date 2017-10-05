@@ -3,8 +3,8 @@
 namespace SimpleSoftwareIO\SMS\Drivers;
 
 use GuzzleHttp\Client;
-use SimpleSoftwareIO\SMS\MakesRequests;
 use SimpleSoftwareIO\SMS\DoesNotReceive;
+use SimpleSoftwareIO\SMS\MakesRequests;
 use SimpleSoftwareIO\SMS\OutgoingMessage;
 
 class SMS77 extends AbstractSMS implements DriverInterface
@@ -51,12 +51,12 @@ class SMS77 extends AbstractSMS implements DriverInterface
         $numbers = implode(',', $message->getTo());
 
         $data = [
-            'u' => $this->auth['username'],
-            'p' => $this->auth['password'],
-            'to' => $numbers,
-            'from' => $message->getFrom(),
-            'type' => 'direct',
-            'text' => $composeMessage,
+            'u'     => $this->auth['username'],
+            'p'     => $this->auth['password'],
+            'to'    => $numbers,
+            'from'  => $message->getFrom(),
+            'type'  => 'direct',
+            'text'  => $composeMessage,
             'debug' => (int) $this->debug,
         ];
 
@@ -76,6 +76,7 @@ class SMS77 extends AbstractSMS implements DriverInterface
      * Checks if the transaction has an error.
      *
      * @param $body
+     *
      * @return bool
      */
     protected function hasError($body)

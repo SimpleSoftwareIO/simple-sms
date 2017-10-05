@@ -35,7 +35,7 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
 ## Requirements
 
 #### Laravel 5
-* PHP: >= 5.5
+* PHP: >= 7.x
 * Guzzle >= 6.0
 
 <a id="docs-configuration"></a>
@@ -46,7 +46,7 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
 First, add the Simple SMS package to your `require` in your `composer/json` file:
 
     "require": {
-        "simplesoftwareio/simple-sms": "3.0.*"
+        "simplesoftwareio/simple-sms": "3.1.*"
     }
 
 Next, run the `composer update` command.  This will install the package into your Laravel application.
@@ -216,12 +216,15 @@ This driver sends all messages through the [Mozeo](https://www.mozeo.com/) servi
 
 This driver sends messages through the [Nexmo](https://www.nexmo.com/product/messaging/) messaging service.  It is very reliable and capable of sending messages to mobile phones worldwide.
 
+Check out the [guide on choosing the correct encoding for your messages](https://help.nexmo.com/hc/en-us/articles/204076866-How-Long-is-a-Single-SMS-body-).
+
     return [
         'driver' => 'nexmo',
         'from' => 'Company Name',
         'nexmo' => [
-            'key'       => 'Your Nexmo API Key',
-            'secret'    => 'Your Nexmo API Secret'
+            'api_key'       => 'Your Nexmo API Key',
+            'api_secret'    => 'Your Nexmo API Secret',
+            'encoding'		=> 'unicode', // Can be `unicode` or `gsm`
         ]
     ];
 
@@ -294,7 +297,7 @@ This driver sends messages through the [JustSend](https://justsend.pl/) messagin
 <a id="docs-infobip-driver"></a>
 
 <a id="docs-driver-support"></a>
-##Driver Support
+## Driver Support
 
 Not all drivers support every method due to the differences in each individual API.  The following table outlines what is supported for each driver.
 
