@@ -46,7 +46,7 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
 First, add the Simple SMS package to your `require` in your `composer/json` file:
 
     "require": {
-        "simplesoftwareio/simple-sms": "3.0.*"
+        "simplesoftwareio/simple-sms": "3.1.*"
     }
 
 Next, run the `composer update` command.  This will install the package into your Laravel application.
