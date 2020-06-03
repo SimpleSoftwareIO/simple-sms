@@ -14,7 +14,7 @@ Simple SMS is an easy to use package for [Laravel](http://laravel.com/) that add
 
 ## Official Documentation
 
-Documentation for Simple SMS can be found on our [website.](https://www.simplesoftware.io/docs/simple-sms)
+Documentation for Simple SMS can be found on our [website.](https://www.simplesoftware.io/#/docs/simple-sms)
 
 ## Contributing
 
